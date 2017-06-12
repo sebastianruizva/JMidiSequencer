@@ -25,7 +25,7 @@ public class JMidiTrack implements IjMidiTrack {
    * - A 'Tick' the standard measure we will use to store note changes, this changes will then be
    * synchronized with the actual tempo of a composition. A tick is fixed to represent 120 BPM.
    */
-  private double maxTick;
+  private int maxTick;
   
   /**
    * maxPitch represents the Maximum pitch in the track.
@@ -402,6 +402,30 @@ public class JMidiTrack implements IjMidiTrack {
     }
     
     return grid.toString();
+  }
+  
+  /**
+   * Returns a the maximum tick in the track
+   */
+  public int getMaxTick() {
+    
+    return maxTick;
+  }
+  
+  /**
+   * Returns a the maximum pitch in the track
+   */
+  public int getMaxPitch() {
+    
+    return maxPitch;
+  }
+  
+  /**
+   * Returns a the maximum pitch in the track
+   */
+  public HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid() {
+    
+    return (HashMap<Integer, HashMap<Integer, JMidiEvent>>)this.grid.clone();
   }
   
   /**
