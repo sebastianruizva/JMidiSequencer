@@ -10,7 +10,7 @@ A simple MIDI Sequencer based on JAVA
 
 **Interface Hierarchy**
 
-cs3500.music.model.IjMidiComposition
+cs3500.music.model.IjMidiCompositionExtended
 
 cs3500.music.model.IjMidiEvent
 
@@ -21,7 +21,7 @@ cs3500.music.model.IjVirtualInstrument
 
 **Class Hierarchy**
 
-cs3500.music.model.JMidiComposition (implements cs3500.music.model.IjMidiComposition)
+cs3500.music.model.JMidiCompositionExtended (implements cs3500.music.model.IjMidiCompositionExtended)
 
 cs3500.music.model.JMidiEvent (implements cs3500.music.model.IjMidiEvent)
 
@@ -35,7 +35,7 @@ cs3500.music.model.JVirtualInstrument (implements cs3500.music.model.IjVirtualIn
 
 **_DESCRIPTIONS:_**
 
-**cs3500.music.model.JMidiComposition**
+**cs3500.music.model.JMidiCompositionExtended**
 
 The core container of the composition. 
 Represents a collection of MIDI Tracks that can be played in sync.
@@ -45,7 +45,7 @@ Is mainly responsible of synchronizing all the tracks together and set time chan
 
 Where most of the work go and the assignment visualization example is.
 This class collects all the JMidiEvents (Notes) and manages them for them to be
-scrollable and ready for the cs3500.music.model.JMidiComposition.
+scrollable and ready for the cs3500.music.model.JMidiCompositionExtended.
 
 **cs3500.music.model.JMidiEvent**
 
@@ -62,7 +62,7 @@ are going to be represented from the track to the user in a mor musical way
 
 Represents how many beats (pulses) are to be contained in each bar
 and which note value is to be given one beat in a musical composition.
-This is used by cs3500.music.model.JMidiComposition.
+This is used by cs3500.music.model.JMidiCompositionExtended.
 
 
 

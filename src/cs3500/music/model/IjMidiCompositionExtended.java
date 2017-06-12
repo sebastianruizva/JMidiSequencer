@@ -4,7 +4,7 @@ package cs3500.music.model;
  * The Interface {@IjMidiComosition} Represents an interface of a collection of MIDI Tracks that can
  * be played in sync.
  */
-public interface IjMidiComposition {
+public interface IjMidiCompositionExtended {
   
   /**
    * Adds a time signature change in the specified beat.

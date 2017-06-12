@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * The class {@JMidiComosition} Represents a collection of MIDI Tracks that can be played in sync.
  */
-public class JMidiComposition implements IjMidiComposition {
+public class JMidiCompositionExtended implements IjMidiCompositionExtended {
   
   /**
    * Tracks represents a collection of JMidiEvents organized by track name.
@@ -38,7 +38,7 @@ public class JMidiComposition implements IjMidiComposition {
   /**
    * Constructs a {@JMidiComosition}.
    */
-  public JMidiComposition() {
+  public JMidiCompositionExtended() {
     this.tracks = new HashMap<>();
     this.timeSignatureChanges = new HashMap<>();
     this.tempoChanges = new HashMap<>();
@@ -180,7 +180,7 @@ public class JMidiComposition implements IjMidiComposition {
    * Returns a string with key information of the composition.
    */
   @Override public String toString() {
-    return "cs3500.music.model.JMidiComposition{" + "tracks=" + tracks + ", timeSignatureChanges"
+    return "cs3500.music.model.JMidiCompositionExtended{" + "tracks=" + tracks + ", timeSignatureChanges"
             + "=" + timeSignatureChanges + ", tempoChanges=" + tempoChanges + ", timeSignature="
             + timeSignature + ", tempo=" + tempo + '}';
   }
