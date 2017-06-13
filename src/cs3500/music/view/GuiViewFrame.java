@@ -55,7 +55,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView 
     jMidiTrack.addEvent(e5);
     jMidiTrack.addEvent(e6);
     
-    this.displayPanel = new MidiViewPanel(jMidiTrack);
+    this.displayPanel = new GridViewPanel(jMidiTrack);
     
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
@@ -70,7 +70,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView 
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(1000, 1000);
+    return new Dimension(DrawValues.MIN_GRID_WIDTH, 1000);
   }
 
 }

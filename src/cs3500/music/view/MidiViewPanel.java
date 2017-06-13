@@ -46,12 +46,12 @@ public class MidiViewPanel extends JPanel {
            
            if (JMidiTrack.SectorType.HEAD == type) {
   
-             g.setColor(Color.black);
+             g.setColor(DrawValues.NOTE_HEAD_COLOR);
              
            }
             if (JMidiTrack.SectorType.BODY == type) {
   
-              g.setColor(Color.green);
+              g.setColor(DrawValues.NOTE_TAIL_COLOR);
         
             }
             
