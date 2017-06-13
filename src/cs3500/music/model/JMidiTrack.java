@@ -15,6 +15,10 @@ public class JMidiTrack implements IjMidiTrack {
    */
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   
+  public JVirtualInstrument getInstrument() {
+    return instrument;
+  }
+  
   /**
    * instrument represents the assigned Virtual Instrument.
    */
