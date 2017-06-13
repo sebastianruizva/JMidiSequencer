@@ -326,7 +326,7 @@ public class JMidiTrack implements IjMidiTrack {
   /**
    * Returns the type of sector in an specific position of the grid.
    */
-  protected SectorType getSectorType(int tick, int pitch) {
+  public SectorType getSectorType(int tick, int pitch) {
     
     //if there is nothing
     if (this.available(tick, pitch, 1)) {
@@ -431,7 +431,7 @@ public class JMidiTrack implements IjMidiTrack {
   /**
    * The enum {@SectorType} Represents a type of sector in an specific location of time and pitch.
    */
-  protected enum SectorType {
+  public enum SectorType {
     
     HEAD, BODY, REST;
     

@@ -9,9 +9,11 @@ import javax.sound.midi.MidiUnavailableException;
 
 
 public class MusicEditor {
-  public static void main(String[] args) throws IOException, InvalidMidiDataException, MidiUnavailableException {
+  public static void main(String[] args)
+          throws IOException, InvalidMidiDataException, MidiUnavailableException {
     GuiViewFrame view = new GuiViewFrame();
-    MidiViewImpl midiView = new MidiViewImpl();
+    view.initialize();
+    //MidiViewImpl midiView = new MidiViewImpl();
     // You probably need to connect these views to your model, too...
   }
 }
