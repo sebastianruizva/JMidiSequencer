@@ -32,14 +32,18 @@ public class GridViewPanel  extends JPanel {
       
     } else {
     
-    
+      height = DrawValues.MIN_GRID_HEIGHT;
     
     }
   
     if(DrawValues.MIN_GRID_WIDTH < (DrawValues.RECTANGLE_W * maxTick)) {
     
-      height = DrawValues.RECTANGLE_W * maxTick;
+      width = DrawValues.RECTANGLE_W * maxTick;
     
+    } else {
+  
+      width = DrawValues.MIN_GRID_WIDTH;
+      
     }
     
     
