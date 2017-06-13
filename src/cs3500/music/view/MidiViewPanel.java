@@ -15,14 +15,14 @@ import cs3500.music.model.JMidiTrack;
 /**
  * the class {@MidiVeiwPanel} represents a graphic view of the midi notes in a track
  */
-public class MidiVeiwPanel extends JPanel {
+public class MidiViewPanel extends JPanel {
   
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   int noteWidth;
   int noteHeight;
   
-  public MidiVeiwPanel(JMidiTrack track) {
+  public MidiViewPanel(JMidiTrack track) {
 
     this.track = track;
     this.grid = track.getGrid();
@@ -30,6 +30,7 @@ public class MidiVeiwPanel extends JPanel {
     this.noteHeight = DrawValues.RECTANGLE_H.getValue();
     
   }
+  
     @Override
    public void paintComponent(Graphics g) {
     
