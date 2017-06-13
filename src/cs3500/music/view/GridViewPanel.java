@@ -26,7 +26,12 @@ public class GridViewPanel extends JPanel {
     this.grid = track.getGrid();
     this.maxPitch = track.getMaxPitch();
     this.maxTick = track.getMaxTick();
-    
+    setOpaque(false);
+    setBorder(BorderFactory.createEtchedBorder());
+
+    setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH,
+            12*20 + 60));
+
     if (DrawValues.MIN_GRID_HEIGHT < (DrawValues.RECTANGLE_H * maxPitch)) {
       
       this.height = DrawValues.RECTANGLE_H * maxPitch;
@@ -67,12 +72,6 @@ public class GridViewPanel extends JPanel {
         g.drawLine(0, (i*DrawValues.RECTANGLE_H) + DrawValues
                 .GRID_MARGIN, width, (i*DrawValues.RECTANGLE_H) + DrawValues
                 .GRID_MARGIN);
-      
-    
     }
-
-  
   }
-  
-  
 }

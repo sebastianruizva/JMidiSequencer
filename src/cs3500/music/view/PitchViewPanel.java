@@ -15,10 +15,22 @@ import cs3500.music.model.JMidiTrack;
 public class PitchViewPanel extends JPanel {
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
+  private int maxPitch;
 
   public PitchViewPanel(JMidiTrack track) {
     this.track = track;
     this.grid = track.getGrid();
+    this.maxPitch = track.getMaxPitch();
+
+    if (maxPitch < 12) {
+      maxPitch = 12;
+    }
+    setOpaque(false);
+/*    setPreferredSize(new Dimension(DrawValues.RECTANGLE_H,
+            DrawValues.RECTANGLE_H * track.getMaxPitch()));*/
+    setPreferredSize(new Dimension(40,
+            12*20+60));
+    setBorder(BorderFactory.createEtchedBorder());
 
   }
 
@@ -26,11 +38,11 @@ public class PitchViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    IjVirtualInstrument currInstrument = track.getInstrument();
+    IjVirtualInstrument inst = track.getInstrument();
     g.setFont(DrawValues.VERDANA);
 
-    for (int i = 0; i < track.getMaxPitch(); i++) {
-
+    for (int i = 0; i < maxPitch; i++) {
+      g.drawString(inst.getNoteRepresentation(i), 0, i * 20 + DrawValues.GRID_MARGIN);
     }
   }
 }

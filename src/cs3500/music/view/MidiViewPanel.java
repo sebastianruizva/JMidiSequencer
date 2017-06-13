@@ -30,7 +30,14 @@ public class MidiViewPanel extends JPanel {
     this.noteWidth = DrawValues.RECTANGLE_W;
     this.noteHeight = DrawValues.RECTANGLE_H;
     this.topMargin = DrawValues.GRID_MARGIN;
-    
+    setOpaque(false);
+/*    setPreferredSize(new Dimension(DrawValues.RECTANGLE_H * track.getMaxPitch(),
+            DrawValues.RECTANGLE_W * track.getMaxTick()));*/
+  setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH,
+            12*20 + 60));
+    setBorder(BorderFactory.createEtchedBorder());
+
+
   }
   
     @Override
@@ -58,10 +65,14 @@ public class MidiViewPanel extends JPanel {
         g.fillRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
         
         g.drawRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
-        
+
+        drawGrid();
       }
     }
-    
+  }
+
+  private void drawGrid() {
+
   }
   
 }
