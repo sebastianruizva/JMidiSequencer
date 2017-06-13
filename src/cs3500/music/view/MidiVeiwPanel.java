@@ -13,17 +13,21 @@ import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 
 /**
- * A dummy view that simply draws a string 
+ * the class {@MidiVeiwPanel} represents a graphic view of the midi notes in a track
  */
 public class MidiVeiwPanel extends JPanel {
   
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
+  int noteWidth;
+  int noteHeight;
   
   public MidiVeiwPanel(JMidiTrack track) {
 
     this.track = track;
     this.grid = track.getGrid();
+    this.noteWidth = DrawValues.RECTANGLE_W.getValue();
+    this.noteHeight = DrawValues.RECTANGLE_H.getValue();
     
   }
     @Override
@@ -48,9 +52,9 @@ public class MidiVeiwPanel extends JPanel {
         
             }
             
-        g.fillRect(tick * 10, pitch * 10, 10, 10);
+        g.fillRect(tick * noteWidth, pitch * noteHeight, noteWidth, noteHeight);
         
-        g.drawRect(tick * 10, pitch * 10, 10, 10);
+        g.drawRect(tick * noteWidth, pitch * noteHeight, noteWidth, noteHeight);
         
       }
     }
