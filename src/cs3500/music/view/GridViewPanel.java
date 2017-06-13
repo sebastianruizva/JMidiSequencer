@@ -15,15 +15,21 @@ public class GridViewPanel  extends JPanel {
   
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
-  int noteWidth;
-  int noteHeight;
+  int width;
+  int height;
   
   public GridViewPanel(JMidiTrack track) {
     
     this.track = track;
     this.grid = track.getGrid();
-    this.noteWidth = DrawValues.RECTANGLE_W.getValue();
-    this.noteHeight = DrawValues.RECTANGLE_H.getValue();
+    
+    
+    if(DrawValues.GRID_HEIGHT < DrawValues.RECTANGLE_W*)
+    
+    
+    this.width = DrawValues.RECTANGLE_W;
+    this.height = DrawValues.RECTANGLE_H;
+    
     
   }
   

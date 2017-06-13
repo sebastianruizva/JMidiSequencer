@@ -31,7 +31,7 @@ public class JMidiTrackTest {
    */
   private ArrayList<String> scaleEx = new ArrayList<>(
           Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-  /**
+  /**a
    * An Virtual Instrument example for a MIDI Track.
    */
   JVirtualInstrument jVirtualInstrument = new JVirtualInstrument(scaleEx);
