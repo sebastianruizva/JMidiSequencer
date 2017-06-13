@@ -26,8 +26,8 @@ public class MidiViewPanel extends JPanel {
 
     this.track = track;
     this.grid = track.getGrid();
-    this.noteWidth = DrawValues.RECTANGLE_W.getValue();
-    this.noteHeight = DrawValues.RECTANGLE_H.getValue();
+    this.noteWidth = DrawValues.RECTANGLE_W;
+    this.noteHeight = DrawValues.RECTANGLE_H;
     
   }
   

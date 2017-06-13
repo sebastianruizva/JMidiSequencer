@@ -3,17 +3,11 @@ package cs3500.music.view;
 /**
  * Created by sebastian on 6/13/17.
  */
-public enum DrawValues {
+public class DrawValues {
   
-  RECTANGLE_H(20), RECTANGLE_W(40);
+  protected static final int RECTANGLE_H = 20;
+  protected static final int RECTANGLE_W = 40;
+  protected static final int MIN_GRID_WIDTH = RECTANGLE_W * 40;
+  protected static final int MIN_GRID_HEIGHT = RECTANGLE_H;
   
-  int value;
-  
-  DrawValues(int value) {
-    this.value = value;
-  }
-  
-  public int getValue() {
-    return value;
-  }
 }
