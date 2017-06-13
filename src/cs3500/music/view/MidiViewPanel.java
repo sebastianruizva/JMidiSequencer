@@ -21,6 +21,7 @@ public class MidiViewPanel extends JPanel {
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   int noteWidth;
   int noteHeight;
+  int topMargin;
   
   public MidiViewPanel(JMidiTrack track) {
 
@@ -28,11 +29,12 @@ public class MidiViewPanel extends JPanel {
     this.grid = track.getGrid();
     this.noteWidth = DrawValues.RECTANGLE_W;
     this.noteHeight = DrawValues.RECTANGLE_H;
+    this.topMargin = DrawValues.GRID_HEIGHT;
     
   }
   
     @Override
-   public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
     
     super.paintComponent(g);
     
@@ -53,9 +55,9 @@ public class MidiViewPanel extends JPanel {
         
             }
             
-        g.fillRect(tick * noteWidth, pitch * noteHeight, noteWidth, noteHeight);
+        g.fillRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
         
-        g.drawRect(tick * noteWidth, pitch * noteHeight, noteWidth, noteHeight);
+        g.drawRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
         
       }
     }
