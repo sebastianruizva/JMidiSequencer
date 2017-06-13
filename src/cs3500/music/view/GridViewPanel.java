@@ -17,6 +17,8 @@ public class GridViewPanel  extends JPanel {
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   int width;
   int height;
+  int maxPitch;
+  int maxTick;
   
   public GridViewPanel(JMidiTrack track) {
     
@@ -24,7 +26,21 @@ public class GridViewPanel  extends JPanel {
     this.grid = track.getGrid();
     
     
-    if(DrawValues.GRID_HEIGHT < DrawValues.RECTANGLE_W*)
+    if(DrawValues.MIN_GRID_HEIGHT < (DrawValues.RECTANGLE_H * maxPitch)) {
+      
+      height = DrawValues.RECTANGLE_H * maxPitch;
+      
+    } else {
+    
+    
+    
+    }
+  
+    if(DrawValues.MIN_GRID_WIDTH < (DrawValues.RECTANGLE_W * maxTick)) {
+    
+      height = DrawValues.RECTANGLE_W * maxTick;
+    
+    }
     
     
     this.width = DrawValues.RECTANGLE_W;

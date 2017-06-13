@@ -29,7 +29,7 @@ public class MidiViewPanel extends JPanel {
     this.grid = track.getGrid();
     this.noteWidth = DrawValues.RECTANGLE_W;
     this.noteHeight = DrawValues.RECTANGLE_H;
-    this.topMargin = DrawValues.GRID_HEIGHT;
+    this.topMargin = DrawValues.GRID_MARGIN;
     
   }
   
