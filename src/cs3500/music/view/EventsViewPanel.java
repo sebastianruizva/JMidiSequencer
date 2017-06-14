@@ -81,10 +81,10 @@ public class EventsViewPanel extends JPanel {
         
             }
             
-        g.fillRect(tick * noteWidth, height - (pitch + 1 * noteHeight), noteWidth,
+        g.fillRect(tick * noteWidth, height - (pitch * noteHeight) - DrawValues.RECTANGLE_H, noteWidth,
                 noteHeight);
         
-        g.drawRect(tick * noteWidth, height - (pitch + 1 * noteHeight), noteWidth,
+        g.drawRect(tick * noteWidth, height - (pitch * noteHeight) - DrawValues.RECTANGLE_H, noteWidth,
                 noteHeight);
         
       }
