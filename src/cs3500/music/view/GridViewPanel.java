@@ -51,7 +51,7 @@ public class GridViewPanel extends JPanel {
   
   @Override public void paintComponent(Graphics g) {
   
-    for (int i = 0; i < (width / DrawValues.RECTANGLE_W); i++) {
+    for (int i = 0; i <= (width / DrawValues.RECTANGLE_W); i++) {
       
       if(i%4 == 0) {
         g.setColor(DrawValues.GRID_BORDER_COLOR);
