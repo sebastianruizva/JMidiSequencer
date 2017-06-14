@@ -15,7 +15,7 @@ import cs3500.music.model.JMidiTrack;
 /**
  * the class {@MidiVeiwPanel} represents a graphic view of the midi notes in a track
  */
-public class MidiViewPanel extends JPanel {
+public class EventsViewPanel extends JPanel {
   
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
@@ -27,7 +27,7 @@ public class MidiViewPanel extends JPanel {
   private int maxPitch;
   private int maxTick;
   
-  public MidiViewPanel(JMidiTrack track) {
+  public EventsViewPanel(JMidiTrack track) {
 
     this.track = track;
     this.grid = track.getGrid();
@@ -81,10 +81,10 @@ public class MidiViewPanel extends JPanel {
         
             }
             
-        g.fillRect(tick * noteWidth, height - ((pitch * noteHeight) + topMargin), noteWidth,
+        g.fillRect(tick * noteWidth, height - (pitch * noteHeight), noteWidth,
                 noteHeight);
         
-        g.drawRect(tick * noteWidth, height - ((pitch * noteHeight) + topMargin), noteWidth,
+        g.drawRect(tick * noteWidth, height - (pitch * noteHeight), noteWidth,
                 noteHeight);
         
       }

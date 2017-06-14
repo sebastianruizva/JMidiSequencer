@@ -12,8 +12,10 @@ public class MusicEditor {
   public static void main(String[] args)
           throws IOException, InvalidMidiDataException, MidiUnavailableException {
     GuiViewFrame view = new GuiViewFrame();
-    view.initialize();
-    //MidiViewImpl midiView = new MidiViewImpl();
+    MidiViewImpl midiView = new MidiViewImpl();
+  
+    midiView.playComposition();
     // You probably need to connect these views to your model, too...
   }
 }
+

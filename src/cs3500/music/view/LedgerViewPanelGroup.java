@@ -2,7 +2,6 @@ package cs3500.music.view;
 
 import java.awt.*;
 
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.swing.*;
 
 import cs3500.music.model.JMidiTrack;
@@ -20,7 +19,7 @@ public class LedgerViewPanelGroup extends JPanel {
     super (new FlowLayout());
     this.track = track;
     this.pitchPanel = new PitchViewPanel(track);
-    this.gridMidiPanel = new MidiViewPanel(track);
+    this.gridMidiPanel = new EventsViewPanel(track);
     add(pitchPanel);
     add(gridMidiPanel);
   }
