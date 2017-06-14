@@ -15,6 +15,7 @@ public class MusicEditor {
     MidiViewImpl midiView = new MidiViewImpl();
   
     midiView.playComposition();
+    view.initialize();
     // You probably need to connect these views to your model, too...
   }
 }
