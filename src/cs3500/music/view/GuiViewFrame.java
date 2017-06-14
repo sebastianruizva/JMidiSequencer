@@ -13,7 +13,7 @@ import cs3500.music.model.JVirtualInstrument;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView {
+public class GuiViewFrame extends javax.swing.JFrame {
 
   /**
    * Creates new GuiView
@@ -27,11 +27,18 @@ public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView 
     midiAndGridOverlay.setLayout(new OverlayLayout(midiAndGridOverlay));
 
     midiAndGridOverlay.add(new GridViewPanel(jMidiTrack));
-    midiAndGridOverlay.add(new MidiViewPanel(jMidiTrack));
+    midiAndGridOverlay.add(new EventsViewPanel(jMidiTrack));
 
     // Make the midi and grid scrollable
-    JScrollPane midiAndGridScroll = new JScrollPane();
-    midiAndGridScroll.add(midiAndGridOverlay);
+    JScrollPane midiAndGridScroll = new JScrollPane(midiAndGridOverlay);
+    // Make the scroll bar invisible
+   // midiAndGridScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+    // Make the scroll area work with arrow keys
+    JScrollBar scrollBar = midiAndGridScroll.getHorizontalScrollBar();
+    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
+    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
 
     // Initialize the base for the pitch, midi, and grid
     JPanel scoreLayout = new JPanel(new FlowLayout());
@@ -39,14 +46,10 @@ public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView 
     scoreLayout.add(new PitchViewPanel(jMidiTrack));
     scoreLayout.add(midiAndGridScroll);
 
-    // this.getContentPane().setLayout(new BoxLayout());
 
-
-    // add(new PianoViewPanel());
-    this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-/*    this.getContentPane().add(new PitchViewPanel(jMidiTrack));
-    this.getContentPane().add(new PianoViewPanel());*/
     this.getContentPane().add(midiAndGridScroll);
+
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.pack();
   }
 
