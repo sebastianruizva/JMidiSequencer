@@ -22,6 +22,10 @@ public class MidiViewPanel extends JPanel {
   int noteWidth;
   int noteHeight;
   int topMargin;
+  private int width;
+  private int height;
+  private int maxPitch;
+  private int maxTick;
   
   public MidiViewPanel(JMidiTrack track) {
 
@@ -30,6 +34,28 @@ public class MidiViewPanel extends JPanel {
     this.noteWidth = DrawValues.RECTANGLE_W;
     this.noteHeight = DrawValues.RECTANGLE_H;
     this.topMargin = DrawValues.GRID_MARGIN;
+    this.maxPitch = track.getMaxPitch();
+    this.maxTick = track.getMaxTick();
+  
+    if (DrawValues.MIN_GRID_HEIGHT < (DrawValues.RECTANGLE_H * maxPitch)) {
+    
+      this.height = DrawValues.RECTANGLE_H * maxPitch;
+    
+    } else {
+    
+      this.height = DrawValues.MIN_GRID_HEIGHT;
+    
+    }
+  
+    if (DrawValues.MIN_GRID_WIDTH < (DrawValues.RECTANGLE_W * maxTick)) {
+    
+      this.width = DrawValues.RECTANGLE_W * maxTick;
+    
+    } else {
+    
+      this.width = DrawValues.MIN_GRID_WIDTH;
+    
+    }
     
   }
   
@@ -55,9 +81,11 @@ public class MidiViewPanel extends JPanel {
         
             }
             
-        g.fillRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
+        g.fillRect(tick * noteWidth, height - ((pitch * noteHeight) + topMargin), noteWidth,
+                noteHeight);
         
-        g.drawRect(tick * noteWidth, (pitch * noteHeight) + topMargin, noteWidth, noteHeight);
+        g.drawRect(tick * noteWidth, height - ((pitch * noteHeight) + topMargin), noteWidth,
+                noteHeight);
         
       }
     }

@@ -55,7 +55,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements IjMidiTrackView 
     jMidiTrack.addEvent(e5);
     jMidiTrack.addEvent(e6);
     
-    this.displayPanel = new GridViewPanel(jMidiTrack);
+    this.displayPanel = new MidiViewPanel(jMidiTrack);
     
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
