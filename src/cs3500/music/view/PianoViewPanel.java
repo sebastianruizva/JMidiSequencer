@@ -19,6 +19,9 @@ public class PianoViewPanel extends JLayeredPane {
 
   @Override
   public void paint(Graphics g) {
+    setPreferredSize(new Dimension(1500, 400));
+
+    paintBackground(g);
     paintWhiteKeys(g);
     paintBlackKeys(g);
 
@@ -27,15 +30,24 @@ public class PianoViewPanel extends JLayeredPane {
     }
   }
 
+  private void paintBackground(Graphics g) {
+    g.setColor(Color.DARK_GRAY);
+    g.drawRect(0,0,1500, 400);
+    g.fillRect(0,0,1500, 400);
+    g.setColor(Color.BLACK);
+    g.drawRect(0,0,1500, 400);
+  }
+
   private void paintWhiteKeys(Graphics g) {
     int size = DrawValues.RECTANGLE_H;
+    int offset = 50;
 
     for (int i = 0; i < 70; i++) {
       g.setColor(Color.WHITE);
-      g.drawRect(i * size, 0, size, 350);
-      g.fillRect(i * size, 0, size, 350);
+      g.drawRect(i * size + offset, 0, size, 350);
+      g.fillRect(i * size + offset, 0, size, 350);
       g.setColor(Color.BLACK);
-      g.drawRect(i * size, 0, size, 350);
+      g.drawRect(i * size + offset, 0, size, 350);
 
       System.out.println("X: " + i * size);
     }
@@ -45,6 +57,7 @@ public class PianoViewPanel extends JLayeredPane {
     int skip = 2;
     int oddCount = 0;
     int size = DrawValues.RECTANGLE_H;
+    int offset = 50;
 
     for (int i = 0; i < 70; i++) {
 
@@ -58,8 +71,8 @@ public class PianoViewPanel extends JLayeredPane {
         continue;
       }
       g.setColor(Color.BLACK);
-      g.drawRect(i * size + size - 4, 0, size / 2, 175);
-      g.fillRect(i * size + size - 4, 0, size / 2, 175);
+      g.drawRect(i * size + size - 4 + offset, 0, size / 2, 175);
+      g.fillRect(i * size + size - 4 + offset, 0, size / 2, 175);
     }
   }
 
