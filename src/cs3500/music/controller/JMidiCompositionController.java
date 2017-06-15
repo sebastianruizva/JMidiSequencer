@@ -68,7 +68,7 @@ public class JMidiCompositionController {
   
         if(view.equals("GUI")) {
   
-          MusicEditorGUI guiView = new MusicEditorGUI();
+          MusicEditorGUI guiView = new MusicEditorGUI(composition);
           guiView.initialize();
   
         }

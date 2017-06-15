@@ -26,10 +26,6 @@ public class JMidiComposition {
    */
   private HashMap<Integer,JMidiTrack> tracks;
   
-  public int getTempo() {
-    return tempo;
-  }
-  
   /**
    * Tempo represents the BPM measurement of the composition.
    */
@@ -37,6 +33,12 @@ public class JMidiComposition {
   
   int maxPitch;
   int maxTick;
+  
+  public HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid() {
+    return grid;
+  }
+  
+  HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   
   /**
    * Constructs a {@JMidiComposition}.
@@ -46,7 +48,9 @@ public class JMidiComposition {
     this.tempo = tempo;
     this.maxPitch = 0;
     this.maxTick = 0;
+    this.grid = new HashMap<Integer, HashMap<Integer, JMidiEvent>>();
     this.updateMaxValues();
+    this.updateGrid();
   }
 
   /**
@@ -152,6 +156,13 @@ public class JMidiComposition {
   }
   
   /**
+   * Returns a thetempo of the composition
+   */
+  public int getTempo() {
+    return tempo;
+  }
+  
+  /**
    * Returns a the maximum tick in the track
    */
   public int getMaxTick() {
@@ -186,6 +197,91 @@ public class JMidiComposition {
     
   }
   
+  
+  /**
+   * Determines if there is enough free space in the grid on the specified location and distance.
+   * @param tick     the tick you ar looking for
+   * @param pitch    the pitch you want to verify
+   * @param distance how big is the area?
+   */
+  public boolean available(int tick, int pitch, int distance) throws IllegalArgumentException {
+    
+    //invalid negative numbers
+    if (tick < 0 || pitch < 0 || distance < 0) {
+      throw new IllegalArgumentException("negative values not supported!");
+    }
+    
+    for (int i = 0; i < distance; i++) {
+      
+      if (grid.getOrDefault(tick + i, null) != null) {
+        if (grid.get(tick + i).getOrDefault(pitch, null) != null) {
+          return false;
+        }
+      }
+      
+    }
+    
+    return true;
+    
+  }
+  
+  
+  /**
+   * Returns a MIDI events on a given point in time and pitch.
+   * @param tick  the tick where is supposed to be located at
+   * @param pitch the pitch where is supposed to be located at
+   * @throws IllegalArgumentException if there is no such event
+   */
+   public JMidiEvent getEventOnPosition(int tick, int pitch)
+          throws IllegalArgumentException {
+    
+    //verify if there is something there
+    if (this.available(tick, pitch, 1)) {
+      throw new IllegalArgumentException("no event in specified position");
+    }
+    
+    return grid.get(tick).get(pitch);
+    
+  }
+  
+  /**
+   * Returns the type of sector in an specific position of the grid.
+   */
+  public SectorType getSectorType(int tick, int pitch) {
+    
+    //if there is nothing
+    if (this.available(tick, pitch, 1)) {
+      return SectorType.REST;
+    }
+    
+    JMidiEvent event = getEventOnPosition(tick, pitch);
+    
+    //if the events origin is the same then is a head
+    if (tick == event.getTick()) {
+      return SectorType.HEAD;
+    }
+    
+    return SectorType.BODY;
+    
+  }
+  
+  /**
+   * updates the grid of all the tracks
+   */
+  private void updateGrid() {
+    
+    HashMap<Integer, HashMap<Integer, JMidiEvent>> grid = new HashMap<>();
+    
+    for (Integer k: tracks.keySet()) {
+  
+      grid.putAll(tracks.get(k).getGrid());
+      
+    }
+    
+    this.grid = grid;
+    
+  }
+  
   /**
    * Adds a track with the specified name.
    * @param number  the name of the track
@@ -210,6 +306,9 @@ public class JMidiComposition {
     
     //add track
     this.tracks.put(number, track);
+  
+    //update Grid
+    this.updateGrid();
     
     //update max values
     this.updateMaxValues();
@@ -235,6 +334,9 @@ public class JMidiComposition {
     //remove track
     this.tracks.remove(number);
   
+    //update Grid
+    this.updateGrid();
+    
     //update max values
     this.updateMaxValues();
     

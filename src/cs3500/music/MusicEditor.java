@@ -16,12 +16,11 @@ public class MusicEditor {
   public static void main(String[] args)
           throws IOException, InvalidMidiDataException, MidiUnavailableException {
     
-/*    Readable reader = new InputStreamReader(System.in);
+    Readable reader = new InputStreamReader(System.in);
     JMidiCompositionController controller = new JMidiCompositionController(reader, System.out);
     
-    controller.run();*/
-    MusicEditorGUI view = new MusicEditorGUI();
-    view.initialize();
+    controller.run();
+    
   }
 }
 

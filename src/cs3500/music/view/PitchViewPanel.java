@@ -6,21 +6,21 @@ import java.util.HashMap;
 import javax.swing.*;
 
 import cs3500.music.model.IjVirtualInstrument;
+import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
+import cs3500.music.util.JMidiUtils;
 
 /**
  * Created by joe on 6/13/17.
  */
 public class PitchViewPanel extends JPanel {
-  JMidiTrack track;
-  private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
+  JMidiComposition composition;
   private int maxPitch;
 
-  public PitchViewPanel(JMidiTrack track) {
-    this.track = track;
-    this.grid = track.getGrid();
-    this.maxPitch = track.getMaxPitch();
+  public PitchViewPanel(JMidiComposition composition) {
+    this.composition = composition;
+    this.maxPitch = composition.getMaxPitch();
 
     if (maxPitch < 12) {
       maxPitch = 12;
@@ -34,7 +34,7 @@ public class PitchViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    IjVirtualInstrument inst = track.getInstrument();
+    IjVirtualInstrument inst = JMidiUtils.DEFAULT_VI;
     g.setFont(DrawValues.VERDANA);
 
     for (int i = 0; i < maxPitch; i++) {

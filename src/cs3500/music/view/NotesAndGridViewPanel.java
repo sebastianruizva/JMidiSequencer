@@ -5,25 +5,27 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
+import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
+import cs3500.music.model.SectorType;
 
 public class NotesAndGridViewPanel extends JPanel {
-  JMidiTrack track;
+  JMidiComposition composition;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   private int width;
   private int height;
   private int maxPitch;
   private int maxTick;
 
-  NotesAndGridViewPanel(JMidiTrack track) {
+  NotesAndGridViewPanel(JMidiComposition composition) {
     setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
     setMaximumSize(getPreferredSize());
 
-    this.track = track;
-    this.grid = track.getGrid();
-    this.maxPitch = track.getMaxPitch();
-    this.maxTick = track.getMaxTick();
+    this.composition = composition;
+    this.grid = composition.getGrid();
+    this.maxPitch = composition.getMaxPitch();
+    this.maxTick = composition.getMaxTick();
     setValues();
   }
 
@@ -62,14 +64,14 @@ public class NotesAndGridViewPanel extends JPanel {
     for (Integer tick : this.grid.keySet()) {
       for (Integer pitch : this.grid.get(tick).keySet()) {
 
-        JMidiTrack.SectorType type = track.getSectorType(tick, pitch);
+        SectorType type = composition.getSectorType(tick, pitch);
 
-        if (JMidiTrack.SectorType.HEAD == type) {
+        if (SectorType.HEAD == type) {
 
           g.setColor(DrawValues.NOTE_HEAD_COLOR);
 
         }
-        if (JMidiTrack.SectorType.BODY == type) {
+        if (SectorType.BODY == type) {
 
           g.setColor(DrawValues.NOTE_TAIL_COLOR);
 
