@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.JMidiComposition;
@@ -42,7 +43,7 @@ public class JMidiCompositionController {
   
   public void run() throws MidiUnavailableException, FileNotFoundException {
   
-    this.message("please write the name of the file you wand to open and its extension");
+    this.message("please write the name of the file you want to open and its extension");
     
     while (scanner.hasNext()) {
   
@@ -53,6 +54,8 @@ public class JMidiCompositionController {
         JMidiComposition composition = MusicReader
                 .parseFile(new FileReader(fileName), JMidiComposition.builder());
   
+        this.message("console or midi?");
+  
         if(scanner.next().equals("console")) {
     
           this.message(composition.toString());
@@ -62,13 +65,20 @@ public class JMidiCompositionController {
         if(scanner.next().equals("midi")) {
   
           MidiViewImpl midiView = new MidiViewImpl(composition);
-          midiView.playComposition();
+          
+          try {
+  
+            midiView.playComposition();
+            
+          } catch (InvalidMidiDataException e) {
+          
+          }
     
         }
   
       } else {
   
-        this.message("please write the name of the file you wand to open and its extension");
+        this.message("please write the name of the file you want to open and its extension");
         
       }
     

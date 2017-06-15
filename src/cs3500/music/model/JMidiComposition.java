@@ -21,10 +21,14 @@ public class JMidiComposition {
    */
   private HashMap<Integer,JMidiTrack> tracks;
   
+  public int getTempo() {
+    return tempo;
+  }
+  
   /**
    * Tempo represents the BPM measurement of the composition.
    */
-  private Integer tempo;
+  private int tempo;
   
   
   /**

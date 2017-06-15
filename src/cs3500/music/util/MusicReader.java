@@ -58,7 +58,6 @@ public class MusicReader {
           throw new IllegalArgumentException("Bad line type: " + lineType);
       }
     }
-    System.out.println(piece);
     return piece.build();
   }
 }
