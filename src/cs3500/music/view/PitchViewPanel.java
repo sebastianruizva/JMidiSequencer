@@ -18,8 +18,6 @@ public class PitchViewPanel extends JPanel {
   private int maxPitch;
 
   public PitchViewPanel(JMidiTrack track) {
-    setBackground(Color.DARK_GRAY);
-    setBorder(BorderFactory.createEtchedBorder());
     this.track = track;
     this.grid = track.getGrid();
     this.maxPitch = track.getMaxPitch();
@@ -28,6 +26,8 @@ public class PitchViewPanel extends JPanel {
       maxPitch = 12;
     }
     setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
+    setMaximumSize(getPreferredSize());
+
   }
 
   @Override
@@ -36,10 +36,9 @@ public class PitchViewPanel extends JPanel {
 
     IjVirtualInstrument inst = track.getInstrument();
     g.setFont(DrawValues.VERDANA);
-    g.setColor(Color.WHITE);
 
     for (int i = 0; i < maxPitch; i++) {
-      g.drawString(inst.getNoteRepresentation(i), 0, (maxPitch-i) * 20 + DrawValues.GRID_MARGIN);
+      g.drawString(inst.getNoteRepresentation(i) + (i / inst.getOctaveDegree()), 0, (maxPitch-i) * 20 + DrawValues.GRID_MARGIN);
     }
   }
 }

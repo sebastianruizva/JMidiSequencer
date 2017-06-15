@@ -15,75 +15,35 @@ import cs3500.music.model.JVirtualInstrument;
  */
 public class GuiViewFrame extends javax.swing.JFrame {
 
+  private JMidiTrack track = initTrack();
+  private JPanel scoreLayout = initScoreLayout(track);
+  private JPanel pianoLayout = initPianoLayout();
   /**
    * Creates new GuiView
    */
   public GuiViewFrame() {
-    this.setSize(new Dimension(1500, 700));
-    setResizable(true);
+    //this.setSize(new Dimension(1500, 700));
+
     JMidiTrack jMidiTrack = initTrack();
+    JPanel scoreLayout = initScoreLayout(jMidiTrack);
+    JPanel pianoLayout = initPianoLayout();
 
-    // Make the midi and grid scrollable
-    JScrollPane midiAndGridScroll = initScrollPane(jMidiTrack);
-    midiAndGridScroll.setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
+    BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
 
-
-    // Initialize the base for the pitch, midi, and grid
-    FlowLayout scoreLayoutGrid = new FlowLayout();
-    scoreLayoutGrid.setVgap(0);
-    scoreLayoutGrid.setHgap(0);
-
-    JPanel scoreLayout = new JPanel(scoreLayoutGrid);
-    scoreLayout.add(new PitchViewPanel(jMidiTrack));
-    scoreLayout.add(midiAndGridScroll);
-
-/*    scoreLayout.add(new PitchViewPanel(jMidiTrack));
-    scoreLayout.add(midiAndGridScroll);*/
-    GridLayout mainLayout = new GridLayout(2,1);
-    mainLayout.setHgap(0);
-    mainLayout.setVgap(0);
-
-    this.getContentPane().setLayout(mainLayout);
-
+    this.getContentPane().setLayout(boxLayout);
     this.getContentPane().add(scoreLayout);
-    this.getContentPane().add(new PianoViewPanel());
+    this.getContentPane().add(pianoLayout);
 
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.pack();
+    System.out.print(this.getSize());
   }
 
   public void initialize() {
     this.setVisible(true);
   }
 
-  // Initialize the scroll pane
-  private JScrollPane initScrollPane(JMidiTrack jMidiTrack) {
-
-    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(jMidiTrack);
-    JScrollPane base = new JScrollPane(ledger);
-
-    // Make the scroll bar invisible
-    base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    base.getViewport().setPreferredSize(ledger.getPreferredSize());
-    base.setPreferredSize(ledger.getPreferredSize());
-    base.setBorder(null);
-
-    // Make the scroll area work with arrow keys
-    JScrollBar scrollBar = base.getHorizontalScrollBar();
-    scrollBar.setPreferredSize(new Dimension(0,0));
-    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
-    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
-
-    return base;
-  }
-
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(1700, 700);
-  }
-
-  public JMidiTrack initTrack() {
+  private JMidiTrack initTrack() {
     /**
      * A Midi Event examples.
      */
@@ -119,5 +79,77 @@ public class GuiViewFrame extends javax.swing.JFrame {
 
     return jMidiTrack;
   }
+
+  // Initialize the scroll pane
+  private JScrollPane initScrollPane(JMidiTrack jMidiTrack) {
+
+    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(jMidiTrack);
+    JScrollPane base = new JScrollPane(ledger);
+    base.setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
+
+    // Make the scroll bar invisible
+    base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    base.getViewport().setPreferredSize(ledger.getPreferredSize());
+    base.setPreferredSize(ledger.getPreferredSize());
+    base.setBorder(null);
+
+    // Make the scroll area work with arrow keys
+    JScrollBar scrollBar = base.getHorizontalScrollBar();
+    scrollBar.setPreferredSize(new Dimension(0,0));
+    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
+    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
+
+    return base;
+  }
+
+  // Initialize the piano pane
+  private JPanel initPianoLayout() {
+    FlowLayout pianoLayoutGrid = new FlowLayout();
+    pianoLayoutGrid.setVgap(0);
+    pianoLayoutGrid.setHgap(0);
+
+    JPanel buffer = new JPanel();
+    buffer.setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
+    buffer.setBorder(null);
+
+    JPanel pianoLayout = new JPanel(pianoLayoutGrid);
+    pianoLayout.add(buffer);
+    pianoLayout.add(new PianoViewPanel());
+
+    return pianoLayout;
+  }
+
+  // Initialize the score pane
+  private JPanel initScoreLayout(JMidiTrack jMidiTrack) {
+
+    // Initialize the base for the pitch, midi, and grid
+    FlowLayout scoreLayoutGrid = new FlowLayout();
+    scoreLayoutGrid.setVgap(0);
+    scoreLayoutGrid.setHgap(0);
+
+    JPanel scoreLayout = new JPanel(scoreLayoutGrid);
+    scoreLayout.add(new PitchViewPanel(jMidiTrack));
+    scoreLayout.add(initScrollPane(jMidiTrack));
+
+    return scoreLayout;
+  }
+
+  // Calculate the size of the frame
+  private Dimension calculateSize(JPanel scoreLayout, JPanel pianoLayout) {
+    System.out.print(scoreLayout.getHeight());
+    int height = scoreLayout.getHeight() + pianoLayout.getHeight();
+    int width = scoreLayout.getWidth() + pianoLayout.getWidth();
+
+    return new Dimension(width, height);
+  }
+
+  @Override
+  public Dimension getPreferredSize() {
+    return calculateSize(scoreLayout, pianoLayout);
+    /*new Dimension(1500, 700);*/
+  }
+
+
 
 }

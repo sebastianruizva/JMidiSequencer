@@ -11,20 +11,17 @@ public class PianoViewPanel extends JLayeredPane {
 
   public PianoViewPanel(ArrayList<Integer> selectedPitches) {
     this.selectedPitches = selectedPitches;
-    setBackground(Color.RED);
-    setBorder(BorderFactory.createEtchedBorder());
-
   }
 
   public PianoViewPanel() {
     this.selectedPitches = new ArrayList<>();
-    setBackground(Color.RED);
-    setBorder(BorderFactory.createEtchedBorder());
   }
 
   @Override
   public void paint(Graphics g) {
-    setPreferredSize(new Dimension(1500, 400));
+    setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, 400));
+    setMaximumSize(getPreferredSize());
+
 
     paintBackground(g);
     paintWhiteKeys(g);
@@ -37,15 +34,15 @@ public class PianoViewPanel extends JLayeredPane {
 
   private void paintBackground(Graphics g) {
     g.setColor(Color.DARK_GRAY);
-    g.drawRect(0,0,1500, 400);
-    g.fillRect(0,0,1500, 400);
+    g.drawRect(0,0,DrawValues.MIN_GRID_WIDTH, 400);
+    g.fillRect(0,0,DrawValues.MIN_GRID_WIDTH, 400);
     g.setColor(Color.BLACK);
-    g.drawRect(0,0,1500, 400);
+    g.drawRect(0,0,DrawValues.MIN_GRID_WIDTH, 400);
   }
 
   private void paintWhiteKeys(Graphics g) {
     int size = DrawValues.RECTANGLE_H;
-    int offset = 50;
+    int offset = 100;
 
     for (int i = 0; i < 70; i++) {
       g.setColor(Color.WHITE);
@@ -60,7 +57,7 @@ public class PianoViewPanel extends JLayeredPane {
     int skip = 2;
     int oddCount = 0;
     int size = DrawValues.RECTANGLE_H;
-    int offset = 50;
+    int offset = 100;
 
     for (int i = 0; i < 70; i++) {
 

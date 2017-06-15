@@ -18,8 +18,8 @@ public class NotesAndGridViewPanel extends JPanel {
 
   NotesAndGridViewPanel(JMidiTrack track) {
     setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
-    setBackground(Color.RED);
-    setBorder(BorderFactory.createEtchedBorder());
+    setMaximumSize(getPreferredSize());
+
 
     this.track = track;
     this.grid = track.getGrid();
