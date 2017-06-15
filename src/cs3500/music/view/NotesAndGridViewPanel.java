@@ -52,6 +52,7 @@ public class NotesAndGridViewPanel extends JPanel {
   @Override public void paintComponent(Graphics g) {
     paintNotes(g);
     paintGrid(g);
+    paintBeatNumbers(g);
   }
 
   private void paintNotes(Graphics g) {
@@ -87,21 +88,25 @@ public class NotesAndGridViewPanel extends JPanel {
 
   private void paintGrid(Graphics g) {
     for (int i = 0; i <= (width / DrawValues.RECTANGLE_W); i++) {
-
       if(i%4 == 0) {
         g.setColor(DrawValues.GRID_BORDER_COLOR);
-        g.drawLine(i*DrawValues.RECTANGLE_W, height, i*DrawValues
-                .RECTANGLE_W, DrawValues.GRID_MARGIN);
+        g.drawLine(i*DrawValues.RECTANGLE_W, height,
+                i*DrawValues.RECTANGLE_W, DrawValues.GRID_MARGIN);
       }
-
     }
 
     for (int i = 0; i <= ((height - DrawValues.GRID_MARGIN) / DrawValues.RECTANGLE_H); i++) {
-
       g.setColor(DrawValues.GRID_BORDER_COLOR);
-      g.drawLine(0, (i*DrawValues.RECTANGLE_H) + DrawValues
-              .GRID_MARGIN, width, (i*DrawValues.RECTANGLE_H) + DrawValues
-              .GRID_MARGIN);
+      g.drawLine(0, (i*DrawValues.RECTANGLE_H) + DrawValues.GRID_MARGIN,
+              width, (i*DrawValues.RECTANGLE_H) + DrawValues.GRID_MARGIN);
+    }
+  }
+
+  private void paintBeatNumbers(Graphics g) {
+    g.setFont(DrawValues.VERDANA);
+
+    for (int i = 0; i < width; i += 4) {
+      g.drawString(Integer.toString(i), i * DrawValues.RECTANGLE_W ,50);
     }
   }
 }
