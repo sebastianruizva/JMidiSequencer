@@ -29,22 +29,28 @@ public class GuiViewFrame extends javax.swing.JFrame {
 
 
     // Initialize the base for the pitch, midi, and grid
-    FlowLayout scoreLayoutFlow = new FlowLayout();
-    JPanel scoreLayout = new JPanel(scoreLayoutFlow);
+    FlowLayout scoreLayoutGrid = new FlowLayout();
+    scoreLayoutGrid.setVgap(0);
+    scoreLayoutGrid.setHgap(0);
 
-    scoreLayoutFlow.setVgap(0);
-
-
-
+    JPanel scoreLayout = new JPanel(scoreLayoutGrid);
     scoreLayout.add(new PitchViewPanel(jMidiTrack));
     scoreLayout.add(midiAndGridScroll);
 
-    this.getContentPane().setLayout(new GridLayout(2, 1));
+/*    scoreLayout.add(new PitchViewPanel(jMidiTrack));
+    scoreLayout.add(midiAndGridScroll);*/
+    GridLayout mainLayout = new GridLayout(2,1);
+    mainLayout.setHgap(0);
+    mainLayout.setVgap(0);
+
+    this.getContentPane().setLayout(mainLayout);
+
     this.getContentPane().add(scoreLayout);
     this.getContentPane().add(new PianoViewPanel());
 
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    this.pack();}
+    this.pack();
+  }
 
   public void initialize() {
     this.setVisible(true);
@@ -59,7 +65,7 @@ public class GuiViewFrame extends javax.swing.JFrame {
     // Make the scroll bar invisible
     base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     base.getViewport().setPreferredSize(ledger.getPreferredSize());
-    base.setPreferredSize(new Dimension(40, 12*20));
+    base.setPreferredSize(ledger.getPreferredSize());
     base.setBorder(null);
 
     // Make the scroll area work with arrow keys

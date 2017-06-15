@@ -13,7 +13,7 @@ public class DrawValues {
   protected static final Color GRID_BORDER_COLOR = Color.BLACK;
   protected static final int MIN_GRID_WIDTH = RECTANGLE_W * 40 + 1;
   protected static final int GRID_MARGIN = 60;
-  protected static final int MIN_GRID_HEIGHT = RECTANGLE_H * 12 + GRID_MARGIN + 1;
+  protected static final int MIN_GRID_HEIGHT = GRID_MARGIN + RECTANGLE_H * 12 + 1;
   protected static final Font VERDANA = new Font("Verdana", Font.BOLD, RECTANGLE_H);
   
 }

@@ -11,15 +11,20 @@ public class PianoViewPanel extends JLayeredPane {
 
   public PianoViewPanel(ArrayList<Integer> selectedPitches) {
     this.selectedPitches = selectedPitches;
+    setBackground(Color.RED);
+    setBorder(BorderFactory.createEtchedBorder());
+
   }
 
   public PianoViewPanel() {
     this.selectedPitches = new ArrayList<>();
+    setBackground(Color.RED);
+    setBorder(BorderFactory.createEtchedBorder());
   }
 
   @Override
   public void paint(Graphics g) {
-    setSize(new Dimension(1500, 400));
+    setPreferredSize(new Dimension(1500, 400));
 
     paintBackground(g);
     paintWhiteKeys(g);
