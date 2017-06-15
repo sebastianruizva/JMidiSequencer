@@ -56,7 +56,6 @@ public class GuiViewFrame extends javax.swing.JFrame {
   // @Override
   public void initialize() {
     this.setVisible(true);
-
   }
 
   @Override

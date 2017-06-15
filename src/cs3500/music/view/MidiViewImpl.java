@@ -68,10 +68,10 @@ public class MidiViewImpl {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, pitch, velocity);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, pitch, velocity);
   
-    int tempoInMicrosecconds = 60000000 / composition.getTempo();
+    int tempoInMicroseconds = 60000000 / composition.getTempo();
   
-    this.receiver.send(start, tick * tempoInMicrosecconds);
-    this.receiver.send(stop, (tick + duration) * tempoInMicrosecconds);
+    this.receiver.send(start, tick * tempoInMicroseconds);
+    this.receiver.send(stop, (tick + duration) * tempoInMicroseconds);
   }
   
  

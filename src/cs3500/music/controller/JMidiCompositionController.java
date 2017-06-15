@@ -10,6 +10,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 
 public class JMidiCompositionController {
@@ -54,12 +55,19 @@ public class JMidiCompositionController {
         JMidiComposition composition = MusicReader
                 .parseFile(new FileReader(fileName), JMidiComposition.builder());
   
-        this.message("console or midi?");
+        this.message("Console, GUI or MIDI?");
   
         if(scanner.next().equals("console")) {
     
           this.message(composition.toString());
     
+        }
+  
+        if(scanner.next().equals("GUI")) {
+  
+          GuiViewFrame guiView = new GuiViewFrame();
+          guiView.initialize();
+  
         }
   
         if(scanner.next().equals("midi")) {

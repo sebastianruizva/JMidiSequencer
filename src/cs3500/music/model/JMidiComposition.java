@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.JMidiUtils;
+
+import static cs3500.music.util.JMidiUtils.DEFAULT_VI;
 
 /**
  * The class {@JMidiComosition} Represents a MIDI Track that can be played with the assigned
@@ -65,16 +68,6 @@ public class JMidiComposition {
      * Tempo represents the BPM measurement of the composition.
      */
     private Integer tempo;
-    
-    /**
-     * the default scale
-     */
-    private ArrayList<String> defaultScale = new ArrayList<>(
-            Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-    /**
-     * the default Virtual Instrument.
-     */
-    JVirtualInstrument defaultJVirtualInstrument = new JVirtualInstrument(defaultScale);
   
     /**
      * Constructs a {@JMidiComposition.Bulider}.
@@ -128,7 +121,7 @@ public class JMidiComposition {
       JMidiTrack track = this.tracks.getOrDefault(instrument, null);
       
       if(track == null) {
-        tracks.put(instrument, new JMidiTrack(defaultJVirtualInstrument));
+        tracks.put(instrument, new JMidiTrack(JMidiUtils.DEFAULT_VI));
         track = this.tracks.get(instrument);
       }
       
@@ -145,10 +138,137 @@ public class JMidiComposition {
       return new JMidiComposition(this.tracks, this.tempo);
       
     }
+
+  }
   
-    @Override public String toString() {
-      return tracks.getOrDefault(1,null).toString();
+  /**
+   * Adds a track with the specified name.
+   * @param number  the name of the track
+   * @param track the track you are going to add.
+   */
+  public void addTrack(int number, JMidiTrack track) {
+    
+    //check if values are valid
+    if (track == null) {
+      throw new IllegalArgumentException("values can not be null!");
     }
+    
+    //check if values are valid
+    if (number < 0) {
+      throw new IllegalArgumentException("values can not be negative!");
+    }
+    
+    //check if there is nothing there already
+    if (this.tracks.getOrDefault(number, null) != null) {
+      throw new IllegalArgumentException("there is a track with the same name already!");
+    }
+    
+    //add track
+    this.tracks.put(number, track);
+    
+  }
+  
+  /**
+   * Removes a track with the specified name.
+   * @param number the name of the track
+   */
+  public void removeTrack(int number) {
+    
+    //check if values are valid
+    if (number < 0) {
+      throw new IllegalArgumentException("values can not be negative!");
+    }
+    
+    //check if there is something there
+    if (this.tracks.getOrDefault(number, null) == null) {
+      throw new IllegalArgumentException("there is nothing there!");
+    }
+    
+    //remove track
+    this.tracks.remove(number);
+    
+  }
+  
+  /**
+   * Draws a grid with the given dimensions.
+   */
+  private StringBuilder buildGrid(int width, int height) {
+    
+    int length = height * width;
+    StringBuilder grid = new StringBuilder(length);
+    int i = 0;
+    int row = 0;
+    
+    while (i < length) {
+      if (i >= width && i % (width) == 0) {
+        grid.append('\n');
+        row++;
+      }
+      if (i % (width) == 0 && i >= width) {
+        grid.append(String.format("%5s", row).substring(0, 5));
+        i += 5;
+      } else if (i > 4 && width - 4 > i) {
+        String note = DEFAULT_VI.getNoteRepresentation((i - 4) / 5);
+        grid.append(String.format(" %2s  ", note).substring(0, 5));
+        i += 5;
+      } else {
+        grid.append(" ");
+        i++;
+      }
+    }
+    
+    return grid;
+    
+  }
+  
+  /**
+   * Returns a string grid with all the element in the region.
+   */
+  @Override public String toString() {
+    
+    //if no tracks
+    if (tracks.size() == 0) {
+      return "";
+    }
+  
+    int maxPitch = 0;
+    int maxTick = 0;
+  
+    for (Integer k: tracks.keySet()) {
+      
+      if(tracks.get(k).getMaxTick() > maxTick) {
+        maxTick = tracks.get(k).getMaxTick();
+      }
+  
+      if(tracks.get(k).getMaxPitch() > maxPitch) {
+        maxPitch = tracks.get(k).getMaxPitch();
+      }
+      
+    }
+    
+    //determine the dimensions of the grid
+    int width = (maxPitch + 2) * 5;
+    int height = maxTick + 2;
+
+    
+    //build a grid according to its current state
+    StringBuilder grid = buildGrid(width, height);
+  
+    for (Integer k: tracks.keySet()) {
+      
+      JMidiTrack t = tracks.get(k);
+      
+      //Place the elements in the grid
+      for (Integer tick : t.getGrid().keySet()) {
+        for (Integer pitch : t.getGrid().get(tick).keySet()) {
+          int index = tick * (width + 1) + (pitch * 5) + 6 + width;
+          grid.setCharAt(index + 2, t.getSectorType(tick, pitch).toString().charAt(0));
+        }
+      }
+      
+    }
+    
+    return grid.toString();
   }
   
   
