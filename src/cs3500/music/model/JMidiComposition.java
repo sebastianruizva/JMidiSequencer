@@ -85,7 +85,7 @@ public class JMidiComposition {
   
       //Define the default values
       this.tracks = new HashMap<Integer, JMidiTrack>();
-      this.tempo = 120;
+      this.tempo = 200000;
       
     }
   
@@ -151,27 +151,6 @@ public class JMidiComposition {
 
   }
   
-  
-  /**
-   * Updates the maxPitch and maxTick of the grid.
-   */
-  private void updateMaxValues() {
-  
-    for (Integer k: tracks.keySet()) {
-    
-      if(tracks.get(k).getMaxTick() > maxTick) {
-        this.maxTick = tracks.get(k).getMaxTick();
-      }
-    
-      if(tracks.get(k).getMaxPitch() > maxPitch) {
-        this.maxPitch = tracks.get(k).getMaxPitch();
-      }
-    
-    }
-    
-  }
-  
-  
   /**
    * Returns a the maximum tick in the track
    */
@@ -186,6 +165,25 @@ public class JMidiComposition {
   public int getMaxPitch() {
     
     return this.maxPitch;
+  }
+  
+  /**
+   * Updates the maxPitch and maxTick of the grid.
+   */
+  private void updateMaxValues() {
+    
+    for (Integer k: tracks.keySet()) {
+      
+      if(tracks.get(k).getMaxTick() > maxTick) {
+        this.maxTick = tracks.get(k).getMaxTick();
+      }
+      
+      if(tracks.get(k).getMaxPitch() > maxPitch) {
+        this.maxPitch = tracks.get(k).getMaxPitch();
+      }
+      
+    }
+    
   }
   
   /**

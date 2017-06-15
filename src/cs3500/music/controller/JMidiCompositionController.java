@@ -44,6 +44,7 @@ public class JMidiCompositionController {
   
   public void run() throws MidiUnavailableException, FileNotFoundException {
   
+  
     this.message("please write the name of the file you want to open and its extension");
     
     while (scanner.hasNext()) {
@@ -56,21 +57,23 @@ public class JMidiCompositionController {
                 .parseFile(new FileReader(fileName), JMidiComposition.builder());
   
         this.message("Console, GUI or MIDI?");
+        
+        String view = scanner.next();
   
-        if(scanner.next().equals("console")) {
+        if(view.equals("console")) {
     
           this.message(composition.toString());
     
         }
   
-        if(scanner.next().equals("GUI")) {
+        if(view.equals("GUI")) {
   
           MusicEditorGUI guiView = new MusicEditorGUI();
           guiView.initialize();
   
         }
   
-        if(scanner.next().equals("midi")) {
+        if(view.equals("midi")) {
   
           MidiViewImpl midiView = new MidiViewImpl(composition);
           
@@ -79,6 +82,8 @@ public class JMidiCompositionController {
             midiView.playComposition();
             
           } catch (InvalidMidiDataException e) {
+            
+            this.message(e.toString());
           
           }
     

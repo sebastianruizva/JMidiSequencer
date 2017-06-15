@@ -46,11 +46,7 @@ public class MidiViewImpl {
   
   public void playComposition() throws InvalidMidiDataException {
   
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 0, 0);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 0, 0);
-  
-    this.receiver.send(start, -1);
-    this.receiver.send(stop, 0);
+
   
     for (Integer k: composition.getTracks().keySet()) {
       
@@ -68,10 +64,8 @@ public class MidiViewImpl {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, pitch, velocity);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, pitch, velocity);
   
-    int tempoInMicroseconds = 60000000 / composition.getTempo();
-  
-    this.receiver.send(start, tick * tempoInMicroseconds);
-    this.receiver.send(stop, (tick + duration) * tempoInMicroseconds);
+    this.receiver.send(start, tick * composition.getTempo());
+    this.receiver.send(stop, (tick + duration) * composition.getTempo());
   }
   
  
