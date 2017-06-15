@@ -29,6 +29,3 @@ hs_err_pid*
 .idea/modules.xml
 .idea/workspace.xml
 *.iml
-/src/cs3500/music/model/JMidiCompositionExtended.java
-/src/cs3500/music/model/IjMidiCompositionExtended.java
-/test/cs3500/music/tests/JMidiCompositionTest.java
