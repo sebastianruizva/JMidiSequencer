@@ -155,7 +155,7 @@ public class MusicEditorGUI extends javax.swing.JFrame {
 
   @Override
   public Dimension getPreferredSize() {
-    Dimension d = calculateSize();
-    return d;
+    Dimension dim = calculateSize();
+    return dim;
   }
 }
