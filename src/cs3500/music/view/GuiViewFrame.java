@@ -20,64 +20,61 @@ public class GuiViewFrame extends javax.swing.JFrame {
    */
   public GuiViewFrame() {
     this.setSize(new Dimension(1500, 700));
-    setResizable(false);
+    setResizable(true);
     JMidiTrack jMidiTrack = initTrack();
 
-    // Overlay the midi notes and the grid
-    JPanel midiAndGridOverlay = new JPanel();
-    midiAndGridOverlay.setLayout(new OverlayLayout(midiAndGridOverlay));
-
-    midiAndGridOverlay.add(new GridViewPanel(jMidiTrack));
-    midiAndGridOverlay.add(new EventsViewPanel(jMidiTrack));
-
-
     // Make the midi and grid scrollable
-    JScrollPane midiAndGridScroll = new JScrollPane(midiAndGridOverlay);
+    JScrollPane midiAndGridScroll = initScrollPane(jMidiTrack);
+    midiAndGridScroll.setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
 
-    // Make the scroll bar invisible
-    midiAndGridScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    midiAndGridScroll.getViewport().setPreferredSize(new Dimension(500, 300));
-    midiAndGridScroll.setPreferredSize(new Dimension(40,
-            12*20));
-    midiAndGridScroll.setBorder(null);
-
-
-    // Make the scroll area work with arrow keys
-    JScrollBar scrollBar = midiAndGridScroll.getHorizontalScrollBar();
-    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
-    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
 
     // Initialize the base for the pitch, midi, and grid
-    JPanel scoreLayout = new JPanel(new FlowLayout());
+    FlowLayout scoreLayoutFlow = new FlowLayout();
+    JPanel scoreLayout = new JPanel(scoreLayoutFlow);
+
+    scoreLayoutFlow.setVgap(0);
+
+
+
     scoreLayout.add(new PitchViewPanel(jMidiTrack));
     scoreLayout.add(midiAndGridScroll);
 
-    // Initialize the main panel for the composed pitch, midi, and grid, and the keyboard
-    JPanel mainLayout = new JPanel();
-  //  mainLayout.setPreferredSize(new Dimension(1500, 700));
-    mainLayout.setLayout(new GridLayout(2,1));
-    mainLayout.add(midiAndGridScroll);
-    mainLayout.add(new PianoViewPanel());
-
     this.getContentPane().setLayout(new GridLayout(2, 1));
-    this.getContentPane().add(midiAndGridScroll);
+    this.getContentPane().add(scoreLayout);
     this.getContentPane().add(new PianoViewPanel());
 
-  //  this.getContentPane().add(new GridViewPanel(jMidiTrack));
-
-
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-    this.pack();
-  }
+    this.pack();}
 
   public void initialize() {
     this.setVisible(true);
   }
 
+  // Initialize the scroll pane
+  private JScrollPane initScrollPane(JMidiTrack jMidiTrack) {
+
+    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(jMidiTrack);
+    JScrollPane base = new JScrollPane(ledger);
+
+    // Make the scroll bar invisible
+    base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    base.getViewport().setPreferredSize(ledger.getPreferredSize());
+    base.setPreferredSize(new Dimension(40, 12*20));
+    base.setBorder(null);
+
+    // Make the scroll area work with arrow keys
+    JScrollBar scrollBar = base.getHorizontalScrollBar();
+    scrollBar.setPreferredSize(new Dimension(0,0));
+    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
+    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
+
+    return base;
+  }
+
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(1500, 700);
+    return new Dimension(1700, 700);
   }
 
   public JMidiTrack initTrack() {

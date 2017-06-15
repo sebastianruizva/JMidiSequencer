@@ -48,8 +48,6 @@ public class PianoViewPanel extends JLayeredPane {
       g.fillRect(i * size + offset, 0, size, 350);
       g.setColor(Color.BLACK);
       g.drawRect(i * size + offset, 0, size, 350);
-
-      System.out.println("X: " + i * size);
     }
   }
 
