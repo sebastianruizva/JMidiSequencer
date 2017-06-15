@@ -28,7 +28,8 @@ public class EventsViewPanel extends JPanel {
   private int maxTick;
   
   public EventsViewPanel(JMidiTrack track) {
-
+    setSize(new Dimension(40,
+            12*20));
     this.track = track;
     this.grid = track.getGrid();
     this.noteWidth = DrawValues.RECTANGLE_W;

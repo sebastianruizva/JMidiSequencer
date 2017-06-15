@@ -19,7 +19,8 @@ public class GuiViewFrame extends javax.swing.JFrame {
    * Creates new GuiView
    */
   public GuiViewFrame() {
-
+    this.setSize(new Dimension(1500, 700));
+    setResizable(false);
     JMidiTrack jMidiTrack = initTrack();
 
     // Overlay the midi notes and the grid
@@ -29,10 +30,17 @@ public class GuiViewFrame extends javax.swing.JFrame {
     midiAndGridOverlay.add(new GridViewPanel(jMidiTrack));
     midiAndGridOverlay.add(new EventsViewPanel(jMidiTrack));
 
+
     // Make the midi and grid scrollable
     JScrollPane midiAndGridScroll = new JScrollPane(midiAndGridOverlay);
+
     // Make the scroll bar invisible
-   // midiAndGridScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    midiAndGridScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    midiAndGridScroll.getViewport().setPreferredSize(new Dimension(500, 300));
+    midiAndGridScroll.setPreferredSize(new Dimension(40,
+            12*20));
+    midiAndGridScroll.setBorder(null);
+
 
     // Make the scroll area work with arrow keys
     JScrollBar scrollBar = midiAndGridScroll.getHorizontalScrollBar();
@@ -42,26 +50,34 @@ public class GuiViewFrame extends javax.swing.JFrame {
 
     // Initialize the base for the pitch, midi, and grid
     JPanel scoreLayout = new JPanel(new FlowLayout());
-
     scoreLayout.add(new PitchViewPanel(jMidiTrack));
     scoreLayout.add(midiAndGridScroll);
 
+    // Initialize the main panel for the composed pitch, midi, and grid, and the keyboard
+    JPanel mainLayout = new JPanel();
+  //  mainLayout.setPreferredSize(new Dimension(1500, 700));
+    mainLayout.setLayout(new GridLayout(2,1));
+    mainLayout.add(midiAndGridScroll);
+    mainLayout.add(new PianoViewPanel());
 
+    this.getContentPane().setLayout(new GridLayout(2, 1));
     this.getContentPane().add(midiAndGridScroll);
+    this.getContentPane().add(new PianoViewPanel());
+
+  //  this.getContentPane().add(new GridViewPanel(jMidiTrack));
+
 
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.pack();
   }
 
-  // @Override
   public void initialize() {
     this.setVisible(true);
-
   }
 
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(DrawValues.MIN_GRID_WIDTH, 1000);
+    return new Dimension(1500, 700);
   }
 
   public JMidiTrack initTrack() {

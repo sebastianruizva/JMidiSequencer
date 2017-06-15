@@ -14,7 +14,7 @@ public class MusicEditor {
     GuiViewFrame view = new GuiViewFrame();
     MidiViewImpl midiView = new MidiViewImpl();
   
-    midiView.playComposition();
+  //  midiView.playComposition();
     view.initialize();
     // You probably need to connect these views to your model, too...
   }

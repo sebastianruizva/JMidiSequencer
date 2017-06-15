@@ -12,7 +12,7 @@ import cs3500.music.model.JMidiTrack;
  * Created by sebastian on 6/13/17.
  */
 public class GridViewPanel extends JPanel {
-  
+
   JMidiTrack track;
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   private int width;
@@ -21,7 +21,9 @@ public class GridViewPanel extends JPanel {
   private int maxTick;
   
   public GridViewPanel(JMidiTrack track) {
-    
+/*    setSize(new Dimension(40,
+            12*20));*/
+    setBorder(BorderFactory.createEtchedBorder());
     this.track = track;
     this.grid = track.getGrid();
     this.maxPitch = track.getMaxPitch();
@@ -51,7 +53,7 @@ public class GridViewPanel extends JPanel {
   
   @Override public void paintComponent(Graphics g) {
   
-    for (int i = 0; i < (width / DrawValues.RECTANGLE_W); i++) {
+    for (int i = 0; i <= (width / DrawValues.RECTANGLE_W); i++) {
       
       if(i%4 == 0) {
         g.setColor(DrawValues.GRID_BORDER_COLOR);

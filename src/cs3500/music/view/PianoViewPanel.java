@@ -19,7 +19,7 @@ public class PianoViewPanel extends JLayeredPane {
 
   @Override
   public void paint(Graphics g) {
-    setPreferredSize(new Dimension(1500, 400));
+    setSize(new Dimension(1500, 400));
 
     paintBackground(g);
     paintWhiteKeys(g);

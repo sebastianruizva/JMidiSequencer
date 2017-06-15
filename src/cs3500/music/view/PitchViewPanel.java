@@ -25,13 +25,8 @@ public class PitchViewPanel extends JPanel {
     if (maxPitch < 12) {
       maxPitch = 12;
     }
-    setOpaque(false);
-/*    setPreferredSize(new Dimension(DrawValues.RECTANGLE_H,
-            DrawValues.RECTANGLE_H * track.getMaxPitch()));*/
-    setPreferredSize(new Dimension(40,
+    setSize(new Dimension(40,
             12*20+60));
-    setBorder(BorderFactory.createEtchedBorder());
-
   }
 
   @Override
@@ -42,7 +37,7 @@ public class PitchViewPanel extends JPanel {
     g.setFont(DrawValues.VERDANA);
 
     for (int i = 0; i < maxPitch; i++) {
-      g.drawString(inst.getNoteRepresentation(i), 0, i * 20 + DrawValues.GRID_MARGIN);
+      g.drawString(inst.getNoteRepresentation(i), 0, (maxPitch-i) * 20 + DrawValues.GRID_MARGIN- 10);
     }
   }
 }
