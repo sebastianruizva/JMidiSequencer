@@ -15,7 +15,7 @@ public class JMidiCompositionTest {
   /**
    * A Midi Composition Example.
    */
-  JMidiCompositionExtended jMidiCompositionEx = new JMidiCompositionExtended();
+  JMidiComposition jMidiCompositionEx = new JMidiComposition();
   /**
    * A Midi Track example.
    */
@@ -38,7 +38,7 @@ public class JMidiCompositionTest {
    * Initial conditions for testing.
    */
   public void initCond() {
-    jMidiCompositionEx = new JMidiCompositionExtended();
+    jMidiCompositionEx = new JMidiComposition();
     jMidiTrackEx = new JMidiTrack(jVirtualInstrument);
     jMidiTrackEx.addEvent(e0);
   }
@@ -56,7 +56,7 @@ public class JMidiCompositionTest {
     jMidiCompositionEx.addTimeSignatureChange(1, 3, 4);
     
     assertEquals(
-            "cs3500.music.model.JMidiCompositionExtended{tracks={}, timeSignatureChanges={1=cs3500.music"
+            "cs3500.music.model.JMidiComposition{tracks={}, timeSignatureChanges={1=cs3500.music"
                     + ".model.JTimeSignature{lower=4, "
                     + "upper=3}}, tempoChanges={}, timeSignature=cs3500.music.model"
                     + ".JTimeSignature{lower=4, " + "upper=4}, tempo=120}",
@@ -70,7 +70,7 @@ public class JMidiCompositionTest {
     
     jMidiCompositionEx.addTempoChange(1, 130);
     
-    assertEquals("cs3500.music.model.JMidiCompositionExtended{tracks={}, timeSignatureChanges={}, "
+    assertEquals("cs3500.music.model.JMidiComposition{tracks={}, timeSignatureChanges={}, "
                     + "tempoChanges={1=130}, "
                     + "timeSignature=cs3500.music.model.JTimeSignature{lower=4, upper=4}, " +
                     "tempo=120}",
@@ -84,7 +84,7 @@ public class JMidiCompositionTest {
     
     jMidiCompositionEx.addTrack("test", jMidiTrackEx);
     
-    assertEquals("cs3500.music.model.JMidiCompositionExtended{tracks={test=       C  \n" + "    1  X  \n"
+    assertEquals("cs3500.music.model.JMidiComposition{tracks={test=       C  \n" + "    1  X  \n"
                     + "    2  |  \n" + "    3  |  \n" + "    4  |  \n" + "    5  |  \n" + "    6 "
                     + " |  \n" + "    7  |  }, timeSignatureChanges={}, tempoChanges={}, "
                     + "timeSignature=cs3500.music.model.JTimeSignature{lower=4, upper=4}, " +
@@ -100,7 +100,7 @@ public class JMidiCompositionTest {
     jMidiCompositionEx.addTimeSignatureChange(1, 3, 4);
     jMidiCompositionEx.removeTimeSignatureChange(1);
     
-    assertEquals("cs3500.music.model.JMidiCompositionExtended{tracks={}, timeSignatureChanges={}, "
+    assertEquals("cs3500.music.model.JMidiComposition{tracks={}, timeSignatureChanges={}, "
                     + "tempoChanges={}, "
                     + "timeSignature=cs3500.music.model.JTimeSignature{lower=4, upper=4}, " +
                     "tempo=120}",
@@ -115,7 +115,7 @@ public class JMidiCompositionTest {
     jMidiCompositionEx.addTempoChange(1, 130);
     jMidiCompositionEx.removeTempoChange(1);
     
-    assertEquals("cs3500.music.model.JMidiCompositionExtended{tracks={}, timeSignatureChanges={}, "
+    assertEquals("cs3500.music.model.JMidiComposition{tracks={}, timeSignatureChanges={}, "
                     + "tempoChanges={}, "
                     + "timeSignature=cs3500.music.model.JTimeSignature{lower=4, upper=4}, " +
                     "tempo=120}",
@@ -130,7 +130,7 @@ public class JMidiCompositionTest {
     jMidiCompositionEx.addTrack("test", jMidiTrackEx);
     jMidiCompositionEx.removeTrack("test");
     
-    assertEquals("cs3500.music.model.JMidiCompositionExtended{tracks={}, timeSignatureChanges={}, "
+    assertEquals("cs3500.music.model.JMidiComposition{tracks={}, timeSignatureChanges={}, "
                     + "tempoChanges={}, "
                     + "timeSignature=cs3500.music.model.JTimeSignature{lower=4, upper=4}, " +
                     "tempo=120}",

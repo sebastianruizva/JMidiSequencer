@@ -5,21 +5,21 @@ package cs3500.music.util;
  * the name of the main type is for a model, we parameterize this builder interface
  * by an unknown type.
  *
- * @param <T> The type of the constructed composition
+ * @param <JMidiComposition> The type of the constructed composition
  */
-public interface CompositionBuilder<T> {
+public interface CompositionBuilder<JMidiComposition> {
   /**
    * Constructs an actual composition, given the notes that have been added
    * @return The new composition
    */
-  T build();
+  JMidiComposition build();
 
   /**
    * Sets the tempo of the piece
    * @param tempo The speed, in microseconds per beat
    * @return This builder
    */
-  CompositionBuilder<T> setTempo(int tempo);
+  CompositionBuilder<JMidiComposition> setTempo(int tempo);
 
   /**
    * Adds a new note to the piece
@@ -30,5 +30,5 @@ public interface CompositionBuilder<T> {
    * @param volume The volume (in the range [0, 127])
    * @return
    */
-  CompositionBuilder<T> addNote(int start, int end, int instrument, int pitch, int volume);
+  CompositionBuilder<JMidiComposition> addNote(int start, int end, int instrument, int pitch, int volume);
 }

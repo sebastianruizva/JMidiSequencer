@@ -19,6 +19,10 @@ public class JMidiTrack implements IjMidiTrack {
     return instrument;
   }
   
+  public void setInstrument(JVirtualInstrument instrument) {
+    this.instrument = instrument;
+  }
+  
   /**
    * instrument represents the assigned Virtual Instrument.
    */
