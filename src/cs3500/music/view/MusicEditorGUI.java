@@ -6,20 +6,21 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
+import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
 
 
 public class MusicEditorGUI extends javax.swing.JFrame {
-  private JMidiTrack track;
+  private JMidiComposition composition;
   private JPanel scoreLayout;
   private JPanel pianoLayout;
 
-  public MusicEditorGUI() {
-    JMidiTrack jMidiTrack = initTrack();
-    pianoLayout = initPianoLayout();
-    scoreLayout = initScoreLayout(jMidiTrack);
+  public MusicEditorGUI(JMidiComposition composition) {
+    this.composition = composition;
+    this.pianoLayout = initPianoLayout();
+    this.scoreLayout = initScoreLayout();
 
     initComponents();
   }
@@ -41,48 +42,10 @@ public class MusicEditorGUI extends javax.swing.JFrame {
 
   }
 
-  // Initializes a dummy track
-  private JMidiTrack initTrack() {
-    /**
-     * A Midi Event examples.
-     */
-    JMidiEvent e0 = JMidiEvent.builder().duration(7).build();
-    JMidiEvent e1 = JMidiEvent.builder().tick(5).pitch(6).build();
-    JMidiEvent e2 = JMidiEvent.builder().tick(2).pitch(2).duration(1).build();
-    JMidiEvent e3 = JMidiEvent.builder().tick(3).duration(3).pitch(3).build();
-    JMidiEvent e4 = JMidiEvent.builder().tick(4).pitch(4).duration(4).build();
-    JMidiEvent e5 = JMidiEvent.builder().tick(1).pitch(1).duration(6).build();
-    JMidiEvent e6 = JMidiEvent.builder().tick(5).pitch(2).duration(3).build();
-    /**
-     * An scale example for the virtual instrument.
-     */
-    ArrayList<String> scaleEx = new ArrayList<>(
-            Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-    /**
-     * An Virtual Instrument example for a MIDI Track.
-     */
-    JVirtualInstrument jVirtualInstrument = new JVirtualInstrument(scaleEx);
-
-    /**
-     * A Midi Track example.
-     */
-    JMidiTrack jMidiTrack = new JMidiTrack(jVirtualInstrument);
-
-    jMidiTrack.addEvent(e0);
-    jMidiTrack.addEvent(e1);
-    jMidiTrack.addEvent(e2);
-    jMidiTrack.addEvent(e3);
-    jMidiTrack.addEvent(e4);
-    jMidiTrack.addEvent(e5);
-    jMidiTrack.addEvent(e6);
-
-    return jMidiTrack;
-  }
-
   // Initialize the scroll pane
-  private JScrollPane initScrollPane(JMidiTrack jMidiTrack) {
+  private JScrollPane initScrollPane() {
 
-    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(jMidiTrack);
+    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(composition);
     JScrollPane base = new JScrollPane(ledger);
     base.setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
 
@@ -122,7 +85,7 @@ public class MusicEditorGUI extends javax.swing.JFrame {
   }
 
   // Initialize the score pane
-  private JPanel initScoreLayout(JMidiTrack jMidiTrack) {
+  private JPanel initScoreLayout() {
 
     // Initialize the base for the pitch, midi, and grid
     FlowLayout scoreLayoutGrid = new FlowLayout();
@@ -130,8 +93,8 @@ public class MusicEditorGUI extends javax.swing.JFrame {
     scoreLayoutGrid.setHgap(0);
 
     JPanel scoreLayout = new JPanel(scoreLayoutGrid);
-    scoreLayout.add(new PitchViewPanel(jMidiTrack));
-    scoreLayout.add(initScrollPane(jMidiTrack));
+    scoreLayout.add(new PitchViewPanel(composition));
+    scoreLayout.add(initScrollPane());
 
     return scoreLayout;
   }

@@ -20,8 +20,7 @@ public class MusicEditor {
     JMidiCompositionController controller = new JMidiCompositionController(reader, System.out);
     
     controller.run();
-/*    MusicEditorGUI view = new MusicEditorGUI();
-    view.initialize();*/
+    
   }
 }
 
