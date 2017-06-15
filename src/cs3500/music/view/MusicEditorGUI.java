@@ -10,39 +10,44 @@ import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
 
-/**
- * A skeleton Frame (i.e., a window) in Swing
- */
-public class GuiViewFrame extends javax.swing.JFrame {
 
-  private JMidiTrack track = initTrack();
-  private JPanel scoreLayout = initScoreLayout(track);
-  private JPanel pianoLayout = initPianoLayout();
-  /**
-   * Creates new GuiView
-   */
-  public GuiViewFrame() {
-    //this.setSize(new Dimension(1500, 700));
+public class MusicEditorGUI extends javax.swing.JFrame {
+  private JMidiTrack track;
+  private JPanel scoreLayout;
+  private JPanel pianoLayout;
 
+  public MusicEditorGUI() {
     JMidiTrack jMidiTrack = initTrack();
-    JPanel scoreLayout = initScoreLayout(jMidiTrack);
-    JPanel pianoLayout = initPianoLayout();
+    pianoLayout = initPianoLayout();
+    scoreLayout = initScoreLayout(jMidiTrack);
 
+    initComponents();
+  }
+
+  // Initializes the components of the layout
+  private void initComponents() {
+  //  setSize(calculateSize(scoreLayout, pianoLayout));
     BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
 
-    this.getContentPane().setLayout(boxLayout);
-    this.getContentPane().add(scoreLayout);
-    this.getContentPane().add(pianoLayout);
+    this.setLayout(boxLayout);
+    this.add(scoreLayout);
+    this.add(pianoLayout);
 
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.pack();
-    System.out.print(this.getSize());
   }
 
   public void initialize() {
+    setPreferredSize(calculateSize());
+    this.repaint();
+    this.revalidate();
     this.setVisible(true);
+    this.repaint();
+    this.revalidate();
+
   }
 
+  // Initializes a dummy track
   private JMidiTrack initTrack() {
     /**
      * A Midi Event examples.
@@ -85,7 +90,7 @@ public class GuiViewFrame extends javax.swing.JFrame {
 
     NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(jMidiTrack);
     JScrollPane base = new JScrollPane(ledger);
-    base.setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
+    base.setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
 
     // Make the scroll bar invisible
     base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -95,7 +100,7 @@ public class GuiViewFrame extends javax.swing.JFrame {
 
     // Make the scroll area work with arrow keys
     JScrollBar scrollBar = base.getHorizontalScrollBar();
-    scrollBar.setPreferredSize(new Dimension(0,0));
+    scrollBar.setPreferredSize(new Dimension(0, 0));
     InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
     im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
     im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
@@ -110,7 +115,9 @@ public class GuiViewFrame extends javax.swing.JFrame {
     pianoLayoutGrid.setHgap(0);
 
     JPanel buffer = new JPanel();
-    buffer.setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
+    buffer.setPreferredSize(new Dimension(40, 400));
+    buffer.setMaximumSize(buffer.getPreferredSize());
+
     buffer.setBorder(null);
 
     JPanel pianoLayout = new JPanel(pianoLayoutGrid);
@@ -136,20 +143,19 @@ public class GuiViewFrame extends javax.swing.JFrame {
   }
 
   // Calculate the size of the frame
-  private Dimension calculateSize(JPanel scoreLayout, JPanel pianoLayout) {
-    System.out.print(scoreLayout.getHeight());
-    int height = scoreLayout.getHeight() + pianoLayout.getHeight();
-    int width = scoreLayout.getWidth() + pianoLayout.getWidth();
+  private Dimension calculateSize() {
+    Dimension scoreDimension = scoreLayout.getPreferredSize();
+    Dimension pianoDimension = pianoLayout.getPreferredSize();
 
-    return new Dimension(width, height);
+    double height = scoreDimension.getHeight() + pianoDimension.getHeight();
+    double width = scoreDimension.getWidth() + pianoDimension.getWidth();
+
+    return new Dimension((int) width + 250, (int) height + 29);
   }
 
   @Override
   public Dimension getPreferredSize() {
-    return calculateSize(scoreLayout, pianoLayout);
-    /*new Dimension(1500, 700);*/
+    Dimension d = calculateSize();
+    return d;
   }
-
-
-
 }

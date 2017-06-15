@@ -20,7 +20,6 @@ public class NotesAndGridViewPanel extends JPanel {
     setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
     setMaximumSize(getPreferredSize());
 
-
     this.track = track;
     this.grid = track.getGrid();
     this.maxPitch = track.getMaxPitch();
