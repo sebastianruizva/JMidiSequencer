@@ -26,7 +26,6 @@ public class MusicEditorGUI extends javax.swing.JFrame {
 
   // Initializes the components of the layout
   private void initComponents() {
-  //  setSize(calculateSize(scoreLayout, pianoLayout));
     BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
 
     this.setLayout(boxLayout);
@@ -38,12 +37,7 @@ public class MusicEditorGUI extends javax.swing.JFrame {
   }
 
   public void initialize() {
-    setPreferredSize(calculateSize());
-    this.repaint();
-    this.revalidate();
     this.setVisible(true);
-    this.repaint();
-    this.revalidate();
 
   }
 
