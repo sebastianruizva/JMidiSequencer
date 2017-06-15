@@ -2,7 +2,9 @@ package cs3500.music.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.JMidiUtils;
@@ -33,6 +35,8 @@ public class JMidiComposition {
    */
   private int tempo;
   
+  int maxPitch;
+  int maxTick;
   
   /**
    * Constructs a {@JMidiComposition}.
@@ -40,13 +44,18 @@ public class JMidiComposition {
   private JMidiComposition(HashMap<Integer,JMidiTrack> tracks, int tempo) {
     this.tracks = tracks;
     this.tempo = tempo;
+    this.maxPitch = 0;
+    this.maxTick = 0;
+    this.updateMaxValues();
   }
 
   /**
    * starts a builder for its construction.
    */
   public static Builder builder() {
+    
     return new Builder();
+    
   }
   
   /**
@@ -110,6 +119,7 @@ public class JMidiComposition {
       return this;
     }
   
+  
     @Override
     public CompositionBuilder addNote(int start, int end, int instrument, int pitch, int volume)
             throws IllegalArgumentException{
@@ -141,6 +151,43 @@ public class JMidiComposition {
 
   }
   
+  
+  /**
+   * Updates the maxPitch and maxTick of the grid.
+   */
+  private void updateMaxValues() {
+  
+    for (Integer k: tracks.keySet()) {
+    
+      if(tracks.get(k).getMaxTick() > maxTick) {
+        this.maxTick = tracks.get(k).getMaxTick();
+      }
+    
+      if(tracks.get(k).getMaxPitch() > maxPitch) {
+        this.maxPitch = tracks.get(k).getMaxPitch();
+      }
+    
+    }
+    
+  }
+  
+  
+  /**
+   * Returns a the maximum tick in the track
+   */
+  public int getMaxTick() {
+    
+    return this.maxTick;
+  }
+  
+  /**
+   * Returns a the maximum pitch in the track
+   */
+  public int getMaxPitch() {
+    
+    return this.maxPitch;
+  }
+  
   /**
    * Adds a track with the specified name.
    * @param number  the name of the track
@@ -166,6 +213,9 @@ public class JMidiComposition {
     //add track
     this.tracks.put(number, track);
     
+    //update max values
+    this.updateMaxValues();
+    
   }
   
   /**
@@ -186,6 +236,9 @@ public class JMidiComposition {
     
     //remove track
     this.tracks.remove(number);
+  
+    //update max values
+    this.updateMaxValues();
     
   }
   
@@ -230,25 +283,10 @@ public class JMidiComposition {
     if (tracks.size() == 0) {
       return "";
     }
-  
-    int maxPitch = 0;
-    int maxTick = 0;
-  
-    for (Integer k: tracks.keySet()) {
-      
-      if(tracks.get(k).getMaxTick() > maxTick) {
-        maxTick = tracks.get(k).getMaxTick();
-      }
-  
-      if(tracks.get(k).getMaxPitch() > maxPitch) {
-        maxPitch = tracks.get(k).getMaxPitch();
-      }
-      
-    }
     
     //determine the dimensions of the grid
-    int width = (maxPitch + 2) * 5;
-    int height = maxTick + 2;
+    int width = (this.maxPitch + 2) * 5;
+    int height = this.maxTick + 2;
 
     
     //build a grid according to its current state
@@ -270,8 +308,5 @@ public class JMidiComposition {
     
     return grid.toString();
   }
-  
-  
-  
   
 }
