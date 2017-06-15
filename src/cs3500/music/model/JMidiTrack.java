@@ -15,10 +15,6 @@ public class JMidiTrack implements IjMidiTrack {
    */
   private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   
-  public JVirtualInstrument getInstrument() {
-    return instrument;
-  }
-  
   /**
    * instrument represents the assigned Virtual Instrument.
    */
@@ -51,12 +47,27 @@ public class JMidiTrack implements IjMidiTrack {
   }
   
   /**
+   * Gets the VI of the track
+   */
+  public JVirtualInstrument getInstrument() {
+    return instrument;
+  }
+  
+  /**
+   * sets the track's virtual instrument
+   * @param instrument represents the assigned Virtual Instrument.
+   */
+  public void setInstrument(JVirtualInstrument instrument) {
+    this.instrument = instrument;
+  }
+  
+  /**
    * Determines if there is enough free space in the grid on the specified location and distance.
    * @param tick     the tick you ar looking for
    * @param pitch    the pitch you want to verify
    * @param distance how big is the area?
    */
-  protected boolean available(int tick, int pitch, int distance) throws IllegalArgumentException {
+  public boolean available(int tick, int pitch, int distance) throws IllegalArgumentException {
     
     //invalid negative numbers
     if (tick < 0 || pitch < 0 || distance < 0) {
@@ -119,7 +130,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @param event you want to get the information from
    * @throws IllegalArgumentException if there is no such event in the region
    */
-  protected ArrayList<Integer> getTicksOfEvent(JMidiEvent event) throws IllegalArgumentException {
+  public ArrayList<Integer> getTicksOfEvent(JMidiEvent event) throws IllegalArgumentException {
     
     //Check for null
     if (event == null) {
@@ -147,7 +158,7 @@ public class JMidiTrack implements IjMidiTrack {
   /**
    * Updates the maxPitch and maxTick of the grid.
    */
-  protected void updateMaxValues() {
+  private void updateMaxValues() {
     
     //update maxTick
     if (grid.size() == 0) {
@@ -351,7 +362,7 @@ public class JMidiTrack implements IjMidiTrack {
   /**
    * Draws a grid with the given dimensions.
    */
-  protected StringBuilder buildGrid(int width, int height) {
+  private StringBuilder buildGrid(int width, int height) {
     
     int length = height * width;
     StringBuilder grid = new StringBuilder(length);
