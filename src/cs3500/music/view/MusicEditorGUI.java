@@ -12,9 +12,11 @@ public class MusicEditorGUI extends javax.swing.JFrame {
   private JPanel scoreLayout;
   private JPanel pianoLayout;
   private BoundedRangeModel scrollModel;
+  private int cursorPosition;
 
   public MusicEditorGUI(JMidiComposition composition) {
     initScrollModel();
+    this.cursorPosition = 0;
     this.composition = composition;
     this.pianoLayout = initPianoLayout();
     this.scoreLayout = initScoreLayout();
