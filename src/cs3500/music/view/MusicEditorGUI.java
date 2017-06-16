@@ -31,6 +31,7 @@ public class MusicEditorGUI extends javax.swing.JFrame {
     BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
 
     this.setLayout(boxLayout);
+    //this.add(new BeatNumberViewPanel(composition));
     this.add(scoreLayout);
     this.add(pianoLayout);
 

@@ -106,8 +106,15 @@ public class NotesAndGridViewPanel extends JPanel {
   private void paintBeatNumbers(Graphics g) {
     g.setFont(DrawValues.VERDANA);
 
-    for (int i = 0; i < width; i += 4) {
-      g.drawString(Integer.toString(i), i * DrawValues.RECTANGLE_W ,60);
+    for (int i = 0; i < maxTick; i += 4) {
+
+        String number = Integer.toString(i);
+
+        if (number.length() > 6) {
+          number = number.substring(0, 6) + ". . .";
+        }
+
+        g.drawString(number, i * DrawValues.RECTANGLE_W, 50);
+      }
     }
   }
-}
