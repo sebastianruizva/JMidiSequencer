@@ -2,7 +2,6 @@ package cs3500.music.tests;
 
 import org.junit.Test;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,18 +26,10 @@ public class JMidiModelTests {
    * A Midi Track example.
    */
   JMidiTrack jMidiTrack;
-  
-  /**
-   * An scale example for the virtual instrument.
-   */
-  private ArrayList<String> scale = new ArrayList<>(
-          Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-  
   /**
    * An Virtual Instrument example for a MIDI Track.
    */
   JVirtualInstrument jVirtualInstrument;
-  
   /**
    * Midi Event examples.
    */
@@ -49,21 +40,27 @@ public class JMidiModelTests {
   JMidiEvent e4 = JMidiEvent.builder().tick(4).pitch(4).duration(4).build();
   JMidiEvent e5 = JMidiEvent.builder().tick(1).pitch(1).duration(6).build();
   JMidiEvent e6 = JMidiEvent.builder().tick(5).pitch(2).duration(3).build();
-  
   StringBuilder log;
+  /**
+   * An scale example for the virtual instrument.
+   */
+  private ArrayList<String> scale = new ArrayList<>(
+          Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
   
   /**
    * Initial conditions for testing.
    */
   public void initCond() {
-  
+    
     log = new StringBuilder();
-  
+    
     jVirtualInstrument = new JVirtualInstrument(scale, new MockSynth(log));
     
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
-  
-    jMidiComposition = JMidiComposition.builder().setInstrument(1, jVirtualInstrument).build();
+    
+    jMidiComposition =
+            JMidiComposition.builder().addNote(0, 4, 0, 1, 30).setInstrument(0, jVirtualInstrument)
+                    .build();
     
   }
   
@@ -94,13 +91,13 @@ public class JMidiModelTests {
   @Test public void TestGetVelocityAndBuilder() throws Exception {
     assertEquals(64, e0.getVelocity());
     assertEquals(64, e1.getVelocity());
-    assertEquals(100, e2.getVelocity());
-    assertEquals(11, e3.getVelocity());
+    assertEquals(64, e2.getVelocity());
+    assertEquals(64, e3.getVelocity());
   }
   
   @Test public void TestGetChannelAndBuilder() throws Exception {
     assertEquals(0, e0.getChannel());
-    assertEquals(3, e1.getChannel());
+    assertEquals(0, e1.getChannel());
     assertEquals(0, e2.getChannel());
     assertEquals(0, e3.getChannel());
   }
@@ -117,13 +114,13 @@ public class JMidiModelTests {
             "cs3500.music.model.JMidiEvent{tick=0, pitch=0, velocity=64, channel=0, duration=7}",
             e0.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=5, pitch=6, velocity=64, channel=3, duration=3}",
+            "cs3500.music.model.JMidiEvent{tick=5, pitch=6, velocity=64, channel=0, duration=3}",
             e1.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=3, pitch=3, velocity=11, channel=0, duration=3}",
+            "cs3500.music.model.JMidiEvent{tick=3, pitch=3, velocity=64, channel=0, duration=3}",
             e3.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=2, pitch=2, velocity=100, channel=0, duration=1}",
+            "cs3500.music.model.JMidiEvent{tick=2, pitch=2, velocity=64, channel=0, duration=1}",
             e2.toString());
   }
   
@@ -161,28 +158,30 @@ public class JMidiModelTests {
    */
   
   @Test public void testGetOctaveDegree() throws Exception {
-    
+    this.initCond();
     assertEquals(12, jVirtualInstrument.getOctaveDegree());
     
   }
   
   @Test public void testGetScale() throws Exception {
-    
+    this.initCond();
     assertEquals(scale.toString(), jVirtualInstrument.getScale());
     
   }
   
   @Test public void testGetNoteRepresentation() throws Exception {
-    
+    this.initCond();
     assertEquals("C", jVirtualInstrument.getNoteRepresentation(0));
     assertEquals("C#", jVirtualInstrument.getNoteRepresentation(1));
     assertEquals("B", jVirtualInstrument.getNoteRepresentation(11));
-    assertEquals(jVirtualInstrument.getNoteRepresentation(0), jVirtualInstrument.getNoteRepresentation(12));
+    assertEquals(jVirtualInstrument.getNoteRepresentation(0),
+            jVirtualInstrument.getNoteRepresentation(12));
     
   }
   
-  @Test(expected = IllegalArgumentException.class) public void testGetNoteRepresentation_invalid_negativeValue() throws Exception {
-    
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetNoteRepresentation_invalid_negativeValue() throws Exception {
+    this.initCond();
     jVirtualInstrument.getNoteRepresentation(-1);
     
   }
@@ -191,14 +190,18 @@ public class JMidiModelTests {
    * ************** MIDI Composition
    */
   
-  @Test public void TestgetGrid() throws Exception {
-    
-    assertEquals("", jMidiComposition.getGrid());
+  @Test public void TestGetGrid() throws Exception {
+    this.initCond();
+    assertEquals(
+            "{0={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, velocity=30, channel=0, "
+                    + "duration=4}}, 1={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, "
+                    + "velocity=30, channel=0, duration=4}}, 2={1=cs3500.music.model"
+                    + ".JMidiEvent{tick=0, pitch=1, velocity=30, channel=0, duration=4}}, "
+                    + "3={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, velocity=30, "
+                    + "channel=0, duration=4}}}",
+            jMidiComposition.getGrid().toString());
     
   }
-  
-  
-  
   
   
 }

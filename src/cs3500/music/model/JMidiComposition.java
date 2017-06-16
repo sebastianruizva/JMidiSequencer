@@ -1,7 +1,9 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.JMidiUtils;
@@ -32,7 +34,15 @@ public class JMidiComposition implements IjMidiComposition {
    */
   int maxTick;
   
+  /**
+   * the grid of the composition
+   */
   HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
+  
+  /**
+   * the minimum pitch
+   */
+  private int minPitch;
   
   /**
    * Constructs a {@JMidiComposition}.
@@ -41,6 +51,7 @@ public class JMidiComposition implements IjMidiComposition {
     this.tracks = tracks;
     this.tempo = tempo;
     this.maxPitch = 0;
+    this.minPitch = 0;
     this.maxTick = 0;
     this.grid = new HashMap<>();
     this.updateMaxValues();
@@ -185,6 +196,14 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
+   * Returns the minimum pitch in the track
+   */
+  public int getMinPitch() {
+    
+    return this.minPitch;
+  }
+  
+  /**
    * Returns a the maximum pitch in the track
    */
   public int getMaxPitch() {
@@ -208,7 +227,21 @@ public class JMidiComposition implements IjMidiComposition {
       }
       
     }
-    
+  
+    List<Integer> pitches = new ArrayList<>();
+  
+    //find all pitches
+    for (Integer i : grid.keySet()) {
+      pitches.addAll(grid.get(i).keySet());
+    }
+  
+    //determine smallest pitch
+    if (pitches.size() == 0) {
+      this.minPitch = 0;
+    } else {
+      this.minPitch = Collections.min(pitches);
+    }
+  
   }
   
   /**

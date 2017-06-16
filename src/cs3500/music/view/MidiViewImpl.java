@@ -13,12 +13,16 @@ import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 
 /**
- * A skeleton for MIDI playback
+ * The class {@MidiViewImpl} implements a MIDI playback view of a composition
  */
 public class MidiViewImpl implements ICompositionView {
   
   private JMidiComposition composition;
   
+  /**
+   * Plays the directed composition
+   * @param composition the composition you want to play
+   */
   @Override public void initialize(JMidiComposition composition) {
     
     this.composition = composition;
@@ -32,21 +36,27 @@ public class MidiViewImpl implements ICompositionView {
   }
   
   
+  /**
+   * Plays the directed track
+   * @param track the track you want to play
+   */
   private void playTrack(JMidiTrack track) {
-  
-    Synthesizer synth;
-    Receiver receiver;
     
+    //listen for exceptions
     try {
-      synth = track.getInstrument().getSynth();
-      receiver = synth.getReceiver();
+      //set vars
+      Synthesizer synth = track.getInstrument().getSynth();
+      Receiver receiver = synth.getReceiver();
+      
+      //open synth
       synth.open();
+      
+      //add all the notes
       for (int i = 0; i < track.getMaxTick(); i++) {
     
         for (JMidiEvent e : track.getEventsOnTick(i)) {
       
           try {
-            playNote(e.getPitch(), e.getTick(), e.getVelocity(), e.getDuration());
   
             MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, e.getPitch(), e.getVelocity());
             MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, e.getPitch(), e.getVelocity());
@@ -62,17 +72,18 @@ public class MidiViewImpl implements ICompositionView {
     
       }
   
+      //close the synth
       receiver.close();
-      
       
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
     
-    
-    
   }
   
+  /**
+   * Plays all the tracks in the composition
+   */
   public void playComposition() throws InvalidMidiDataException {
     
     
@@ -84,12 +95,6 @@ public class MidiViewImpl implements ICompositionView {
     
 
     
-  }
-  
-  
-  public void playNote(int pitch, int tick, int velocity, int duration)
-          throws InvalidMidiDataException {
-
   }
   
 }

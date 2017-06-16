@@ -75,7 +75,7 @@ public class CmdController {
           
           composition = MusicReader.parseFile(new FileReader(fileName), JMidiComposition.builder());
   
-          this.message("Console, GUI or MIDI?");
+          this.message("console, visual or MIDI?");
           
         } catch (IOException e) {
           
@@ -85,21 +85,28 @@ public class CmdController {
         }
         
       } else if (view == null) {
-        
+  
         view = next;
   
-        try {
-        
-        ICompositionView selected = ViewSelector.select(next);
-        selected.initialize(composition);
-          
-        } catch(IllegalArgumentException e) {
-          
-          view = null;
-          this.message(e.toString());
-          
+        if (next.equalsIgnoreCase("console")) {
+    
+          this.message(composition.toString());
+    
+        } else {
+    
+          try {
+      
+            ICompositionView selected = ViewSelector.select(next);
+            selected.initialize(composition);
+      
+          } catch (IllegalArgumentException e) {
+      
+            view = null;
+            this.message(e.toString());
+      
+          }
+    
         }
-        
       }
       
     }
