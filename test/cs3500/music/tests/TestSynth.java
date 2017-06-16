@@ -12,11 +12,36 @@ import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Transmitter;
 import javax.sound.midi.VoiceStatus;
 
-public class MockSynth implements Synthesizer {
-  private StringBuilder capture;
-
-  public MockSynth(StringBuilder capture) {
-    this.capture = capture;
+public class TestSynth implements Synthesizer {
+  
+  //initialize log
+  private StringBuilder log;
+  
+  /**
+   * Constructs a {@TestSynth}
+   * @param log the log where the messages get recorded
+   */
+  public TestSynth(StringBuilder log) {
+    this.log = log;
+  }
+  
+  //Overwrite the destination receiver
+  @Override
+  public Receiver getReceiver() throws MidiUnavailableException {
+    TestReceiver reciever = new TestReceiver(log);
+    return reciever;
+  }
+  
+  //add open statement to log
+  @Override
+  public void open() throws MidiUnavailableException {
+    log.append("Synth Opened \n");
+  }
+  
+  //add close statement to log
+  @Override
+  public void close() {
+    log.append("Synth Closed \n");
   }
 
   @Override
@@ -50,9 +75,7 @@ public class MockSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadInstrument(Instrument instrument) {
-
-  }
+  public void unloadInstrument(Instrument instrument) { }
 
   @Override
   public boolean remapInstrument(Instrument from, Instrument to) {
@@ -80,9 +103,7 @@ public class MockSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadAllInstruments(Soundbank soundbank) {
-
-  }
+  public void unloadAllInstruments(Soundbank soundbank) { }
 
   @Override
   public boolean loadInstruments(Soundbank soundbank, Patch[] patchList) {
@@ -90,25 +111,13 @@ public class MockSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
-
-  }
+  public void unloadInstruments(Soundbank soundbank, Patch[] patchList) { }
 
   @Override
   public Info getDeviceInfo() {
     return null;
   }
-
-  @Override
-  public void open() throws MidiUnavailableException {
-
-  }
-
-  @Override
-  public void close() {
-
-  }
-
+  
   @Override
   public boolean isOpen() {
     return false;
@@ -127,12 +136,6 @@ public class MockSynth implements Synthesizer {
   @Override
   public int getMaxTransmitters() {
     return 0;
-  }
-
-  @Override
-  public Receiver getReceiver() throws MidiUnavailableException {
-    MockReceiver mock = new MockReceiver(capture);
-    return mock;
   }
 
   @Override

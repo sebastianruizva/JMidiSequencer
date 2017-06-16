@@ -37,9 +37,6 @@ public class JMidiModelTests {
   JMidiEvent e1 = JMidiEvent.builder().tick(5).pitch(6).build();
   JMidiEvent e2 = JMidiEvent.builder().tick(2).pitch(2).duration(1).build();
   JMidiEvent e3 = JMidiEvent.builder().tick(3).duration(3).pitch(3).build();
-  JMidiEvent e4 = JMidiEvent.builder().tick(4).pitch(4).duration(4).build();
-  JMidiEvent e5 = JMidiEvent.builder().tick(1).pitch(1).duration(6).build();
-  JMidiEvent e6 = JMidiEvent.builder().tick(5).pitch(2).duration(3).build();
   StringBuilder log;
   /**
    * An scale example for the virtual instrument.
@@ -54,7 +51,7 @@ public class JMidiModelTests {
     
     log = new StringBuilder();
     
-    jVirtualInstrument = new JVirtualInstrument(scale, new MockSynth(log));
+    jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
     
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
     
