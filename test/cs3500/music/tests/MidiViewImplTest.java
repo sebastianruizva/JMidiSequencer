@@ -2,12 +2,15 @@ package cs3500.music.tests;
 
 import org.junit.Test;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
+import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.MusicReader;
 import cs3500.music.view.MidiViewImpl;
 
 import static org.junit.Assert.*;
@@ -21,6 +24,11 @@ public class MidiViewImplTest {
    * A JMidiComposition example.
    */
   JMidiComposition jMidiComposition;
+  
+  /**
+   * A JMidiComposition example.
+   */
+  JMidiComposition.Builder CompositionBuilder;
   
   /**
    * A Midi Track example.
@@ -59,13 +67,19 @@ public class MidiViewImplTest {
     jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
     
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
-    
-    jMidiComposition =
-            JMidiComposition.builder().addNote(0, 4, 0, 1, 30)
-                    .setInstrument(0, jVirtualInstrument).build();
   
     midiView = new MidiViewImpl();
-  }
+  
+    CompositionBuilder = JMidiComposition.builder();
+  
+    //Add Mock instrument to the first 21 tracks
+    for (int i = 0; i < 20; i++) {
+  
+      CompositionBuilder.setInstrument(i, jVirtualInstrument);
+      
+    }
+    
+    }
   
   
   /**
@@ -76,37 +90,68 @@ public class MidiViewImplTest {
   
   @Test public void TestMidiView_Composition1NoteIn0() throws Exception {
     this.initCond();
+    jMidiComposition = CompositionBuilder.addNote(0, 4, 0, 1, 30).build();
     
     midiView.initialize(jMidiComposition);
-    assertEquals("Synth Opened \n"
-            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
+    assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
-            + "Receiver Closed \n", log.toString());
+            + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n", log.toString());
   }
   
   @Test public void TestMidiView_CompositionEmpty() throws Exception {
     this.initCond();
-    jMidiComposition =
-            JMidiComposition.builder().build();
+    jMidiComposition = CompositionBuilder.build();
     
     midiView.initialize(jMidiComposition);
     assertEquals("", log.toString());
+  }
+  
+  @Test public void TestMidiView_CompositionFromReader_singleChannel() throws Exception {
+    this.initCond();
     
+    jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
+            CompositionBuilder);
+    
+    midiView.initialize(jMidiComposition);
+    assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:400000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:400000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n", log.toString());
     
   }
   
-  @Test public void TestMidiView_Composition5Note_() throws Exception {
+  @Test public void TestMidiView_CompositionFromReader_multipleChannels() throws Exception {
     this.initCond();
-    jMidiComposition =
-            JMidiComposition.builder().addNote(10,11,0,2,3).build();
+  
+    jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
+            CompositionBuilder);
     
     midiView.initialize(jMidiComposition);
-    assertEquals("", log.toString());
-    
+    assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
+            + "msg[Tck:400000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n", log.toString());
     
   }
   

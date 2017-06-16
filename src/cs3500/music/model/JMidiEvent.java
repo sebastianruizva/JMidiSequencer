@@ -104,7 +104,6 @@ public class JMidiEvent implements IjMidiEvent {
             + velocity + ", channel=" + channel + ", duration=" + duration + '}';
   }
   
-  
   /**
    * the class {@Builder} Builds a cs3500.music.model.JMidiEvent according to the default values or
    * the ones directed by the user.
@@ -159,7 +158,7 @@ public class JMidiEvent implements IjMidiEvent {
      */
     public Builder pitch(int semitoneValue) throws IllegalArgumentException {
       
-      if (semitoneValue < 0) {
+      if (semitoneValue < 0 || semitoneValue > 127) {
         throw new IllegalArgumentException("only positive values are allowed!");
       }
       

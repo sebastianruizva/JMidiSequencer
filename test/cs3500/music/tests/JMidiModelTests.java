@@ -30,6 +30,9 @@ public class JMidiModelTests {
    * An Virtual Instrument example for a MIDI Track.
    */
   JVirtualInstrument jVirtualInstrument;
+  
+  JMidiComposition.Builder CompositionBuilder;
+  
   /**
    * Midi Event examples.
    */
@@ -54,10 +57,8 @@ public class JMidiModelTests {
     jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
     
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
-    
-    jMidiComposition =
-            JMidiComposition.builder().addNote(0, 4, 0, 1, 30).setInstrument(0, jVirtualInstrument)
-                    .build();
+  
+    CompositionBuilder = JMidiComposition.builder();
     
   }
   
@@ -187,18 +188,190 @@ public class JMidiModelTests {
    * ************** MIDI Composition
    */
   
-  @Test public void TestGetGrid() throws Exception {
-    this.initCond();
-    assertEquals(
-            "{0={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, velocity=30, channel=0, "
-                    + "duration=4}}, 1={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, "
-                    + "velocity=30, channel=0, duration=4}}, 2={1=cs3500.music.model"
-                    + ".JMidiEvent{tick=0, pitch=1, velocity=30, channel=0, duration=4}}, "
-                    + "3={1=cs3500.music.model.JMidiEvent{tick=0, pitch=1, velocity=30, "
-                    + "channel=0, duration=4}}}",
-            jMidiComposition.getGrid().toString());
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_NegativeStart() {
+    
+    JMidiComposition.builder().addNote(-1, 1, 0, 0, 0).build();
     
   }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_NegativeChannel() {
+    
+    JMidiComposition.builder().addNote(1, 1, -1, 0, 0).build();
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_EndSmallerTHanStart() {
+    
+    JMidiComposition.builder().addNote(10, 1, 0, 0, 0).build();
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_NegativeInstrument() {
+    
+    JMidiComposition.builder().addNote(1, 10, -1, 0, 0).build();
+    
+  }
+  
+  @Test public void testAddEvent_Duration1() {
+    this.initCond();
+    jMidiComposition = JMidiComposition.builder().addNote(1, 1, 0, 0, 0).build();
+    
+    assertEquals("       C  \n" + "    1     \n" + "    2  X  ", jMidiComposition.toString());
+    
+  }
+  
+  @Test public void testAddEvent_Duration10() {
+    this.initCond();
+    jMidiComposition = JMidiComposition.builder().addNote(1, 10, 0, 0, 0).build();
+    
+    assertEquals("       C  \n" + "    1     \n" + "    2  X  \n" + "    3  |  \n" + "    4  |  \n"
+            + "    5  |  \n" + "    6  |  \n" + "    7  |  \n" + "    8  |  \n" + "    9  |  \n"
+            + "   10  |  \n" + "   11  |  ", jMidiComposition.toString());
+    
+  }
+  
+  @Test public void testAddEvent_MultipleEvents_DifferentChannel_samePitch() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).build();
+    
+    assertEquals("       C  \n" + "    1     \n" + "    2  X  \n" + "    3  |  ", jMidiComposition.toString());
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_MultipleEvents_sameChannel_samePitch() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 0, 0, 0).build();
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_PitchTooHigh() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 128, 0)
+            .addNote(1, 2, 0, 0, 0).build();
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_VolumeTooHigh() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 128, 0)
+            .addNote(1, 2, 0, 0, 0).build();
+  }
+  
+  @Test public void testAddEvent_MultipleEvents_DifferentChannel_DifferentPitch() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).build();
+    
+    assertEquals("       C  \n" + "    1     \n" + "    2  X  \n" + "    3  |  ", jMidiComposition.toString());
+    
+  }
+  
+  @Test public void testAddEvent_MultipleEvents_EdgePitch_EdgeVelocity() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 127, 0)
+            .addNote(1, 2, 2, 0, 127).build();
+    
+    assertEquals("       C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D "
+            + "  D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#   "
+            + " G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B"
+            + "    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#  "
+            + "  E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   "
+            + "G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C"
+            + "   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E  "
+            + "  F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G  \n"
+            + "    1                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                       \n"
+            + "    2  X                                                                          "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                       \n"
+            + "    3  |                                                                          "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                       ", jMidiComposition.toString());
+    
+  }
+  
+  @Test public void testSetTempo() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setTempo(1).build();
+    
+    assertEquals(1,
+            jMidiComposition.getTempo());
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetTempo_InvalidNUmber() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setTempo(-1).build();
+    
+  }
+  
+  @Test public void testGetSectorType_Head() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setTempo(1).build();
+    
+    assertEquals("X",
+            jMidiComposition.getSectorType(1,0).toString());
+    
+  }
+  
+  @Test public void testGetSectorType_Tail() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setTempo(1).build();
+    
+    assertEquals("|",
+            jMidiComposition.getSectorType(2,0).toString());
+    
+  }
+  
+  @Test public void testGetSectorType_Rest() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setTempo(1).build();
+    
+    assertEquals(" ",
+            jMidiComposition.getSectorType(3,0).toString());
+    
+  }
+  
   
   
 }

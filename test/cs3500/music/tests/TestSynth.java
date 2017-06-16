@@ -34,15 +34,11 @@ public class TestSynth implements Synthesizer {
   
   //add open statement to log
   @Override
-  public void open() throws MidiUnavailableException {
-    log.append("Synth Opened \n");
-  }
+  public void open() throws MidiUnavailableException {}
   
   //add close statement to log
   @Override
-  public void close() {
-    log.append("Synth Closed \n");
-  }
+  public void close() {}
 
   @Override
   public int getMaxPolyphony() {

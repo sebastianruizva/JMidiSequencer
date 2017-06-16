@@ -33,10 +33,6 @@ public class TestReceiver implements Receiver {
 
 
   @Override
-  public void close() {
-  
-    log.append("Receiver Closed \n");
-
-  }
+  public void close() {}
 
 }

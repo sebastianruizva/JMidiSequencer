@@ -58,8 +58,9 @@ public class MidiViewImpl implements ICompositionView {
       
           try {
   
-            MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, e.getPitch(), e.getVelocity());
-            MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, e.getPitch(), e.getVelocity());
+            MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, e.getChannel(), e.getPitch(), e
+                    .getVelocity());
+            MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, e.getChannel(), e.getPitch(), e.getVelocity());
   
             receiver.send(start, e.getTick() * composition.getTempo());
             receiver.send(stop, (e.getTick() + e.getDuration()) * composition.getTempo());

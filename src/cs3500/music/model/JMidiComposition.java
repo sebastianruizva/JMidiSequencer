@@ -108,8 +108,9 @@ public class JMidiComposition implements IjMidiComposition {
         throw new IllegalArgumentException("instrument cant be null");
       }
       
+      //if no track create a track with the instrument
       if (!this.tracks.keySet().contains(track)) {
-        throw new IllegalArgumentException("tack not existent");
+        this.tracks.put(track, new JMidiTrack(JMidiUtils.DEFAULT_VI()));
       }
       
       tracks.get(track).setInstrument(instrument);
@@ -133,17 +134,27 @@ public class JMidiComposition implements IjMidiComposition {
     public Builder addNote(int start, int end, int instrument, int pitch, int volume)
             throws IllegalArgumentException {
       
+      if(instrument < 0) {
+        
+        throw new IllegalArgumentException("Instrument cant be negative!");
+      }
+      
+      
       //create the note
-      JMidiEvent note = JMidiEvent.builder().tick(start).duration(end - start).channel(instrument)
+      JMidiEvent note = JMidiEvent.builder().tick(start).duration(end + 1 - start).channel
+              (instrument)
               .pitch(pitch).velocity(volume).build();
       
+      //assign a track
       JMidiTrack track = this.tracks.getOrDefault(instrument, null);
       
+      //if not existent create one
       if (track == null) {
         tracks.put(instrument, new JMidiTrack(JMidiUtils.DEFAULT_VI()));
         track = this.tracks.get(instrument);
       }
       
+      //add to track
       track.addEvent(note);
       
       return this;
