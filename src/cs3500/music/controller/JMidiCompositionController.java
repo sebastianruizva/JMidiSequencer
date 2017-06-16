@@ -58,7 +58,7 @@ public class JMidiCompositionController {
   
         this.message("Console, GUI or MIDI?");
         
-        String view = "GUI";//scanner.next();
+        String view = scanner.next();
   
         if(view.equals("console")) {
     
