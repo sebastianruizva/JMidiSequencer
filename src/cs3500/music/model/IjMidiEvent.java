@@ -27,20 +27,10 @@ public interface IjMidiEvent {
   int getVelocity();
   
   /**
-   * Updates the velocity of the event.
-   */
-  void setVelocity(int velocity);
-  
-  /**
    * Retrieves the channel of the event (where the midi message is coming from or where is
    * supposed to head at).
    */
   int getChannel();
-  
-  /**
-   * Updates the channel of the event.
-   */
-  void setChannel(int channel);
   
   /**
    * Retrieves the duration of the event (how long the key or trigger was held).

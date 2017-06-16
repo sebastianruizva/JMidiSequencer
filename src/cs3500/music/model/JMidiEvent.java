@@ -25,12 +25,12 @@ public class JMidiEvent implements IjMidiEvent {
   /**
    * velocity represents how 'strong' the key or trigger was pressed.
    */
-  private int velocity;
+  private final int velocity;
   /**
    * channel  represents where the midi message is coming from or where is supposed to head.
    * at
    */
-  private int channel;
+  private final int channel;
   
   
   /**
@@ -83,24 +83,10 @@ public class JMidiEvent implements IjMidiEvent {
   }
   
   /**
-   * Updates the velocity of the event.
-   */
-  @Override public void setVelocity(int velocity) {
-    this.velocity = velocity;
-  }
-  
-  /**
    * Retrieves the channel of the event.
    */
   @Override public int getChannel() {
     return channel;
-  }
-  
-  /**
-   * Updates the channel of the event.
-   */
-  @Override public void setChannel(int channel) {
-    this.channel = channel;
   }
   
   /**

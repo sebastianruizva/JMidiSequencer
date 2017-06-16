@@ -49,7 +49,7 @@ public class PitchViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    IjVirtualInstrument inst = JMidiUtils.DEFAULT_VI;
+    IjVirtualInstrument inst = JMidiUtils.DEFAULT_VI();
     g.setFont(DrawValues.VERDANA);
 
     for (int i = 0; i < maxPitch; i++) {

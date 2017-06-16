@@ -44,7 +44,12 @@ public class PianoViewPanel extends JLayeredPane {
     int size = DrawValues.RECTANGLE_H;
     int offset = 100;
 
+    int whitePitchCount = 0;
+    int skipCount = 3;
+
     for (int i = 0; i < 70; i++) {
+
+
       g.setColor(Color.WHITE);
       g.drawRect(i * size + offset, 0, size, 350);
       g.fillRect(i * size + offset, 0, size, 350);

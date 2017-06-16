@@ -16,8 +16,10 @@ public class NotesAndGridViewPanel extends JPanel {
   private int height;
   private int maxPitch;
   private int maxTick;
+  private int cursorPosition;
 
-  NotesAndGridViewPanel(JMidiComposition composition) {
+  NotesAndGridViewPanel(JMidiComposition composition/*, int cursorPosition*/) {
+    this.cursorPosition = 0;
     this.composition = composition;
     this.grid = composition.getGrid();
     this.maxPitch = composition.getMaxPitch();

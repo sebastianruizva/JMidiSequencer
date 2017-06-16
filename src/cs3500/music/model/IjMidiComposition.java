@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import java.util.HashMap;
+
 /**
  * The Interface {@IjMidiComosition} Represents an interface of a collection of MIDI Tracks that can
  * be played in sync.
@@ -7,43 +9,36 @@ package cs3500.music.model;
 public interface IjMidiComposition {
   
   /**
-   * Adds a time signature change in the specified beat.
-   * @param beat  the beat where the change is made
-   * @param upper indicates the note value that represents one beat (the beat unit).
-   * @param lower indicates how many such beats there are grouped together in a bar.
+   * Returns a clone of the grid of the composition
    */
-  void addTimeSignatureChange(int beat, int upper, int lower) throws IllegalArgumentException;
+  HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid();
   
   /**
-   * Removes the time signature change in the specified beat.
-   * @param beat the beat where the change is made
+   * Returns a clone of the tracks in the composition
    */
-  void removeTimeSignatureChange(int beat) throws IllegalArgumentException;
+  HashMap<Integer, JMidiTrack> getTracks();
   
   /**
-   * Adds a tempo change in the specified beat.
-   * @param beat  the beat where the change is made
-   * @param tempo the tempo that is going to be applied.
+   * Returns a the tempo of the composition
    */
-  void addTempoChange(int beat, int tempo) throws IllegalArgumentException;
+  int getTempo();
   
   /**
-   * Removes a tempo change in the specified beat.
-   * @param beat the beat where the change is made
+   * Returns the maximum tick in the track
    */
-  void removeTempoChange(int beat) throws IllegalArgumentException;
+  int getMaxTick();
   
   /**
-   * Adds a track with the specified name.
-   * @param name  the name of the track
-   * @param track the track you are going to add.
+   * Returns a the maximum pitch in the track
    */
-  void addTrack(String name, JMidiTrack track) throws IllegalArgumentException;
+  int getMaxPitch();
   
   /**
-   * Removes a track with the specified name.
-   * @param name the name of the track
+   * Returns the type of sector in an specific position of the grid.
+   * @param tick the tick where the sector is
+   * @param pitch the pitch where the sector is
    */
-  void removeTrack(String name) throws IllegalArgumentException;
+  SectorType getSectorType(int tick, int pitch);
+  
   
 }

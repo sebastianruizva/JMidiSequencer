@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * The class {@JMidiTrack} Represents a collection of related Midi Events organized in a grid.
  */
-public class JMidiTrack implements IjMidiTrack {
+public class JMidiTrack {
   
   /**
    * grid represents a collection of JMidiEvents organized by pitch and tick.
@@ -47,27 +47,12 @@ public class JMidiTrack implements IjMidiTrack {
   }
   
   /**
-   * Gets the VI of the track
-   */
-  public JVirtualInstrument getInstrument() {
-    return instrument;
-  }
-  
-  /**
-   * sets the track's virtual instrument
-   * @param instrument represents the assigned Virtual Instrument.
-   */
-  public void setInstrument(JVirtualInstrument instrument) {
-    this.instrument = instrument;
-  }
-  
-  /**
    * Determines if there is enough free space in the grid on the specified location and distance.
    * @param tick     the tick you ar looking for
    * @param pitch    the pitch you want to verify
    * @param distance how big is the area?
    */
-  public boolean available(int tick, int pitch, int distance) throws IllegalArgumentException {
+  private boolean available(int tick, int pitch, int distance) throws IllegalArgumentException {
     
     //invalid negative numbers
     if (tick < 0 || pitch < 0 || distance < 0) {
@@ -89,11 +74,30 @@ public class JMidiTrack implements IjMidiTrack {
   }
   
   /**
+   * Gets the VI of the track
+   */
+  public JVirtualInstrument getInstrument() {
+    
+    return instrument;
+    
+  }
+  
+  /**
+   * sets the track's virtual instrument
+   * @param instrument represents the assigned Virtual Instrument.
+   */
+  protected void setInstrument(JVirtualInstrument instrument) {
+    
+    this.instrument = instrument;
+    
+  }
+  
+  /**
    * Adds a midi event to the region.
    * @param event the event you want to add
    * @throws IllegalArgumentException if there it collides with other in the region
    */
-  @Override public void addEvent(JMidiEvent event) throws IllegalArgumentException {
+  protected void addEvent(JMidiEvent event) throws IllegalArgumentException {
     
     //invalid when null
     if (event == null) {
@@ -130,7 +134,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @param event you want to get the information from
    * @throws IllegalArgumentException if there is no such event in the region
    */
-  public ArrayList<Integer> getTicksOfEvent(JMidiEvent event) throws IllegalArgumentException {
+  protected ArrayList<Integer> getTicksOfEvent(JMidiEvent event) throws IllegalArgumentException {
     
     //Check for null
     if (event == null) {
@@ -158,7 +162,7 @@ public class JMidiTrack implements IjMidiTrack {
   /**
    * Updates the maxPitch and maxTick of the grid.
    */
-  private void updateMaxValues() {
+  protected void updateMaxValues() {
     
     //update maxTick
     if (grid.size() == 0) {
@@ -190,7 +194,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @param event The event you want to remove.
    * @throws IllegalArgumentException if there is no such event
    */
-  @Override public void removeEvent(JMidiEvent event) throws IllegalArgumentException {
+  protected void removeEvent(JMidiEvent event) throws IllegalArgumentException {
     
     //Check for null
     if (event == null) {
@@ -265,7 +269,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @throws IllegalArgumentException if it collides with other in the region or there is no such
    *                                  event.
    */
-  @Override public void moveEvent(JMidiEvent event, int newPitch, int newTick)
+  protected void moveEvent(JMidiEvent event, int newPitch, int newTick)
           throws IllegalArgumentException {
     
     if (event == null) {
@@ -283,7 +287,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @throws IllegalArgumentException if it collides with other in the region or there is no such
    *                                  event.
    */
-  @Override public void resizeEvent(JMidiEvent event, int newDistance)
+  protected void resizeEvent(JMidiEvent event, int newDistance)
           throws IllegalArgumentException {
     
     if (event == null) {
@@ -300,7 +304,7 @@ public class JMidiTrack implements IjMidiTrack {
    * @param pitch the pitch where is supposed to be located at
    * @throws IllegalArgumentException if there is no such event
    */
-  @Override public JMidiEvent getEventOnPosition(int tick, int pitch)
+  protected JMidiEvent getEventOnPosition(int tick, int pitch)
           throws IllegalArgumentException {
     
     //verify if there is something there
@@ -313,12 +317,12 @@ public class JMidiTrack implements IjMidiTrack {
   }
   
   /**
-   * Returns all the different MIDI events on a given point in time.
+   * Returns a clone of all the different MIDI events on a given point in time.
    * @param tick the tick where the events are
    */
-  @Override public List<JMidiEvent> getEventsOnTick(int tick) {
-    
-    List<JMidiEvent> events = new ArrayList<JMidiEvent>();
+  public ArrayList<JMidiEvent> getEventsOnTick(int tick) {
+  
+    ArrayList<JMidiEvent> events = new ArrayList<JMidiEvent>();
     
     if (grid.getOrDefault(tick, null) != null) {
       
@@ -334,14 +338,16 @@ public class JMidiTrack implements IjMidiTrack {
       
     }
     
-    return events;
+    return (ArrayList<JMidiEvent>) events.clone();
     
   }
   
   /**
    * Returns the type of sector in an specific position of the grid.
+   * @param tick the tick where the sector is
+   * @param pitch the pitch where the sector is
    */
-  public SectorType getSectorType(int tick, int pitch) {
+  protected SectorType getSectorType(int tick, int pitch) {
     
     //if there is nothing
     if (this.available(tick, pitch, 1)) {
@@ -425,6 +431,7 @@ public class JMidiTrack implements IjMidiTrack {
   public int getMaxTick() {
     
     return maxTick;
+    
   }
   
   /**
@@ -433,12 +440,13 @@ public class JMidiTrack implements IjMidiTrack {
   public int getMaxPitch() {
     
     return maxPitch;
+    
   }
   
   /**
    * Returns a the maximum pitch in the track
    */
-  public HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid() {
+  protected HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid() {
     
     return (HashMap<Integer, HashMap<Integer, JMidiEvent>>)this.grid.clone();
   }

@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import javax.sound.midi.Synthesizer;
+
 /**
  * The interface {@IjVirtualInstrument} Represents a midi based musical instrument interface for
  * a midi track.
@@ -22,5 +24,10 @@ public interface IjVirtualInstrument {
    * @throws IllegalArgumentException if is a negative value
    */
   String getNoteRepresentation(int pitch) throws IllegalArgumentException;
+  
+  /**
+   * Returns its current synthesizer
+   */
+  Synthesizer getSynth();
   
 }

@@ -7,14 +7,18 @@ import javax.swing.*;
 import cs3500.music.model.JMidiComposition;
 
 
-public class MusicEditorGUI extends javax.swing.JFrame {
+public class MusicEditorGUI extends javax.swing.JFrame implements ICompositionView {
   private JMidiComposition composition;
   private JPanel scoreLayout;
   private JPanel pianoLayout;
   private BoundedRangeModel scrollModel;
   private int cursorPosition;
 
-  public MusicEditorGUI(JMidiComposition composition) {
+  public MusicEditorGUI() {
+
+  }
+
+  public void initialize(JMidiComposition composition) {
     initScrollModel();
     this.cursorPosition = 0;
     this.composition = composition;
@@ -22,10 +26,9 @@ public class MusicEditorGUI extends javax.swing.JFrame {
     this.scoreLayout = initScoreLayout();
 
     initComponents();
-  }
 
-  public void initialize() {
     this.setVisible(true);
+
   }
 
   // Initializes the components of the layout

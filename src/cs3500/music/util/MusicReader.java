@@ -2,7 +2,6 @@ package cs3500.music.util;
 
 import cs3500.music.model.*;
 
-import cs3500.music.model.JMidiComposition;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -24,12 +23,12 @@ public class MusicReader {
    *      the pitch, and the volume</li>
    *   </ul>
    * </p>
+   * @param <T> The main model interface type describing music compositions
    * @param readable The source of data for the music composition
    * @param piece A builder for helping to construct a new composition
-   * @param JMidiComposition The main model interface type describing music compositions
    * @return
    */
-  public static <J> JMidiComposition parseFile(Readable readable, CompositionBuilder<JMidiComposition> piece) {
+  public static <T> T parseFile(Readable readable, CompositionBuilder<T> piece) {
     Scanner scanner = new Scanner(readable);
     while (scanner.hasNext()) {
       String lineType = scanner.next();
@@ -49,7 +48,6 @@ public class MusicReader {
             int pitch = scanner.nextInt();
             int volume = scanner.nextInt();
             piece.addNote(startBeat, endBeat, instrument, pitch, volume);
- 
           } catch (NoSuchElementException e) {
             throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
           }
@@ -58,6 +56,7 @@ public class MusicReader {
           throw new IllegalArgumentException("Bad line type: " + lineType);
       }
     }
+
     return piece.build();
   }
 }
