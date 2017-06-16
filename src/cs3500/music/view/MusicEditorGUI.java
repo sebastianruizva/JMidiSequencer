@@ -1,28 +1,29 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.*;
 
 import cs3500.music.model.JMidiComposition;
-import cs3500.music.model.JMidiEvent;
-import cs3500.music.model.JMidiTrack;
-import cs3500.music.model.JVirtualInstrument;
 
 
 public class MusicEditorGUI extends javax.swing.JFrame {
   private JMidiComposition composition;
   private JPanel scoreLayout;
   private JPanel pianoLayout;
+  private BoundedRangeModel scrollModel;
 
   public MusicEditorGUI(JMidiComposition composition) {
+    initScrollModel();
     this.composition = composition;
     this.pianoLayout = initPianoLayout();
     this.scoreLayout = initScoreLayout();
 
     initComponents();
+  }
+
+  public void initialize() {
+    this.setVisible(true);
   }
 
   // Initializes the components of the layout
@@ -37,32 +38,13 @@ public class MusicEditorGUI extends javax.swing.JFrame {
     this.pack();
   }
 
-  public void initialize() {
-    this.setVisible(true);
+  // initialize the scroll model
+  private void initScrollModel() {
+    JScrollPane base = new JScrollPane();
+    base.setPreferredSize(new Dimension(0,0));
+    JScrollBar bar = base.getVerticalScrollBar();
 
-  }
-
-  // Initialize the scroll pane
-  private JScrollPane initScrollPane() {
-
-    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(composition);
-    JScrollPane base = new JScrollPane(ledger);
-    base.setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
-
-    // Make the scroll bar invisible
-    base.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    base.getViewport().setPreferredSize(ledger.getPreferredSize());
-    base.setPreferredSize(ledger.getPreferredSize());
-    base.setBorder(null);
-
-    // Make the scroll area work with arrow keys
-    JScrollBar scrollBar = base.getHorizontalScrollBar();
-    scrollBar.setPreferredSize(new Dimension(0, 0));
-    InputMap im = scrollBar.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-    im.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
-    im.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
-
-    return base;
+    scrollModel = bar.getModel();
   }
 
   // Initialize the piano pane
@@ -93,10 +75,54 @@ public class MusicEditorGUI extends javax.swing.JFrame {
     scoreLayoutGrid.setHgap(0);
 
     JPanel scoreLayout = new JPanel(scoreLayoutGrid);
-    scoreLayout.add(new PitchViewPanel(composition));
-    scoreLayout.add(initScrollPane());
+    scoreLayout.add(initPitchScrollPane());
+    scoreLayout.add(initLedgerScrollPane());
 
     return scoreLayout;
+  }
+
+  // Initialize the scroll pane for the pitches
+  private JScrollPane initPitchScrollPane() {
+    PitchViewPanel pitches = new PitchViewPanel(composition);
+    JScrollPane base = new JScrollPane(pitches);
+
+    base.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    base.setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
+    base.setBorder(null);
+
+    JScrollBar scrollBarVertical = base.getVerticalScrollBar();
+    scrollBarVertical.setModel(scrollModel);
+    scrollBarVertical.setPreferredSize(new Dimension(0, 0));
+
+    return base;
+  }
+
+  // Initialize the scroll for the ledger
+  private JScrollPane initLedgerScrollPane() {
+
+    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(composition);
+    JScrollPane base = new JScrollPane(ledger);
+
+    base.setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
+    base.setBorder(null);
+
+    // Make the scroll area work with arrow keys
+    JScrollBar scrollBarHorizontal = base.getHorizontalScrollBar();
+    scrollBarHorizontal.setPreferredSize(new Dimension(0, 0));
+    scrollBarHorizontal.setUnitIncrement(DrawValues.RECTANGLE_W);
+    InputMap horizontalKeys = scrollBarHorizontal.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    horizontalKeys.put(KeyStroke.getKeyStroke("RIGHT"), "positiveUnitIncrement");
+    horizontalKeys.put(KeyStroke.getKeyStroke("LEFT"), "negativeUnitIncrement");
+
+    JScrollBar scrollBarVertical = base.getVerticalScrollBar();
+    scrollBarVertical.setModel(scrollModel);
+    scrollBarVertical.setUnitIncrement(DrawValues.RECTANGLE_H);
+    scrollBarVertical.setPreferredSize(new Dimension(0, 0));
+    InputMap verticalKeys = scrollBarVertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    verticalKeys.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
+    verticalKeys.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+
+    return base;
   }
 
   // Calculate the size of the frame
@@ -112,7 +138,6 @@ public class MusicEditorGUI extends javax.swing.JFrame {
 
   @Override
   public Dimension getPreferredSize() {
-    Dimension dim = calculateSize();
-    return dim;
+    return calculateSize();
   }
 }

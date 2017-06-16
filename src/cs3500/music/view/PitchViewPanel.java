@@ -17,6 +17,7 @@ import cs3500.music.util.JMidiUtils;
 public class PitchViewPanel extends JPanel {
   JMidiComposition composition;
   private int maxPitch;
+  private int height;
 
   public PitchViewPanel(JMidiComposition composition) {
     this.composition = composition;
@@ -25,9 +26,23 @@ public class PitchViewPanel extends JPanel {
     if (maxPitch < 12) {
       maxPitch = 12;
     }
-    setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
+
+    setSize();
+    setPreferredSize(new Dimension(40, height));
     setMaximumSize(getPreferredSize());
 
+  }
+
+  private void setSize() {
+    if (DrawValues.MIN_GRID_HEIGHT < (DrawValues.RECTANGLE_H * maxPitch)) {
+
+      height = DrawValues.RECTANGLE_H * maxPitch;
+
+    } else {
+
+      height = DrawValues.MIN_GRID_HEIGHT;
+
+    }
   }
 
   @Override

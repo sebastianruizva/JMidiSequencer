@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
-import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.SectorType;
 
 public class NotesAndGridViewPanel extends JPanel {
@@ -19,14 +18,13 @@ public class NotesAndGridViewPanel extends JPanel {
   private int maxTick;
 
   NotesAndGridViewPanel(JMidiComposition composition) {
-    setPreferredSize(new Dimension( DrawValues.MIN_GRID_WIDTH, DrawValues.MIN_GRID_HEIGHT));
-    setMaximumSize(getPreferredSize());
-
     this.composition = composition;
     this.grid = composition.getGrid();
     this.maxPitch = composition.getMaxPitch();
     this.maxTick = composition.getMaxTick();
     setValues();
+
+    setPreferredSize(new Dimension(width, height));
   }
 
   private void setValues() {
@@ -52,6 +50,7 @@ public class NotesAndGridViewPanel extends JPanel {
   }
 
   @Override public void paintComponent(Graphics g) {
+    super.paintComponent(g);
     paintNotes(g);
     paintGrid(g);
     paintBeatNumbers(g);
@@ -108,7 +107,7 @@ public class NotesAndGridViewPanel extends JPanel {
     g.setFont(DrawValues.VERDANA);
 
     for (int i = 0; i < width; i += 4) {
-      g.drawString(Integer.toString(i), i * DrawValues.RECTANGLE_W ,50);
+      g.drawString(Integer.toString(i), i * DrawValues.RECTANGLE_W ,60);
     }
   }
 }
