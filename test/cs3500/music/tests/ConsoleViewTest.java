@@ -1,3 +1,5 @@
+package cs3500.music.tests;
+
 import org.junit.Test;
 
 import cs3500.music.view.ConsoleView;

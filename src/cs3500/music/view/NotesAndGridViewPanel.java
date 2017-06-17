@@ -33,6 +33,11 @@ public class NotesAndGridViewPanel extends JPanel {
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
   public NotesAndGridViewPanel(JMidiComposition composition, MusicEditorGUI gui) {
+    
+    if(composition == null || gui == null) {
+      throw new IllegalArgumentException("cant be null!");
+    }
+    
     this.composition = composition;
     this.grid = composition.getGrid();
     this.maxPitch = composition.getMaxPitch();

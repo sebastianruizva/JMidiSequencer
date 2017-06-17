@@ -357,14 +357,40 @@ public class JMidiComposition implements IjMidiComposition {
   private void updateGrid() {
     
     HashMap<Integer, HashMap<Integer, JMidiEvent>> grid = new HashMap<>();
+  
+    for (Integer track : tracks.keySet()) {
     
-    for (Integer k : tracks.keySet()) {
+      for (Integer tick : tracks.get(track).getGrid().keySet()) {
       
-      grid.putAll(tracks.get(k).getGrid());
+        for (Integer pitch : tracks.get(track).getGrid().get(tick).keySet()) {
+        
+          JMidiEvent e = tracks.get(track).getGrid().get(tick).get(pitch);
+        
+          SectorType t;
+        
+          if(e.getTick() == tick) {
+          
+            t = SectorType.HEAD;
+          
+          } else {
+          
+            t = SectorType.BODY;
+          
+          }
+        
+          if(this.grid.getOrDefault(tick, null) == null) {
+            
+            this.grid.put(tick, new HashMap<>());
+            
+          }
+          
+          this.grid.get(tick).put(pitch, e);
+        
+        }
       
+      }
+    
     }
-    
-    this.grid = grid;
     
     //update min and max values
     this.updateMaxValues();
@@ -390,8 +416,9 @@ public class JMidiComposition implements IjMidiComposition {
         grid.append(String.format("%5s", row).substring(0, 5));
         i += 5;
       } else if (i > 4 && width - 4 > i) {
-        String note = JMidiUtils.DEFAULT_VI().getNoteRepresentation((i - 4) / 5);
-        grid.append(String.format(" %2s  ", note).substring(0, 5));
+        String note = JMidiUtils.DEFAULT_VI().getNoteRepresentation(((i - 4) / 5) + this.minPitch);
+        int octave = ((((i - 4) / 5) + this.minPitch) / JMidiUtils.DEFAULT_VI().getOctaveDegree());
+        grid.append(String.format(" %3s  ", note + octave).substring(0, 5));
         i += 5;
       } else {
         grid.append(" ");
@@ -414,7 +441,7 @@ public class JMidiComposition implements IjMidiComposition {
     }
     
     //determine the dimensions of the grid
-    int width = (this.maxPitch + 2) * 5;
+    int width = ((this.maxPitch + 2) * 5) - (this.minPitch * 5);
     int height = this.maxTick + 2;
     
     
@@ -424,7 +451,7 @@ public class JMidiComposition implements IjMidiComposition {
     //Place the elements in the grid
     for (Integer tick : this.grid.keySet()) {
       for (Integer pitch : this.grid.get(tick).keySet()) {
-        int index = tick * (width + 1) + (pitch * 5) + 6 + width;
+        int index = (tick * (width + 1) + ((pitch - this.minPitch) * 5) + 6 + width);
         grid.setCharAt(index + 2, getSectorType(tick, pitch).toString().charAt(0));
       }
     }

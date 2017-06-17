@@ -103,11 +103,13 @@ public class MidiViewImplTest {
     
     midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
+            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
+            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n", log.toString());
+            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
+            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
+            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n", log.toString());
   }
   
   @Test public void TestMidiView_CompositionEmpty() throws Exception {
@@ -126,19 +128,23 @@ public class MidiViewImplTest {
     
     midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
-            + "msg[Tck:400000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
-            + "msg[Tck:400000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
+            + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n", log.toString());
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n", log.toString());
     
   }
   
@@ -151,17 +157,21 @@ public class MidiViewImplTest {
     
     midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
-            + "msg[Tck:400000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
+            + "msg[Tck:600000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
+            + "msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
+            + "msg[Tck:600000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n", log.toString());
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
+            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n", log.toString());
     
   }
   
