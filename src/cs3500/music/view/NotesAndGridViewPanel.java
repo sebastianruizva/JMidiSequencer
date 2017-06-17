@@ -32,7 +32,7 @@ public class NotesAndGridViewPanel extends JPanel {
    * @param gui         the gui to draw the cursor from.
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
-  NotesAndGridViewPanel(JMidiComposition composition, MusicEditorGUI gui) {
+  public NotesAndGridViewPanel(JMidiComposition composition, MusicEditorGUI gui) {
     this.composition = composition;
     this.grid = composition.getGrid();
     this.maxPitch = composition.getMaxPitch();
