@@ -23,7 +23,7 @@ public class MidiViewImpl implements ICompositionView {
    * Plays the directed composition
    * @param composition the composition you want to play
    */
-  @Override public void initialize(JMidiComposition composition) {
+  @Override public void initialize(JMidiComposition composition, Appendable ap) {
     
     this.composition = composition;
     

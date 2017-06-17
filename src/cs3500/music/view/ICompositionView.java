@@ -11,6 +11,6 @@ public interface ICompositionView {
    * Initiates the view.
    * @composition the model that is going to be rendered
    */
-  void initialize(JMidiComposition composition);
+  void initialize(JMidiComposition composition, Appendable ap);
   
 }

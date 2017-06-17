@@ -46,6 +46,11 @@ public class MidiViewImplTest {
   StringBuilder log;
   
   /**
+   * An appendable that keeps track of system messages
+   */
+  StringBuilder ap;
+  
+  /**
    * An scale example for the virtual instrument.
    */
   ArrayList<String> scale = new ArrayList<>(
@@ -63,6 +68,8 @@ public class MidiViewImplTest {
   public void initCond() {
     
     log = new StringBuilder();
+  
+    ap = new StringBuilder();
     
     jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
     
@@ -71,6 +78,8 @@ public class MidiViewImplTest {
     midiView = new MidiViewImpl();
   
     CompositionBuilder = JMidiComposition.builder();
+    
+    
   
     //Add Mock instrument to the first 21 tracks
     for (int i = 0; i < 20; i++) {
@@ -92,7 +101,7 @@ public class MidiViewImplTest {
     this.initCond();
     jMidiComposition = CompositionBuilder.addNote(0, 4, 0, 1, 30).build();
     
-    midiView.initialize(jMidiComposition);
+    midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:800000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
@@ -105,7 +114,7 @@ public class MidiViewImplTest {
     this.initCond();
     jMidiComposition = CompositionBuilder.build();
     
-    midiView.initialize(jMidiComposition);
+    midiView.initialize(jMidiComposition, ap);
     assertEquals("", log.toString());
   }
   
@@ -115,7 +124,7 @@ public class MidiViewImplTest {
     jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
             CompositionBuilder);
     
-    midiView.initialize(jMidiComposition);
+    midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:400000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
@@ -140,7 +149,7 @@ public class MidiViewImplTest {
     jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
             CompositionBuilder);
     
-    midiView.initialize(jMidiComposition);
+    midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:400000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
@@ -163,7 +172,7 @@ public class MidiViewImplTest {
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             CompositionBuilder);
     
-    midiView.initialize(jMidiComposition);
+    midiView.initialize(jMidiComposition, ap);
     
   }
   

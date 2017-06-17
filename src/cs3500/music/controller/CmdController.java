@@ -9,6 +9,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.JMidiComposition;
+import cs3500.music.util.JMidiUtils;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.ICompositionView;
 import cs3500.music.view.MidiViewImpl;
@@ -53,16 +54,16 @@ public class CmdController {
    * Interacts with the user
    */
   public void run() throws MidiUnavailableException, FileNotFoundException {
-    
-    this.message("please write the name of the file you want to open and its extension");
+  
+    JMidiUtils.message("please write the name of the file you want to open and its extension", ap);
     
     while (scanner.hasNextLine()) {
       
       String next = scanner.nextLine();
       
       if(next.equalsIgnoreCase("Q")) {
-        
-        this.message("bye!");
+  
+        JMidiUtils.message("bye!", ap);
         return;
         
       } else if (fileName == null) {
@@ -73,58 +74,34 @@ public class CmdController {
           
           composition = MusicReader.parseFile(new FileReader(fileName), JMidiComposition.builder());
   
-          this.message("console, visual or MIDI?");
+          JMidiUtils.message("console, visual or MIDI?", ap);
           
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
           
           fileName = null;
-          this.message(e.toString());
+          JMidiUtils.message(e.toString(), ap);
           
         }
         
       } else if (view == null) {
-  
-        view = next;
-  
-        if (next.equalsIgnoreCase("console")) {
-          
-          this.message(next + " view initialized, write Q to quit.");
-          this.message(composition.toString());
-    
-        } else {
     
           try {
       
             ICompositionView selected = ViewSelector.select(next);
-            selected.initialize(composition);
-            this.message(next + " view initialized, write Q to quit.");
+            selected.initialize(composition, ap);
+            JMidiUtils.message(next + " view initialized, write Q to quit.", ap);
       
           } catch (IllegalArgumentException e) {
       
             view = null;
-            this.message(e.toString());
+            JMidiUtils.message(e.toString(), ap);
       
           }
     
         }
-      }
       
     }
     
   }
   
-  /**
-   * Appends a message to the appendable
-   * @param s the string that is going to be appended.
-   */
-  private void message(String s) {
-    try {
-      
-      this.ap.append(s + "\n");
-      
-      return;
-    } catch (IOException e) {
-      //not needed
-    }
-  }
 }

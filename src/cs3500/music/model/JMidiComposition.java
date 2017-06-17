@@ -141,7 +141,7 @@ public class JMidiComposition implements IjMidiComposition {
       
       
       //create the note
-      JMidiEvent note = JMidiEvent.builder().tick(start).duration(end + 1 - start).channel
+      JMidiEvent note = JMidiEvent.builder().tick(start).duration(end - start).channel
               (instrument)
               .pitch(pitch).velocity(volume).build();
       

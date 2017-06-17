@@ -1,5 +1,6 @@
 package cs3500.music.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,5 +32,21 @@ public class JMidiUtils {
     }
     
     return null;
+  }
+  
+  /**
+   * Appends a message to the appendable
+   * @param s the string that is going to be appended.
+   * @param ap the appendable where the message is heading
+   */
+  public static void message(String s, Appendable ap) {
+    try {
+      
+      ap.append(s + "\n");
+      
+      return;
+    } catch (IOException e) {
+      //not needed
+    }
   }
 }

@@ -3,7 +3,7 @@ package cs3500.music.view;
 import java.awt.*;
 
 /**
- * Created by sebastian on 6/13/17.
+ * A utility class containing constants for the GUI.
  */
 public class DrawValues {
   protected static final int RECTANGLE_H = 20;
@@ -15,5 +15,5 @@ public class DrawValues {
   protected static final int GRID_MARGIN = 60;
   protected static final int MIN_GRID_HEIGHT = GRID_MARGIN + RECTANGLE_H * 12 + 1;
   protected static final Font VERDANA = new Font("Verdana", Font.BOLD, RECTANGLE_H);
-  
+
 }

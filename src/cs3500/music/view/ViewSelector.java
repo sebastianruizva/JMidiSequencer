@@ -18,6 +18,9 @@ public final class ViewSelector {
       case "visual":
       case "VISUAL":
         return new MusicEditorGUI();
+      case "console":
+      case "CONSOLE":
+        return new ConsoleView();
         default:
           throw new IllegalArgumentException("there is no view with that name...");
     }
