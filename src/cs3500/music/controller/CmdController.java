@@ -89,7 +89,7 @@ public class CmdController {
       
             ICompositionView selected = ViewSelector.select(next);
             selected.initialize(composition, ap);
-            JMidiUtils.message(next + " view initialized, write Q to quit.", ap);
+            JMidiUtils.message("Write Q to quit", ap);
       
           } catch (IllegalArgumentException e) {
       

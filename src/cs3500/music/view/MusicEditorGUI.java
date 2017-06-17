@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import com.sun.media.sound.MidiUtils;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -7,6 +9,7 @@ import javax.swing.*;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
+import cs3500.music.util.JMidiUtils;
 
 /**
  * A frame for the Music Editor GUI. This frame will contain a scrollable display of the pitches
@@ -49,6 +52,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     if (composition == null) {
       throw new IllegalArgumentException("Cannot initialize with null composition.");
     }
+  
+    JMidiUtils.message("Visual view Initialized!", ap);
 
     initScrollModel();
     this.cursorPosition = 0;

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.StringReader;
 
 import cs3500.music.controller.CmdController;
+import cs3500.music.view.ConsoleView;
 import cs3500.music.view.ICompositionView;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.MusicEditorGUI;
@@ -120,8 +121,9 @@ public class JMidiControllerTests {
     controller.run();
     
     assertEquals(ap.toString(),
-            "please write the name of the " + "file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "midi view initialized, write Q to quit.\n");
+            "please write the name of the file you want to open and its extension\n"
+                    + "console, visual or MIDI?\n" + "MIDI view Initialized\n"
+                    + "Playing Track #0\n" + "Write Q to quit\n");
     
   }
   
@@ -138,61 +140,16 @@ public class JMidiControllerTests {
     
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "console view initialized, write Q to quit.\n"
-                    + "       C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C# "
-                    + "   D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E"
-                    + "    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    "
-                    + "G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   "
-                    + "A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C  "
-                    + " C#    D   D#    E  \n"
-                    + "    1                      X                                              "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                    \n"
-                    + "    2                      |                                              "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 X  \n"
-                    + "    3                      |                                              "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 |  \n"
-                    + "    4                                                                     "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 |  \n"
-                    + "    5                                                                     "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 |  \n"
-                    + "    6                                                                     "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 |  \n"
-                    + "    7                                                                     "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                 |  \n"
-                    + "    8                                                                     "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                          "
-                    + "                                                                           "
-                    + "                |  \n");
+                    + "console, visual or MIDI?\n" + "Console view initialized\n"
+                    + "       C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E  \n"
+                    + "    1                      X                                                                                                                                                                                                                                                                                                                                                                          \n"
+                    + "    2                      |                                                                                                                                                                                                                                                                                                                                                                       X  \n"
+                    + "    3                                                                                                                                                                                                                                                                                                                                                                                              |  \n"
+                    + "    4                                                                                                                                                                                                                                                                                                                                                                                              |  \n"
+                    + "    5                                                                                                                                                                                                                                                                                                                                                                                              |  \n"
+                    + "    6                                                                                                                                                                                                                                                                                                                                                                                              |  \n"
+                    + "    7                                                                                                                                                                                                                                                                                                                                                                                              |  \n"
+                    + "Write Q to quit\n");
     
   }
   
@@ -209,7 +166,8 @@ public class JMidiControllerTests {
     
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "visual view initialized, write Q to quit.\n");
+                    + "console, visual or MIDI?\n" + "Visual view Initialized!\n"
+                    + "Write Q to quit\n");
     
   }
   
@@ -244,30 +202,6 @@ public class JMidiControllerTests {
                      + "bye!\n");
     
   }
-  
-  @Test public void testViewSelector_GetMidiViewImpl() throws Exception {
-    
-    ICompositionView view = new ViewSelector().select("midi");
-  
-    assertEquals(true, view instanceof MidiViewImpl);
-    
-  }
-  
-  @Test public void testViewSelector_GetGuiView() throws Exception {
-    
-    ICompositionView view = new ViewSelector().select("visual");
-    
-    assertEquals(true, view instanceof MusicEditorGUI);
-    
-  }
-  
-  @Test(expected = IllegalArgumentException.class)
-  public void testViewSelector_Invalid_View() throws Exception {
-  
-    ICompositionView view = new ViewSelector().select("sdasd");
-    
-  }
-  
   
   
 }

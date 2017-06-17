@@ -18,7 +18,7 @@ public class TestSynth implements Synthesizer {
   private StringBuilder log;
   
   /**
-   * Constructs a {@TestSynth}
+   * Constructs a {@TestSynth}.
    * @param log the log where the messages get recorded
    */
   public TestSynth(StringBuilder log) {

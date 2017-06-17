@@ -21,7 +21,7 @@ public class ConsoleView implements ICompositionView {
       throw  new IllegalArgumentException("params cant be null!");
     }
   
-    JMidiUtils.message("MIDI view initialized", ap);
+    JMidiUtils.message("Console view initialized", ap);
     JMidiUtils.message(composition.toString(), ap);
     
   }
