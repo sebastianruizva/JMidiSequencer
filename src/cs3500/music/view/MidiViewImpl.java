@@ -11,6 +11,7 @@ import javax.sound.midi.Synthesizer;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
+import cs3500.music.util.JMidiUtils;
 
 /**
  * The class {@MidiViewImpl} implements a MIDI playback view of a composition
@@ -18,14 +19,23 @@ import cs3500.music.model.JMidiTrack;
 public class MidiViewImpl implements ICompositionView {
   
   private JMidiComposition composition;
+  private Appendable ap;
   
   /**
-   * Plays the directed composition
-   * @param composition the composition you want to play
+   * Initializes the view
+   * @param composition the
+   * @param ap the appendable that tracks the messages
    */
-  @Override public void initialize(JMidiComposition composition, Appendable ap) {
+  @Override public void initialize(JMidiComposition composition, Appendable ap) throws IllegalArgumentException {
     
+    if(composition == null || ap == null) {
+      throw  new IllegalArgumentException("params cant be null!");
+    }
+  
     this.composition = composition;
+    this.ap = ap;
+    
+    JMidiUtils.message("MIDI view Initialized", ap);
     
     try {
       this.playComposition();
@@ -41,6 +51,10 @@ public class MidiViewImpl implements ICompositionView {
    * @param track the track you want to play
    */
   private void playTrack(JMidiTrack track) {
+  
+    if(track == null) {
+      throw  new IllegalArgumentException("params cant be null!");
+    }
     
     //listen for exceptions
     try {
@@ -86,9 +100,14 @@ public class MidiViewImpl implements ICompositionView {
    * Plays all the tracks in the composition
    */
   public void playComposition() throws InvalidMidiDataException {
-    
+  
+    if(composition == null) {
+      throw  new IllegalArgumentException("params cant be null!");
+    }
     
     for (Integer k : composition.getTracks().keySet()) {
+      
+      JMidiUtils.message("Playing Track #" + k, ap);
       
       this.playTrack(composition.getTracks().get(k));
       
