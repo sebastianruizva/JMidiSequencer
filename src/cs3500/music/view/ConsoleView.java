@@ -15,7 +15,7 @@ public class ConsoleView implements ICompositionView {
    * @param composition the
    * @param ap the appendable that tracks the messages
    */
-  @Override public void initialize(JMidiComposition composition, Appendable ap) {
+  @Override public void initialize(JMidiComposition composition, Appendable ap) throws IllegalArgumentException {
     
     if(composition == null || ap == null) {
       throw  new IllegalArgumentException("params cant be null!");
