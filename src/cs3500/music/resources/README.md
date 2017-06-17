@@ -2,11 +2,11 @@
 
 A simple MIDI Sequencer based on JAVA
 
-----------------------------------------------------
-
-**_FILES:_**
-
 **JAVA DOC for reference in folder: /doc**
+
+**MODEL RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
+
+----------------------------------------------------
 
 **Interface Hierarchy**
 
@@ -58,11 +58,77 @@ A simple class that represents a MIDI Instrument. It basically sets how the even
 are going to be represented from the track to the user in a mor musical way 
 (defines scale degrees, intervals, etc...). This is used by cs3500.music.model.JMidiTrack
 
-**cs3500.music.model.JTimeSignature**
+**Modifications from last assignment**
+Removal of TimeSignature class (we decided to leave everything in 4/4 as the assignment suggested
+ and not support dynamic time signatures in this release).
+ 
+Removal of TimeSignature and Tempo change variables and methods from JMidiComposition (Smae 
+reason as above).
 
-Represents how many beats (pulses) are to be contained in each bar
-and which note value is to be given one beat in a musical composition.
-This is used by cs3500.music.model.JMidiComposition.
+Because JMidiTrack actually handles all the requirements of the assignment, in order to support 
+multiple instruments in different tracks we decided to use JMidiComposition as the adapter 
+between the MusicReader by implementing the builder on it and at the same time use it to group 
+several tracks.
+
+
+**CONTROLLER RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
+
+----------------------------------------------------
+
+**Interface Hierarchy**
+
+cs3500.music.controller.ICmdController
+
+**Class Hierarchy**
+
+cs3500.music.controller.CmdController (implements cs3500.music.controller.CmdController)
+
+
+----------------------------------------------------
+
+**_DESCRIPTIONS:_**
+
+**cs3500.music.controller.ICmdController**
+
+Takes care of the command line interactions.
 
 
 
+**VIEW RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
+
+----------------------------------------------------
+
+**Class Hierarchy**
+
+cs3500.music.view.ConsoleView (implements cs3500.music.view.ICompositionView)
+
+cs3500.music.view.DrawValues
+
+cs3500.music.view.MidiViewImpl (implements cs3500.music.view.ICompositionView)
+
+cs3500.music.view.ViewSelector
+
+
+**Interface Hierarchy**
+
+cs3500.music.view.ICompositionView
+
+----------------------------------------------------
+
+**_DESCRIPTIONS:_**
+
+**cs3500.music.view.ConsoleView** 
+
+Renders a console view of the composition
+
+**cs3500.music.view.DrawValues**
+
+Holds constants for a unified visual render between classes
+
+**cs3500.music.view.MidiViewImpl** 
+
+Renders an audio view of the composition
+
+**cs3500.music.view.ViewSelector**
+
+Is a view factory that creates a view according to the specified parameters

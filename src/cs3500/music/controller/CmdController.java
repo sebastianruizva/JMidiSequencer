@@ -19,7 +19,7 @@ import cs3500.music.view.ViewSelector;
 /**
  * The class {@ModeSelector} Creates a view according to the user instructions.
  */
-public class CmdController {
+public class CmdController implements ICmdController {
   
   final Readable rd;
   final Appendable ap;
@@ -53,7 +53,7 @@ public class CmdController {
   /**
    * Interacts with the user
    */
-  public void run() throws MidiUnavailableException, FileNotFoundException {
+  @Override public void run() throws MidiUnavailableException, FileNotFoundException {
   
     JMidiUtils.message("please write the name of the file you want to open and its extension", ap);
     
