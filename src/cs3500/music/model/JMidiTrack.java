@@ -59,8 +59,7 @@ public class JMidiTrack {
       throw new IllegalArgumentException("negative values not supported!");
     }
     
-    //need to add + 1 to tolerate new triggers begining in the end beat
-    for (int i = 1; i < distance; i++) {
+    for (int i = 0; i < distance; i++) {
       
       if (grid.getOrDefault(tick + i, null) != null) {
         if (grid.get(tick + i).getOrDefault(pitch, null) != null) {
