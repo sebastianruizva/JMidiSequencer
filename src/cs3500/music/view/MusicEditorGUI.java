@@ -210,7 +210,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *
    * @return the position of the cursor.
    */
-  public int getCursorPosition() {
+  protected int getCursorPosition() {
     return cursorPosition;
   }
 
@@ -226,7 +226,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    * @throws IllegalArgumentException if the change would cause the cursor value to become greater
    *                                  than the maximum tick in the composition.
    */
-  public void setCursorPosition(int increase) throws IllegalArgumentException {
+  protected void setCursorPosition(int increase) throws IllegalArgumentException {
     if (increase + cursorPosition < 0) {
       throw new IllegalArgumentException("Cannot decrease position below zero.");
     }
@@ -273,7 +273,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *
    * @return the list of pitches.
    */
-  public ArrayList<Integer> getPitchesAtCursorPosition() {
+  protected ArrayList<Integer> getPitchesAtCursorPosition() {
     ArrayList<Integer> pitches = new ArrayList<>();
 
     for (JMidiEvent event : composition.getEventsOnTick(cursorPosition)) {
