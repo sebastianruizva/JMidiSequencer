@@ -15,7 +15,7 @@ import cs3500.music.util.JMidiUtils;
 public class JMidiComposition implements IjMidiComposition {
   
   /**
-   * The collection of tracks int he composition by number
+   * The collection of tracks int he composition by number.
    */
   private HashMap<Integer, JMidiTrack> tracks;
   
@@ -25,22 +25,22 @@ public class JMidiComposition implements IjMidiComposition {
   private int tempo;
   
   /**
-   * The maximum pitch in the composition
+   * The maximum pitch in the composition.
    */
   int maxPitch;
   
   /**
-   * the maximum tick in the composition
+   * the maximum tick in the composition.
    */
   int maxTick;
   
   /**
-   * the grid of the composition
+   * the grid of the composition.
    */
   HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
   
   /**
-   * the minimum pitch
+   * the minimum pitch.
    */
   private int minPitch;
   
@@ -74,13 +74,9 @@ public class JMidiComposition implements IjMidiComposition {
   public static final class Builder implements CompositionBuilder<JMidiComposition> {
     
     /**
-     * Tracks represents a collection of JMidiTracks
+     * Tracks represents a collection of JMidiTracks.
      */
     private HashMap<Integer, JMidiTrack> tracks;
-    
-    public Integer getTempo() {
-      return tempo;
-    }
     
     /**
      * Tempo represents the BPM measurement of the composition.
@@ -103,6 +99,10 @@ public class JMidiComposition implements IjMidiComposition {
      */
     public Builder setInstrument(int track, JVirtualInstrument instrument)
             throws IllegalArgumentException {
+  
+      if (track < 0) {
+        throw new IllegalArgumentException("track cant be negative");
+      }
       
       if (instrument == null) {
         throw new IllegalArgumentException("instrument cant be null");
@@ -172,7 +172,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Returns a clone of the grid of the composition
+   * Returns a clone of the grid of the composition.
    */
   public HashMap<Integer, HashMap<Integer, JMidiEvent>> getGrid() {
     
@@ -181,7 +181,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Returns a clone of the tracks in the composition
+   * Returns a clone of the tracks in the composition.
    */
   public HashMap<Integer, JMidiTrack> getTracks() {
     
@@ -190,7 +190,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Returns a the tempo of the composition
+   * Returns a the tempo of the composition.
    */
   public int getTempo() {
     
@@ -199,7 +199,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Returns the maximum tick in the track
+   * Returns the maximum tick in the track.
    */
   public int getMaxTick() {
     
@@ -207,19 +207,21 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Returns the minimum pitch in the track
+   * Returns the minimum pitch in the track.
    */
   public int getMinPitch() {
     
     return this.minPitch;
+    
   }
   
   /**
-   * Returns a the maximum pitch in the track
+   * Returns a the maximum pitch in the track.
    */
   public int getMaxPitch() {
     
     return this.maxPitch;
+    
   }
   
   /**
@@ -350,7 +352,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * updates the grid of the composition
+   * updates the grid of the composition.
    */
   private void updateGrid() {
     

@@ -133,9 +133,10 @@ public class MidiViewImplTest {
     
   }
   
+
   @Test public void TestMidiView_CompositionFromReader_multipleChannels() throws Exception {
     this.initCond();
-  
+    
     jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
             CompositionBuilder);
     
@@ -152,6 +153,17 @@ public class MidiViewImplTest {
             + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:1400000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n", log.toString());
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void TestMidiView_CompositionFromReader_invalidFile() throws Exception {
+    this.initCond();
+    
+    jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
+            CompositionBuilder);
+    
+    midiView.initialize(jMidiComposition);
     
   }
   

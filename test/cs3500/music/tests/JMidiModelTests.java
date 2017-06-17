@@ -2,6 +2,8 @@ package cs3500.music.tests;
 
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -9,6 +11,7 @@ import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
+import cs3500.music.util.MusicReader;
 
 import static org.junit.Assert.assertEquals;
 
@@ -244,6 +247,67 @@ public class JMidiModelTests {
     
   }
   
+  @Test public void testAddEvent_FromFile() throws FileNotFoundException {
+    this.initCond();
+    jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
+            CompositionBuilder);
+    
+    assertEquals("       C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D "
+            + "  D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E    F   F#   "
+            + " G   G#    A   A#    B    C   C#    D   D#    E    F   F#    G   G#    A   A#    B"
+            + "    C   C#    D   D#    E    F   F#    G   G#    A   A#    B    C   C#    D   D#  "
+            + "  E    F   F#    G   G#    A   A#    B    C   C#    D   D#    E  \n"
+            + "    1                      X                                                      "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                              \n"
+            + "    2                      |                                                      "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           X  \n"
+            + "    3                      |                                                      "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  \n"
+            + "    4                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  \n"
+            + "    5                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  \n"
+            + "    6                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  \n"
+            + "    7                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  \n"
+            + "    8                                                                             "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                                                  "
+            + "                                                           |  ", jMidiComposition.toString());
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddEvent_Invalid_FromFile() throws FileNotFoundException {
+    
+    this.initCond();
+    jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"), CompositionBuilder);
+  
+  }
+  
   @Test(expected = IllegalArgumentException.class)
   public void testAddEvent_MultipleEvents_sameChannel_samePitch() {
     this.initCond();
@@ -369,6 +433,35 @@ public class JMidiModelTests {
     
     assertEquals(" ",
             jMidiComposition.getSectorType(3,0).toString());
+    
+  }
+  
+  @Test public void testSetInstrument() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 0, 0)
+            .addNote(1, 2, 2, 0, 0).setInstrument(1, jVirtualInstrument).build();
+    
+    assertEquals(jVirtualInstrument,
+            jMidiComposition.getTracks().get(1).getInstrument());
+    
+  }
+  
+  
+  @Test public void testGetMinimumAndMaximumValues() {
+    this.initCond();
+    jMidiComposition = CompositionBuilder
+            .addNote(1, 2, 0, 12, 0)
+            .addNote(1, 2, 2, 11, 0).setTempo(1).build();
+    
+    assertEquals(11,
+            jMidiComposition.getMinPitch());
+  
+    assertEquals(12,
+            jMidiComposition.getMaxPitch());
+  
+    assertEquals(2,
+            jMidiComposition.getMaxTick());
     
   }
   

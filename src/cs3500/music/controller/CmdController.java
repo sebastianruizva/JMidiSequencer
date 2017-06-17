@@ -22,11 +22,10 @@ public class CmdController {
   
   final Readable rd;
   final Appendable ap;
-  String fileName;
-  String viewType;
-  Scanner scanner;
-  JMidiComposition composition;
-  String view;
+  private String fileName;
+  private Scanner scanner;
+  private JMidiComposition composition;
+  private String view;
   
   /**
    * Constructs a {@code CmdController} object.
@@ -45,7 +44,6 @@ public class CmdController {
     this.rd = rd;
     this.ap = ap;
     this.fileName = null;
-    this.viewType = null;
     this.composition = null;
     this.view = null;
     this.scanner = new Scanner(rd);
@@ -89,7 +87,8 @@ public class CmdController {
         view = next;
   
         if (next.equalsIgnoreCase("console")) {
-    
+          
+          this.message(next + " view initialized, write Q to quit.");
           this.message(composition.toString());
     
         } else {
@@ -98,6 +97,7 @@ public class CmdController {
       
             ICompositionView selected = ViewSelector.select(next);
             selected.initialize(composition);
+            this.message(next + " view initialized, write Q to quit.");
       
           } catch (IllegalArgumentException e) {
       
