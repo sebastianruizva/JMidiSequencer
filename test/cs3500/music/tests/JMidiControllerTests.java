@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * The class {@JMidiControllerTests} represents tests for the Jmidi controller
+ * The class {@JMidiControllerTests} represents tests for the Jmidi controller.
  */
 public class JMidiControllerTests {
   
