@@ -1,6 +1,8 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+
 
 /**
  * A utility class containing constants for the GUI.

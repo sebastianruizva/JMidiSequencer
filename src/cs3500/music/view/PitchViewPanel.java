@@ -1,8 +1,9 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.model.IjVirtualInstrument;
 import cs3500.music.model.JMidiComposition;
@@ -21,6 +22,7 @@ public class PitchViewPanel extends JPanel {
 
   /**
    * Constructs a new PitchViewPanel based on the provided composition.
+   *
    * @param composition the composition to draw the range of pitches from.
    * @throws IllegalArgumentException if the composition is null.
    */
@@ -61,13 +63,14 @@ public class PitchViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
-    IjVirtualInstrument inst = JMidiUtils.DEFAULT_VI();
+    IjVirtualInstrument inst = JMidiUtils.defualtVI();
     g.setFont(DrawValues.VERDANA);
 
 
     int minPitch = composition.getMinPitch();
     for (int i = minPitch; i <= maxPitch; i++) {
-      g.drawString(inst.getNoteRepresentation(i) + (i / inst.getOctaveDegree()), 0, (maxPitch - i) * 20 + DrawValues.GRID_MARGIN + 20);
+      g.drawString(inst.getNoteRepresentation(i) + (i / inst.getOctaveDegree()), 0,
+              (maxPitch - i) * 20 + DrawValues.GRID_MARGIN + 20);
     }
   }
 }

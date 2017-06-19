@@ -1,8 +1,10 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JLayeredPane;
 
 /**
  * A view panel displaying a ten-octave keyboard. Notes that are currently selected by the
@@ -140,7 +142,7 @@ public class PianoViewPanel extends JLayeredPane {
       } else {
         blackPitchCount += 2;
       }
-  
+
       keyCount++;
     }
   }

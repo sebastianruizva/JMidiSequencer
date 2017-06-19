@@ -7,27 +7,27 @@ import javax.sound.midi.Synthesizer;
  * a midi track.
  */
 public interface IjVirtualInstrument {
-  
+
   /**
    * Return the size of an octave in this virtual instrument.
    */
   int getOctaveDegree();
-  
+
   /**
    * Returns a string representing all the notes supported by the Virtual instrument.
    */
   String getScale();
-  
+
   /**
    * @param pitch returns a string representation of the appropriate note depending on the specified
    *              pitch.
-   * @throws IllegalArgumentException if is a negative value
+   * @throws IllegalArgumentException if is a negative value.
    */
   String getNoteRepresentation(int pitch) throws IllegalArgumentException;
-  
+
   /**
-   * Returns its current synthesizer
+   * Returns its current synthesizer.
    */
   Synthesizer getSynth();
-  
+
 }

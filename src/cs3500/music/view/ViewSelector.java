@@ -1,16 +1,17 @@
 package cs3500.music.view;
 
 /**
- * The class {@ViewSelector} Returns a view according to the user input
+ * The class {@ViewSelector} Returns a view according to the user input.
  */
 public final class ViewSelector {
-  
+
   /**
    * Returns a view according to the user input.
-   * @param type the type of view you want
+   *
+   * @param type the type of view you want.
    */
   public static ICompositionView select(String type) throws IllegalArgumentException {
-    
+
     switch (type) {
       case "midi":
       case "MIDI":
@@ -21,10 +22,10 @@ public final class ViewSelector {
       case "console":
       case "CONSOLE":
         return new ConsoleView();
-        default:
-          throw new IllegalArgumentException("there is no view with that name...");
+      default:
+        throw new IllegalArgumentException("there is no view with that name...");
     }
-    
+
   }
-  
+
 }

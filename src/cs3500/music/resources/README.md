@@ -131,4 +131,19 @@ Renders an audio view of the composition
 
 **cs3500.music.view.ViewSelector**
 
-Is a view factory that creates a view according to the specified parameters
+This is a factory class for views that allows the client to easily select between a console version
+of the output and the more complex GUI. 
+
+**cs3500.music.view.ICompositionView**
+
+A unified typing for views relating to the music editor. As what and how different aspects of a 
+composition should be displayed is not totally concrete, this only contains one method, initialize.
+rather than a series of methods dictating what should be included in the view.
+
+**cs3500.music.view.MusicEditorGUI**
+
+A class responsible for displaying all the necessary interfaces related to a JMidiComposition. 
+This includes a ledger containing every note in the composition, arranged horizontally, with each
+row matching a pitch within the composition's range. A ten-octave keyboard is also displayed,
+and any selected notes are illuminated. 
+

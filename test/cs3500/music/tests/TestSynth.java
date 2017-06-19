@@ -13,32 +13,18 @@ import javax.sound.midi.Transmitter;
 import javax.sound.midi.VoiceStatus;
 
 public class TestSynth implements Synthesizer {
-  
+
   //initialize log
   private StringBuilder log;
-  
+
   /**
    * Constructs a {@TestSynth}.
+   *
    * @param log the log where the messages get recorded
    */
   public TestSynth(StringBuilder log) {
     this.log = log;
   }
-  
-  //Overwrite the destination receiver
-  @Override
-  public Receiver getReceiver() throws MidiUnavailableException {
-    TestReceiver reciever = new TestReceiver(log);
-    return reciever;
-  }
-  
-  //add open statement to log
-  @Override
-  public void open() throws MidiUnavailableException {}
-  
-  //add close statement to log
-  @Override
-  public void close() {}
 
   @Override
   public int getMaxPolyphony() {
@@ -71,7 +57,9 @@ public class TestSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadInstrument(Instrument instrument) { }
+  public void unloadInstrument(Instrument instrument) {
+    // Should do nothing as this is not yet implemented.
+  }
 
   @Override
   public boolean remapInstrument(Instrument from, Instrument to) {
@@ -99,7 +87,9 @@ public class TestSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadAllInstruments(Soundbank soundbank) { }
+  public void unloadAllInstruments(Soundbank soundbank) {
+    // Should do nothing as this is not yet implemented.
+  }
 
   @Override
   public boolean loadInstruments(Soundbank soundbank, Patch[] patchList) {
@@ -107,13 +97,30 @@ public class TestSynth implements Synthesizer {
   }
 
   @Override
-  public void unloadInstruments(Soundbank soundbank, Patch[] patchList) { }
+  public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
+    // Should do nothing as this is not yet implemented.
+
+  }
 
   @Override
   public Info getDeviceInfo() {
     return null;
   }
-  
+
+  //add open statement to log
+  @Override
+  public void open() throws MidiUnavailableException {
+    // Should do nothing as this is not yet implemented.
+
+  }
+
+  //add close statement to log
+  @Override
+  public void close() {
+    // Should do nothing as this is not yet implemented.
+
+  }
+
   @Override
   public boolean isOpen() {
     return false;
@@ -132,6 +139,13 @@ public class TestSynth implements Synthesizer {
   @Override
   public int getMaxTransmitters() {
     return 0;
+  }
+
+  //Overwrite the destination receiver
+  @Override
+  public Receiver getReceiver() throws MidiUnavailableException {
+    TestReceiver reciever = new TestReceiver(log);
+    return reciever;
   }
 
   @Override

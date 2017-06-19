@@ -4,14 +4,12 @@ import org.junit.Test;
 
 import cs3500.music.view.KeyListener;
 
-import static org.junit.Assert.*;
-
 /**
- * Tests for KeyListener
+ * Tests for KeyListener.
  */
 public class KeyListenerTest {
-@Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNullConstructor() {
-  KeyListener fail = new KeyListener(null);
-}
+    KeyListener fail = new KeyListener(null);
+  }
 }

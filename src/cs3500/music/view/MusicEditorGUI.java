@@ -1,11 +1,20 @@
 package cs3500.music.view;
 
-import com.sun.media.sound.MidiUtils;
-
-import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.BoxLayout;
+import javax.swing.WindowConstants;
+import javax.swing.BoundedRangeModel;
+import javax.swing.JScrollBar;
+import javax.swing.KeyStroke;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
@@ -25,7 +34,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   // The layout of the pitches and score ledger.
   private JPanel scoreLayout;
 
-  // The layout of the piano keybaord.
+  // The layout of the piano keyboard.
   private JPanel pianoLayout;
 
   // A model used by the scroll panes for simultaneous scrolling capabilities.
@@ -34,11 +43,14 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   // The current position of the cursor (the red bar).
   private int cursorPosition;
 
+  /*
+  FOR FUTURE IMPLEMENTATION, PLEASE DISREGARD.
   // The left bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundLeft;
 
   // The right bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundRight;
+  */
 
   /**
    * Initializes all of the panels in the {@link JFrame}, and makes it visible.
@@ -52,13 +64,17 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     if (composition == null) {
       throw new IllegalArgumentException("Cannot initialize with null composition.");
     }
-  
+
     JMidiUtils.message("Visual view Initialized!", ap);
+
+    /*
+    FOR FUTURE IMPLEMENTATION, PLEASE DISREGARD.
+    this.windowBoundLeft = 0;
+    this.windowBoundRight = 40;
+    */
 
     initScrollModel();
     this.cursorPosition = 0;
-    this.windowBoundLeft = 0;
-    this.windowBoundRight = 40;
     this.composition = composition;
     this.pianoLayout = initPianoLayout();
     this.scoreLayout = initScoreLayout();

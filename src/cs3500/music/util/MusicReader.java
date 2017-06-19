@@ -1,7 +1,5 @@
 package cs3500.music.util;
 
-import cs3500.music.model.*;
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -14,19 +12,19 @@ public class MusicReader {
    * builder for constructing compositions.
    *
    * <p>
-   *   The input file format consists of two types of lines:
-   *   <ul>
-   *     <li>Tempo lines: the keyword "tempo" followed by a number,
-   *      describing the tempo in microseconds per beat</li>
-   *     <li>Note lines: the keyword "note" followed by five numbers indicating
-   *      the start and end times of the note, the instrument,
-   *      the pitch, and the volume</li>
-   *   </ul>
+   * The input file format consists of two types of lines:
+   * <ul>
+   * <li>Tempo lines: the keyword "tempo" followed by a number,
+   * describing the tempo in microseconds per beat</li>
+   * <li>Note lines: the keyword "note" followed by five numbers indicating
+   * the start and end times of the note, the instrument,
+   * the pitch, and the volume</li>
+   * </ul>
    * </p>
-   * @param <T> The main model interface type describing music compositions
+   *
+   * @param <T>      The main model interface type describing music compositions
    * @param readable The source of data for the music composition
-   * @param piece A builder for helping to construct a new composition
-   * @return
+   * @param piece    A builder for helping to construct a new composition
    */
   public static <T> T parseFile(Readable readable, CompositionBuilder<T> piece) {
     Scanner scanner = new Scanner(readable);

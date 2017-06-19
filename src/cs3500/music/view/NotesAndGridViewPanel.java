@@ -1,9 +1,12 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Color;
+
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
@@ -33,11 +36,11 @@ public class NotesAndGridViewPanel extends JPanel {
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
   public NotesAndGridViewPanel(JMidiComposition composition, MusicEditorGUI gui) {
-    
-    if(composition == null || gui == null) {
+
+    if (composition == null || gui == null) {
       throw new IllegalArgumentException("cant be null!");
     }
-    
+
     this.composition = composition;
     this.grid = composition.getGrid();
     this.maxPitch = composition.getMaxPitch();
@@ -96,7 +99,7 @@ public class NotesAndGridViewPanel extends JPanel {
     int noteWidth = DrawValues.RECTANGLE_W;
     int noteHeight = DrawValues.RECTANGLE_H;
 
-    JVirtualInstrument inst = JMidiUtils.DEFAULT_VI();
+    JVirtualInstrument inst = JMidiUtils.defualtVI();
 
     for (Integer tick : this.grid.keySet()) {
       for (Integer pitch : this.grid.get(tick).keySet()) {
@@ -112,7 +115,8 @@ public class NotesAndGridViewPanel extends JPanel {
           g.setColor(DrawValues.NOTE_TAIL_COLOR);
 
         }
-        g.fillRect(tick * noteWidth, (maxPitch - pitch) * 20 + DrawValues.GRID_MARGIN, noteWidth, noteHeight);
+        g.fillRect(tick * noteWidth, (maxPitch - pitch) * 20 + DrawValues.GRID_MARGIN,
+                noteWidth, noteHeight);
       }
     }
   }
@@ -132,7 +136,8 @@ public class NotesAndGridViewPanel extends JPanel {
       }
     }
 
-    for (int i = 0; i <= (((maxPitch - minPitch + 1) * DrawValues.RECTANGLE_H) / DrawValues.RECTANGLE_H); i++) {
+    for (int i = 0; i <= (((maxPitch - minPitch + 1)
+            * DrawValues.RECTANGLE_H) / DrawValues.RECTANGLE_H); i++) {
       g.setColor(DrawValues.GRID_BORDER_COLOR);
       g.drawLine(0, (i * DrawValues.RECTANGLE_H) + DrawValues.GRID_MARGIN,
               width, (i * DrawValues.RECTANGLE_H) + DrawValues.GRID_MARGIN);

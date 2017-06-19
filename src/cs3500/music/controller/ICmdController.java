@@ -5,12 +5,12 @@ import java.io.FileNotFoundException;
 import javax.sound.midi.MidiUnavailableException;
 
 /**
- * The class {@ICmdController} Represents a commandline controller class interface
+ * The class {@ICmdController} Represents a commandline controller class interface.
  */
 public interface ICmdController {
-  
+
   /**
-   * Runs the interpreter
+   * Runs the interpreter.
    */
   void run() throws MidiUnavailableException, FileNotFoundException;
 }
