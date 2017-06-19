@@ -59,6 +59,11 @@ public class MidiViewImplTest {
    * An example of a midi view implementation.
    */
   MidiViewImpl midiView;
+  
+  /**
+   * Mock sequencer.
+   */
+  TestSequencer testSequencer;
 
   /**
    * ***************
@@ -92,21 +97,15 @@ public class MidiViewImplTest {
 
     ap = new StringBuilder();
 
-    jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
+    jVirtualInstrument = new JVirtualInstrument(scale, 0);
 
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
 
     midiView = new MidiViewImpl();
 
     compositionBuilder = JMidiComposition.builder();
-
-
-    //Add Mock instrument to the first 21 tracks
-    for (int i = 0; i < 20; i++) {
-
-      compositionBuilder.setInstrument(i, jVirtualInstrument);
-
-    }
+    
+    testSequencer = new TestSequencer(log);
 
   }
 

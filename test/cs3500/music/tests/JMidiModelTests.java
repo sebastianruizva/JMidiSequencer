@@ -172,6 +172,7 @@ public class JMidiModelTests {
 
   }
 
+
   /**
    * Initial conditions for testing.
    */
@@ -179,7 +180,7 @@ public class JMidiModelTests {
 
     log = new StringBuilder();
 
-    jVirtualInstrument = new JVirtualInstrument(scale, new TestSynth(log));
+    jVirtualInstrument = new JVirtualInstrument(scale, 0);
 
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
 

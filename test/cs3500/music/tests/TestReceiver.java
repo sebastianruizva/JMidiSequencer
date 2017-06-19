@@ -12,7 +12,6 @@ public class TestReceiver implements Receiver {
 
   /**
    * Constructs a {@TestReciever}.
-   *
    * @param log the log where the messages get recorded
    */
   public TestReceiver(StringBuilder log) {

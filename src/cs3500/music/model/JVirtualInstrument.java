@@ -8,8 +8,10 @@ import javax.sound.midi.Synthesizer;
  * The class {@JVirtualInstrument} Represents a midi based musical instrument.
  */
 public class JVirtualInstrument implements IjVirtualInstrument {
-
-  private ArrayList<String> scale;
+  
+  private final int number;
+  
+  private final ArrayList<String> scale;
 
   private Synthesizer synth;
 
@@ -18,12 +20,12 @@ public class JVirtualInstrument implements IjVirtualInstrument {
    *
    * @param scale A list of the 'notes' playable by the virtual instrument from low to high.
    */
-  public JVirtualInstrument(ArrayList<String> scale, Synthesizer synth) {
+  public JVirtualInstrument(ArrayList<String> scale, int number) {
     if (scale == null) {
       throw new IllegalArgumentException("scale cant be null!");
     }
     this.scale = scale;
-    this.synth = synth;
+    this.number = number;
 
   }
 
@@ -66,5 +68,12 @@ public class JVirtualInstrument implements IjVirtualInstrument {
   @Override
   public Synthesizer getSynth() {
     return synth;
+  }
+  
+  /**
+   * Returns the number of the instrument to be played;
+   */
+  public int getNumber() {
+    return number;
   }
 }

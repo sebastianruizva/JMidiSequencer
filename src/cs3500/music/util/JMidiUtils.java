@@ -24,13 +24,7 @@ public class JMidiUtils {
    * the default Virtual Instrument.
    */
   public static JVirtualInstrument defualtVI() {
-    try {
-      return new JVirtualInstrument(DEFAULT_SCALE, MidiSystem.getSynthesizer());
-    } catch (MidiUnavailableException e) {
-      e.printStackTrace();
-    }
-
-    return null;
+      return new JVirtualInstrument(DEFAULT_SCALE, 0);
   }
 
   /**
