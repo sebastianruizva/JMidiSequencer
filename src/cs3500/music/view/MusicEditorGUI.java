@@ -1,20 +1,9 @@
 package cs3500.music.view;
 
+import java.awt.*;
 import java.util.ArrayList;
 
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
-import javax.swing.WindowConstants;
-import javax.swing.BoundedRangeModel;
-import javax.swing.JScrollBar;
-import javax.swing.KeyStroke;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
@@ -43,14 +32,16 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   // The current position of the cursor (the red bar).
   private int cursorPosition;
 
-  /*
-  FOR FUTURE IMPLEMENTATION, PLEASE DISREGARD.
   // The left bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundLeft;
 
   // The right bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundRight;
-  */
+
+  // The scroll bar used to keep in time with the cursor once it hits the edge of the display.
+  private JScrollBar horizontalCursorTracker;
+
+  private JScrollBar verticalPitchTracker;
 
   /**
    * Initializes all of the panels in the {@link JFrame}, and makes it visible.
@@ -67,11 +58,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
     JMidiUtils.message("Visual view Initialized!", ap);
 
-    /*
-    FOR FUTURE IMPLEMENTATION, PLEASE DISREGARD.
     this.windowBoundLeft = 0;
     this.windowBoundRight = 40;
-    */
 
     initScrollModel();
     this.cursorPosition = 0;
@@ -171,9 +159,9 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     base.setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
     base.setBorder(null);
 
-    JScrollBar scrollBarVertical = base.getVerticalScrollBar();
-    scrollBarVertical.setModel(scrollModel);
-    scrollBarVertical.setPreferredSize(new Dimension(0, 0));
+    verticalPitchTracker = base.getVerticalScrollBar();
+    verticalPitchTracker.setModel(scrollModel);
+    verticalPitchTracker.setPreferredSize(new Dimension(0, 0));
 
     return base;
   }
@@ -201,6 +189,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     InputMap verticalKeys = scrollBarVertical.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
     verticalKeys.put(KeyStroke.getKeyStroke("UP"), "negativeUnitIncrement");
     verticalKeys.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
+
+    horizontalCursorTracker = base.getHorizontalScrollBar();
 
     return base;
   }
@@ -257,22 +247,28 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     }
 
     this.cursorPosition += increase;
-    this.scoreLayout = initScoreLayout();
-    this.pianoLayout = initPianoLayout();
 
-    /*
-    FOR LATER IMPLEMENTATION; PLEASE DISREGARD.
-    adjustWindowBounds();*/
+    adjustWindowBounds();
+    adjustScrollBar();
 
     revalidate();
     repaint();
   }
 
-  /* FOR LATER SCROLLING IMPLEMENTATION; PLEASE DISREGARD.
+  /**
+   * Adjusts the current position of the scrollbar to match the position of the cursor. For
+   * instance, if the cursor is moved offscreen, the scrollbar will move to match.
+   */
+  private void adjustScrollBar() {
+    horizontalCursorTracker.setValue(windowBoundLeft * 40);
+    this.scoreLayout.revalidate();
+    this.scoreLayout.repaint();
+  }
+
   /**
    * Adjusts the bounds for the scroll pane based on the position of the cursor. If the cursor
    * reaches a point currently offscreen, the window bounds are adjusted to compensate.
-
+   */
   private void adjustWindowBounds() {
     if (cursorPosition > windowBoundRight) {
       windowBoundRight++;
@@ -287,7 +283,6 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
       windowBoundLeft--;
     }
   }
-  */
 
   /**
    * Determines a list of pitches present at the tick currently selected by the cursor.
