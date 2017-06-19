@@ -26,7 +26,8 @@ public class MusicEditor {
     Readable reader = new InputStreamReader(System.in);
     CmdController selector = new CmdController(reader, System.out);
   
-    JMidiComposition composition = MusicReader.parseFile(new FileReader("mary-little-lamb.txt"), JMidiComposition.builder());
+    JMidiComposition composition = MusicReader.parseFile(new FileReader("mystery-1.txt"),
+            JMidiComposition.builder());
     ICompositionView selected = ViewSelector.select("midi");
     
     selected.initialize(composition, new StringBuilder());

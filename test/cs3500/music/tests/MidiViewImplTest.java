@@ -101,7 +101,7 @@ public class MidiViewImplTest {
 
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
 
-    midiView = new MidiViewImpl();
+    //midiView = hnew MidiViewImpl(new TestSequencer(log));
 
     compositionBuilder = JMidiComposition.builder();
     
