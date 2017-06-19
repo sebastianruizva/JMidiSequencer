@@ -23,15 +23,15 @@ public class MusicEditor {
   public static void main(String[] args)
           throws IOException, InvalidMidiDataException, MidiUnavailableException {
 
-/*    Readable reader = new InputStreamReader(System.in);
+    Readable reader = new InputStreamReader(System.in);
     CmdController selector = new CmdController(reader, System.out);
-
-    selector.run();*/
-
-
+  
     JMidiComposition composition = MusicReader.parseFile(new FileReader("mary-little-lamb.txt"), JMidiComposition.builder());
-    ICompositionView selected = ViewSelector.select("visual");
+    ICompositionView selected = ViewSelector.select("composite");
+    
     selected.initialize(composition, new StringBuilder());
+
+    selector.run();
 
   }
 }
