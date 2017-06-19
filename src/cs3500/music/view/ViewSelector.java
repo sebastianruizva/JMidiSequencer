@@ -16,6 +16,9 @@ public final class ViewSelector {
       case "midi":
       case "MIDI":
         return new MidiViewImpl();
+      case "composite":
+      case "Composite":
+        return new CompositeView();
       case "visual":
       case "VISUAL":
         return new MusicEditorGUI();
