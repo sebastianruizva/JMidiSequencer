@@ -28,7 +28,7 @@ public class MusicEditor {
   
     JMidiComposition composition = MusicReader.parseFile(new FileReader("mystery-1.txt"),
             JMidiComposition.builder());
-    ICompositionView selected = ViewSelector.select("midi");
+    ICompositionView selected = ViewSelector.select("composite");
     
     selected.initialize(composition, new StringBuilder());
 
