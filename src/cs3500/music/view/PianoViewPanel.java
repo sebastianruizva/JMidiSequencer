@@ -154,9 +154,7 @@ public class PianoViewPanel extends JLayeredPane {
   public ArrayList<PianoKey> getKeys() {
     ArrayList<PianoKey> base = new ArrayList<>();
 
-    for (PianoKey p : keys) {
-      base.add(p);
-    }
+    base.addAll(keys);
 
     return base;
   }
