@@ -43,6 +43,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
   private JScrollBar verticalPitchTracker;
 
+  private PianoViewPanel keyMap;
+
   /**
    * Initializes all of the panels in the {@link JFrame}, and makes it visible.
    *
@@ -118,9 +120,11 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     buffer.setBorder(null);
 
     JPanel pianoLayout = new JPanel(pianoLayoutGrid);
+    PianoViewPanel pianoViewPanel = new PianoViewPanel(this);
     pianoLayout.add(buffer);
-    pianoLayout.add(new PianoViewPanel(this));
+    pianoLayout.add(pianoViewPanel);
 
+    this.keyMap = pianoViewPanel;
     return pianoLayout;
   }
 
@@ -251,8 +255,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     adjustWindowBounds();
     adjustScrollBar();
 
-    revalidate();
-    repaint();
+    refreshPanels();
   }
 
   /**
@@ -261,8 +264,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    */
   private void adjustScrollBar() {
     horizontalCursorTracker.setValue(windowBoundLeft * 40);
-    this.scoreLayout.revalidate();
-    this.scoreLayout.repaint();
+
+    refreshPanels();
   }
 
   /**
@@ -297,5 +300,25 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     }
 
     return pitches;
+  }
+
+  public void refreshPanels() {
+    this.scoreLayout.revalidate();
+    this.scoreLayout.repaint();
+
+    this.pianoLayout.revalidate();
+    this.pianoLayout.repaint();
+  }
+
+  public void addKeyListener(KeyListener listener) {
+    super.addKeyListener(listener);
+  }
+
+  public void addMouseListener(MouseListener listener) {
+    super.addMouseListener(listener);
+  }
+
+  public PianoKey getKeyAtPosition(Point point) {
+    return keyMap.getKeyAtPosition(point);
   }
 }
