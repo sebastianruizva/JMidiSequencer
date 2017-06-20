@@ -128,14 +128,35 @@ public class AudioView implements ICompositionView {
   
     JMidiUtils.message("Playing Sequence", ap);
     sequencer.start();
+    sequencer.setTempoInMPQ(composition.getTempo());
+    
   }
   
   /**
    * Stops playback.
    */
-  public void stop() {
+  public void pause() {
     JMidiUtils.message("Stopping Sequence", ap);
     sequencer.stop();
+    sequencer.setTempoInMPQ(composition.getTempo());
+  }
+  
+  /**
+   * Stops forwards playback.
+   */
+  public void forward() {
+    JMidiUtils.message("Forwarding Sequence", ap);
+    sequencer.setTickPosition(sequencer.getTickPosition() + 24);
+    sequencer.setTempoInMPQ(composition.getTempo());
+  }
+  
+  /**
+   * Stops rewinds playback.
+   */
+  public void rewind() {
+    JMidiUtils.message("Forwarding Sequence", ap);
+    sequencer.setTickPosition(sequencer.getTickPosition() - 1);
+    sequencer.setTempoInMPQ(composition.getTempo());
   }
   
   /**

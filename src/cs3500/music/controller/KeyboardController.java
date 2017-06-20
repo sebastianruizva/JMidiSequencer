@@ -2,8 +2,8 @@ package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
 import cs3500.music.view.MusicEditorGUI;
-import cs3500.music.view.PianoKey;
 
 /**
  * Created by sebastian on 6/20/17.
@@ -47,19 +47,10 @@ public class KeyboardController  implements IVisitableController {
     }
   }
   
-  @Override
-  public void keyReleased(KeyEvent e) {
-    // Should do nothing, but must be overridden.
+  @Override public void keyReleased(KeyEvent e) {
   }
   
   @Override public void mouseClicked(MouseEvent e) {
-  
-    try {
-      PianoKey target = view.getKeyAtPosition(e.getPoint());
-      //controller.addKey(target.pitch, view.getCursorLocation());
-    } catch (IllegalArgumentException x) {
-      // controller.message("No key at that position.");
-    }
   
   }
   

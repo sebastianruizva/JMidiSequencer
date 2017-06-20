@@ -63,6 +63,8 @@ public class CompositeController implements IVisitableController {
   
   @Override public void mouseClicked(MouseEvent e) {
   
+    view.addNote(e.getPoint());
+  
   }
   
   @Override public void mousePressed(MouseEvent e) {
