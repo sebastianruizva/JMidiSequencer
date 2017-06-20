@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cs3500.music.controller.PlaybackCommands.Forward;
 import cs3500.music.controller.PlaybackCommands.Play;
+import cs3500.music.controller.PlaybackCommands.Rewind;
 import cs3500.music.controller.PlaybackCommands.Stop;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.CompositeView;
@@ -29,8 +30,8 @@ public class CompositeController implements IVisitableController {
   
     supportedCommands.put(80, new Play());
     supportedCommands.put(83, new Stop());
-    supportedCommands.put(70, new Forward());
-    supportedCommands.put(66, new Forward());
+    supportedCommands.put(37, new Rewind());
+    supportedCommands.put(39, new Forward());
     
   }
 
