@@ -25,7 +25,6 @@ public class AudioController implements IVisitableController {
     JMidiUtils.message("Audio Controller Started", ap);
     
     this.view = view;
-    view.addKeyListener(this);
     JMidiUtils.message("Controller connected to View", ap);
     new Play().execute(view);
     

@@ -17,12 +17,12 @@ public class MainController {
 
   final Readable rd;
   final Appendable ap;
+  IVisitableController controller;
+  ControllerInitializer initializer;
   private String fileName;
   private Scanner scanner;
   private JMidiComposition composition;
   private ICompositionView selected;
-  IVisitableController controller;
-  ControllerInitializer initializer;
 
   
   /**
@@ -71,8 +71,8 @@ public class MainController {
         try {
 
           composition = MusicReader.parseFile(new FileReader(fileName), JMidiComposition.builder());
-
-          JMidiUtils.message("console, visual or MIDI?", ap);
+  
+          JMidiUtils.message("console, visual, composite or MIDI?", ap);
 
         } catch (IOException | IllegalArgumentException e) {
 

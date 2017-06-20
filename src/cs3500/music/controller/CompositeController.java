@@ -24,8 +24,8 @@ public class CompositeController implements IVisitableController {
   }
   
   protected void addCommands() {
-    
-    supportedCommands.put(KeyEvent.VK_SPACE, new Play());
+  
+    supportedCommands.put(32, new Play());
     
   }
 
@@ -35,14 +35,13 @@ public class CompositeController implements IVisitableController {
     this.supportedCommands = new HashMap<>();
     this.addCommands();
     view.addListener(this);
-    
   }
   
   @Override public void keyPressed(KeyEvent e) {
   
-    IPlaybackCommand cmd = supportedCommands.getOrDefault(e, null);
+    IPlaybackCommand cmd = supportedCommands.getOrDefault(e.getKeyCode(), null);
     if (cmd == null) {
-      JMidiUtils.message("Command Registered, try another key!", ap);
+      JMidiUtils.message(e.getKeyCode() + " command NOT registered, try another key!", ap);
     } else {
       cmd.execute(view);
     }
