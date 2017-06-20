@@ -5,7 +5,9 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import cs3500.music.controller.PlaybackCommands.Forward;
 import cs3500.music.controller.PlaybackCommands.Play;
+import cs3500.music.controller.PlaybackCommands.Stop;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.CompositeView;
 
@@ -25,7 +27,10 @@ public class CompositeController implements IVisitableController {
   
   protected void addCommands() {
   
-    supportedCommands.put(32, new Play());
+    supportedCommands.put(80, new Play());
+    supportedCommands.put(83, new Stop());
+    supportedCommands.put(70, new Forward());
+    supportedCommands.put(66, new Forward());
     
   }
 
@@ -69,6 +74,8 @@ public class CompositeController implements IVisitableController {
   }
   
   @Override public void mouseEntered(MouseEvent e) {
+  
+    view.sync();
   
   }
   

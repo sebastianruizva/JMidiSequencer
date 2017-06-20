@@ -58,8 +58,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     if (composition == null) {
       throw new IllegalArgumentException("Cannot initialize with null composition.");
     }
-
-    JMidiUtils.message("Visual view Initialized!", ap);
+  
+    JMidiUtils.message("Preparing GUI View", ap);
 
     this.windowBoundLeft = 0;
     this.windowBoundRight = 40;
@@ -73,6 +73,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     initComponents();
 
     this.setVisible(true);
+  
+    JMidiUtils.message("GUI View Ready", ap);
   }
 
   /**
