@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.io.StringReader;
 
-import cs3500.music.controller.CmdController;
+import cs3500.music.controller.MainController;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class JMidiControllerTests {
 
-  CmdController controller;
+  MainController controller;
 
   Readable rd;
 
@@ -33,7 +33,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -59,7 +59,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("fakefile.tft");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -77,7 +77,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -95,7 +95,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt\n" + "modi");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -115,7 +115,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt\n" + "midi");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -134,7 +134,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt\n" + "console");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -231,7 +231,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt\n" + "visual");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -249,7 +249,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("singleChannel.txt\n" + "Q");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 
@@ -266,7 +266,7 @@ public class JMidiControllerTests {
     //Simulate user input
     rd = new StringReader("Q");
 
-    controller = new CmdController(rd, ap);
+    controller = new MainController(rd, ap);
 
     controller.run();
 

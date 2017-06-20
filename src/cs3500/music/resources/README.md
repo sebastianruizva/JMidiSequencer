@@ -81,7 +81,7 @@ cs3500.music.controller.ICmdController
 
 **Class Hierarchy**
 
-cs3500.music.controller.CmdController (implements cs3500.music.controller.CmdController)
+cs3500.music.controller.MainController (implements cs3500.music.controller.MainController)
 
 
 ----------------------------------------------------
@@ -104,7 +104,7 @@ cs3500.music.view.ConsoleView (implements cs3500.music.view.ICompositionView)
 
 cs3500.music.view.DrawValues
 
-cs3500.music.view.MidiViewImpl (implements cs3500.music.view.ICompositionView)
+cs3500.music.view.AudioView (implements cs3500.music.view.ICompositionView)
 
 cs3500.music.view.ViewSelector
 
@@ -125,7 +125,7 @@ Renders a console view of the composition
 
 Holds constants for a unified visual render between classes
 
-**cs3500.music.view.MidiViewImpl** 
+**cs3500.music.view.AudioView** 
 
 Renders an audio view of the composition
 

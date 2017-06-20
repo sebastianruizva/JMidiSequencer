@@ -10,7 +10,7 @@ import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.AudioView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,7 +58,7 @@ public class MidiViewImplTest {
   /**
    * An example of a midi view implementation.
    */
-  MidiViewImpl midiView;
+  AudioView midiView;
   
   /**
    * Mock sequencer.

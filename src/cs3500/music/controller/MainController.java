@@ -1,11 +1,8 @@
 package cs3500.music.controller;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-
-import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.JMidiUtils;
@@ -16,24 +13,27 @@ import cs3500.music.view.ViewSelector;
 /**
  * The class {@ModeSelector} Creates a view according to the user instructions.
  */
-public class CmdController implements ICmdController {
+public class MainController {
 
   final Readable rd;
   final Appendable ap;
   private String fileName;
   private Scanner scanner;
   private JMidiComposition composition;
-  private String view;
+  private ICompositionView selected;
+  IVisitableController controller;
+  ControllerInitializer initializer;
 
+  
   /**
-   * Constructs a {@code CmdController} object.
+   * Constructs a {@code MainController} object.
    *
    * @param rd takes user input
    * @param ap transmits output
    * @throws IllegalStateException if the controller has not been initialized properly to receive
    *                               input and transmit output.
    */
-  public CmdController(Readable rd, Appendable ap) {
+  public MainController(Readable rd, Appendable ap) {
     if (rd == null) {
       throw new IllegalStateException("readable can't be null!");
     }
@@ -44,16 +44,15 @@ public class CmdController implements ICmdController {
     this.ap = ap;
     this.fileName = null;
     this.composition = null;
-    this.view = null;
     this.scanner = new Scanner(rd);
+    this.selected = null;
   }
 
   /**
    * Interacts with the user.
    */
-  @Override
-  public void run() throws MidiUnavailableException, FileNotFoundException {
-
+  public void run() {
+    
     JMidiUtils.message("please write the name of the file you want to open and its extension", ap);
 
     while (scanner.hasNextLine()) {
@@ -82,17 +81,19 @@ public class CmdController implements ICmdController {
 
         }
 
-      } else if (view == null) {
+      } else if (selected == null) {
 
         try {
 
-          ICompositionView selected = ViewSelector.select(next);
+          selected = ViewSelector.select(next);
           selected.initialize(composition, ap);
-          JMidiUtils.message("Write Q to quit", ap);
+          controller = ControllerManager.select(selected);
+          initializer = new ControllerInitializer(selected, rd, ap);
+          controller.accept(initializer);
 
         } catch (IllegalArgumentException e) {
-
-          view = null;
+  
+          selected = null;
           JMidiUtils.message(e.toString(), ap);
 
         }
@@ -100,7 +101,7 @@ public class CmdController implements ICmdController {
       }
 
     }
-
+    
   }
 
 }

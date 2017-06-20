@@ -15,7 +15,7 @@ public final class ViewSelector {
     switch (type) {
       case "midi":
       case "MIDI":
-        return new MidiViewImpl();
+        return new AudioView();
       case "composite":
       case "Composite":
         return new CompositeView();

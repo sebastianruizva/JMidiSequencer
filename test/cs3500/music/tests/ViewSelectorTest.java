@@ -2,9 +2,9 @@ package cs3500.music.tests;
 
 import org.junit.Test;
 
+import cs3500.music.view.AudioView;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.ICompositionView;
-import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.MusicEditorGUI;
 import cs3500.music.view.ViewSelector;
 
@@ -21,7 +21,7 @@ public class ViewSelectorTest {
 
     ICompositionView view = new ViewSelector().select("midi");
 
-    assertEquals(true, view instanceof MidiViewImpl);
+    assertEquals(true, view instanceof AudioView);
 
   }
 

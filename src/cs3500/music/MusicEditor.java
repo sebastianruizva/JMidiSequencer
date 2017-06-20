@@ -1,17 +1,12 @@
 package cs3500.music;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
-import cs3500.music.controller.CmdController;
-import cs3500.music.model.JMidiComposition;
-import cs3500.music.util.MusicReader;
-import cs3500.music.view.ICompositionView;
-import cs3500.music.view.ViewSelector;
+import cs3500.music.controller.MainController;
 
 /**
  * The class {@MusicEditor} represents a MusicEditor Java program.
@@ -22,18 +17,9 @@ public class MusicEditor {
    */
   public static void main(String[] args)
           throws IOException, InvalidMidiDataException, MidiUnavailableException {
-
     Readable reader = new InputStreamReader(System.in);
-    CmdController selector = new CmdController(reader, System.out);
-  
-    JMidiComposition composition = MusicReader.parseFile(new FileReader("mystery-1.txt"),
-            JMidiComposition.builder());
-    ICompositionView selected = ViewSelector.select("composite");
-    
-    selected.initialize(composition, new StringBuilder());
-
-    selector.run();
-
+    MainController controller = new MainController(reader, System.out);
+    controller.run();
   }
 }
 
