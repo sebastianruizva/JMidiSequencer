@@ -1,8 +1,10 @@
 package cs3500.music.controller;
 
+import cs3500.music.MusicEditor;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ICompositionView;
+import cs3500.music.view.MusicEditorGUI;
 
 /**
  * Created by sebastian on 6/20/17.
@@ -30,6 +32,12 @@ public class ControllerInitializer implements IVisitor{
   public void visit(AudioController controller) {
     
     controller.initialize((AudioView) view, rd, ap);
+    
+  }
+  
+  @Override public void visit(KeyboardController controller) {
+  
+    controller.initialize((MusicEditorGUI) view, rd, ap);
     
   }
 }

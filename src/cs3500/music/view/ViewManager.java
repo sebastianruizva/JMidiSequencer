@@ -3,7 +3,7 @@ package cs3500.music.view;
 /**
  * The class {@ViewSelector} Returns a view according to the user input.
  */
-public final class ViewSelector {
+public final class ViewManager {
 
   /**
    * Returns a view according to the user input.

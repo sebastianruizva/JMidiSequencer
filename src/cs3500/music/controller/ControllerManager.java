@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import cs3500.music.view.AudioView;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ICompositionView;
+import cs3500.music.view.MusicEditorGUI;
 
 /**
  * Returns a controller according to the user input.
@@ -22,6 +23,10 @@ public class ControllerManager {
       } else if (type instanceof AudioView) {
   
         return new AudioController();
+  
+      } else if (type instanceof MusicEditorGUI) {
+  
+        return new KeyboardController();
   
       } else {
         

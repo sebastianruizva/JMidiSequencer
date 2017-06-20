@@ -106,7 +106,7 @@ cs3500.music.view.DrawValues
 
 cs3500.music.view.AudioView (implements cs3500.music.view.ICompositionView)
 
-cs3500.music.view.ViewSelector
+cs3500.music.view.ViewManager
 
 
 **Interface Hierarchy**
@@ -129,7 +129,7 @@ Holds constants for a unified visual render between classes
 
 Renders an audio view of the composition
 
-**cs3500.music.view.ViewSelector**
+**cs3500.music.view.ViewManager**
 
 This is a factory class for views that allows the client to easily select between a console version
 of the output and the more complex GUI. 

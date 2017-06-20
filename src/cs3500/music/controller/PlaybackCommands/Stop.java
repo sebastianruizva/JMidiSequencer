@@ -7,7 +7,7 @@ import cs3500.music.view.AudioView;
  * Created by sebastian on 6/19/17.
  */
 public class Stop implements IPlaybackCommand {
-  @Override public void execute(AudioView view) {
-    view.stop();
+  @Override public void execute(AudioView controller) {
+    controller.stop();
   }
 }

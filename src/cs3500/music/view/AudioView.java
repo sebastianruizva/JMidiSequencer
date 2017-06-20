@@ -21,10 +21,12 @@ import cs3500.music.model.JMidiTrack;
 import cs3500.music.util.JMidiUtils;
 
 import javax.sound.midi.*; // package for all midi classes
+import javax.swing.*;
+
 /**
  * The class {@MidiViewImpl} implements a MIDI playback view of a composition.
  */
-public class AudioView implements ICompositionView {
+public class AudioView extends JFrame implements ICompositionView {
   
   private JMidiComposition composition;
   private Sequence sequence;

@@ -7,5 +7,6 @@ public interface IVisitor {
   
   void visit(CompositeController controller);
   void visit(AudioController controller);
+  void visit(KeyboardController controller);
  
 }

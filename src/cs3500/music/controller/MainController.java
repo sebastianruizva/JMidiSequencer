@@ -8,7 +8,7 @@ import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.ICompositionView;
-import cs3500.music.view.ViewSelector;
+import cs3500.music.view.ViewManager;
 
 /**
  * The class {@ModeSelector} Creates a view according to the user instructions.
@@ -85,7 +85,7 @@ public class MainController {
 
         try {
 
-          selected = ViewSelector.select(next);
+          selected = ViewManager.select(next);
           selected.initialize(composition, ap);
           controller = ControllerManager.select(selected);
           initializer = new ControllerInitializer(selected, rd, ap);

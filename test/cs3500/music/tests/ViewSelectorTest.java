@@ -6,7 +6,7 @@ import cs3500.music.view.AudioView;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.ICompositionView;
 import cs3500.music.view.MusicEditorGUI;
-import cs3500.music.view.ViewSelector;
+import cs3500.music.view.ViewManager;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +19,7 @@ public class ViewSelectorTest {
   @Test
   public void testViewSelector_GetMidiViewImpl() throws Exception {
 
-    ICompositionView view = new ViewSelector().select("midi");
+    ICompositionView view = new ViewManager().select("midi");
 
     assertEquals(true, view instanceof AudioView);
 
@@ -28,7 +28,7 @@ public class ViewSelectorTest {
   @Test
   public void testViewSelector_GetGuiView() throws Exception {
 
-    ICompositionView view = new ViewSelector().select("visual");
+    ICompositionView view = new ViewManager().select("visual");
 
     assertEquals(true, view instanceof MusicEditorGUI);
 
@@ -37,7 +37,7 @@ public class ViewSelectorTest {
   @Test
   public void testViewSelector_GetConsoleView() throws Exception {
 
-    ICompositionView view = new ViewSelector().select("console");
+    ICompositionView view = new ViewManager().select("console");
 
     assertEquals(true, view instanceof ConsoleView);
 
@@ -46,7 +46,7 @@ public class ViewSelectorTest {
   @Test(expected = IllegalArgumentException.class)
   public void testViewSelector_Invalid_View() throws Exception {
 
-    ICompositionView view = new ViewSelector().select("sdasd");
+    ICompositionView view = new ViewManager().select("sdasd");
 
   }
 

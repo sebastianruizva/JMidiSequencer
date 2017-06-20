@@ -8,7 +8,7 @@ import java.awt.*;
 public class PianoKey {
   private Rectangle hitBox;
   private PianoType type;
-  private int pitch;
+  public int pitch;
 
   public PianoKey(int x, int y, PianoType type, int pitch) {
     this.type = type;

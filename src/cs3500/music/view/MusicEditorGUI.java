@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import cs3500.music.controller.IVisitableController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.util.JMidiUtils;
@@ -80,8 +81,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    **/
   private void initComponents() {
     BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
-
-    addKeyListener(new KeyListener(this));
+    
     this.setLayout(boxLayout);
     this.add(scoreLayout);
     this.add(pianoLayout);
@@ -241,7 +241,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    * @throws IllegalArgumentException if the change would cause the cursor value to become greater
    *                                  than the maximum tick in the composition.
    */
-  protected void setCursorPosition(int increase) throws IllegalArgumentException {
+  public void setCursorPosition(int increase) throws IllegalArgumentException {
     if (increase + cursorPosition < 0) {
       throw new IllegalArgumentException("Cannot decrease position below zero.");
     }
@@ -310,15 +310,13 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     this.pianoLayout.repaint();
   }
 
-  public void addKeyListener(KeyListener listener) {
+  public void addListener(IVisitableController listener) {
     super.addKeyListener(listener);
-  }
-
-  public void addMouseListener(MouseListener listener) {
     super.addMouseListener(listener);
   }
 
   public PianoKey getKeyAtPosition(Point point) {
     return keyMap.getKeyAtPosition(point);
   }
+  
 }
