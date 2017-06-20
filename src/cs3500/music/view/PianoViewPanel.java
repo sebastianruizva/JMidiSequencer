@@ -1,8 +1,10 @@
 package cs3500.music.view;
 
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Color;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 import javax.swing.JLayeredPane;
 
@@ -12,6 +14,7 @@ import javax.swing.JLayeredPane;
  */
 public class PianoViewPanel extends JLayeredPane {
   private MusicEditorGUI gui;
+  private ArrayList<PianoKey> keys;
 
   /**
    * Constructs a new view panel with the provided {@link MusicEditorGUI}. If the GUI is determined
@@ -26,6 +29,8 @@ public class PianoViewPanel extends JLayeredPane {
     }
 
     this.gui = gui;
+    this.initKeys();
+    getKeys();
   }
 
   @Override
@@ -33,31 +38,22 @@ public class PianoViewPanel extends JLayeredPane {
     setPreferredSize(new Dimension(DrawValues.MIN_GRID_WIDTH, 400));
     setMaximumSize(getPreferredSize());
 
+    Predicate<PianoKey> isWhiteKey = (PianoKey key) -> key.getType() == PianoKey.PianoType.WHITE;
+    Predicate<PianoKey> isBlackKey = (PianoKey key) -> key.getType() == PianoKey.PianoType.BLACK;
+
     paintBackground(g);
-    paintWhiteKeys(g);
-    paintBlackKeys(g);
+    paintKeyset(g, isWhiteKey);
+    paintKeyset(g, isBlackKey);
   }
 
-  /**
-   * Paints a rectangular background for the keyboard.
-   *
-   * @param g the graphics component with which to draw the keyboard.
-   */
-  private void paintBackground(Graphics g) {
-    g.setColor(Color.DARK_GRAY);
-    g.drawRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
-    g.fillRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
-    g.setColor(Color.BLACK);
-    g.drawRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
+  private void initKeys() {
+    ArrayList<PianoKey> base = new ArrayList<>();
+    initWhiteKeys(base);
+    initBlackKeys(base);
+    keys = base;
   }
 
-  /**
-   * Paints all of the white keys on the keyboard onto the view, illuminating any if they're
-   * selected by the model. This will paint ten octaves of white keys.
-   *
-   * @param g the graphics component with which to draw the keyboard.
-   */
-  private void paintWhiteKeys(Graphics g) {
+  private void initWhiteKeys(ArrayList<PianoKey> keys) {
     int size = DrawValues.RECTANGLE_H;
     int offset = 100;
 
@@ -66,14 +62,7 @@ public class PianoViewPanel extends JLayeredPane {
     int lastAdded = 3;
 
     for (int i = 0; i < 70; i++) {
-      if (gui.getPitchesAtCursorPosition().contains(whitePitchCount)) {
-        g.setColor(Color.ORANGE);
-      } else {
-        g.setColor(Color.WHITE);
-      }
-      g.fillRect(i * size + offset, 0, size, 350);
-      g.setColor(Color.BLACK);
-      g.drawRect(i * size + offset, 0, size, 350);
+      keys.add(new PianoKey(i * size + offset, 0, PianoKey.PianoType.WHITE, whitePitchCount));
 
       if (i == skipCount) {
         whitePitchCount++;
@@ -92,13 +81,7 @@ public class PianoViewPanel extends JLayeredPane {
     }
   }
 
-  /**
-   * Paints all of the black keys in the keyboard onto the view, illuminating any if they're
-   * selected by the model. This will paint ten octaves of black keys.
-   *
-   * @param g the graphics component with which to draw the keyboard.
-   */
-  private void paintBlackKeys(Graphics g) {
+  private void initBlackKeys(ArrayList<PianoKey> keys) {
     int skip = 2;
     int oddCount = 0;
     int size = DrawValues.RECTANGLE_H;
@@ -107,7 +90,7 @@ public class PianoViewPanel extends JLayeredPane {
     int keyCount = 0;
     int blackPitchCount = 1;
     int skipCount = 1;
-    int lastAdded = 3;
+    int lastAdded = 2;
 
     for (int i = 0; i < 70; i++) {
       if (i == skip) {
@@ -120,14 +103,7 @@ public class PianoViewPanel extends JLayeredPane {
         continue;
       }
 
-      if (gui.getPitchesAtCursorPosition().contains(blackPitchCount)) {
-        g.setColor(Color.ORANGE);
-      } else {
-        g.setColor(Color.BLACK);
-      }
-      g.fillRect(i * size + size - 4 + offset, 0, size / 2, 175);
-      g.setColor(Color.BLACK);
-      g.drawRect(i * size + size - 4 + offset, 0, size / 2, 175);
+      keys.add(new PianoKey(i * size + size - 4 + offset, 0, PianoKey.PianoType.BLACK, blackPitchCount));
 
       if (keyCount == skipCount) {
         blackPitchCount += 3;
@@ -142,8 +118,55 @@ public class PianoViewPanel extends JLayeredPane {
       } else {
         blackPitchCount += 2;
       }
-
       keyCount++;
     }
+  }
+
+  /**
+   * Paints a rectangular background for the keyboard.
+   *
+   * @param g the graphics component with which to draw the keyboard.
+   */
+  private void paintBackground(Graphics g) {
+    g.setColor(Color.DARK_GRAY);
+    g.drawRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
+    g.fillRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
+    g.setColor(Color.BLACK);
+    g.drawRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
+  }
+
+  private void paintKeyset(Graphics g, Predicate<PianoKey> pred) {
+    for (PianoKey p : keys) {
+      if (pred.test(p)) {
+        Rectangle temp = p.getHitBox();
+        if (gui.getPitchesAtCursorPosition().contains(p.getPitch())) {
+          g.setColor(Color.ORANGE);
+        } else {
+          g.setColor(p.getColor());
+        }
+        g.fillRect(temp.x, temp.y, temp.width, temp.height);
+        g.setColor(Color.BLACK);
+        g.drawRect(temp.x, temp.y, temp.width, temp.height);
+      }
+    }
+  }
+
+  public ArrayList<PianoKey> getKeys() {
+    ArrayList<PianoKey> base = new ArrayList<>();
+
+    for (PianoKey p : keys) {
+      base.add(p);
+    }
+
+    return base;
+  }
+
+  public PianoKey getKeyAtPosition(Point point) {
+    for (PianoKey p : keys) {
+      if (p.getHitBox().contains(point)) {
+        return p;
+      }
+    }
+    throw new IllegalArgumentException("No key at that position.");
   }
 }
