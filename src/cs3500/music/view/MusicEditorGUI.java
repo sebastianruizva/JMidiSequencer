@@ -195,6 +195,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     verticalKeys.put(KeyStroke.getKeyStroke("DOWN"), "positiveUnitIncrement");
 
     horizontalCursorTracker = base.getHorizontalScrollBar();
+    horizontalCursorTracker.setUnitIncrement(DrawValues.RECTANGLE_W);
 
     return base;
   }
@@ -278,11 +279,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
       windowBoundLeft++;
     }
 
-    if (cursorPosition < windowBoundRight && windowBoundRight != 40) {
+    if (cursorPosition < windowBoundRight && cursorPosition < windowBoundLeft) {
       windowBoundRight--;
-    }
-
-    if (cursorPosition < windowBoundLeft && windowBoundLeft != 0) {
       windowBoundLeft--;
     }
   }
@@ -308,6 +306,9 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
     this.pianoLayout.revalidate();
     this.pianoLayout.repaint();
+
+    revalidate();
+    repaint();
   }
 
   public void addListener(IVisitableController listener) {
