@@ -71,114 +71,6 @@ public class JMidiComposition implements IjMidiComposition {
   }
 
   /**
-   * the class {@Builder} Builds a cs3500.music.model.JMidiComposition according to the default
-   * values or the ones directed by the user.
-   */
-  public static final class Builder implements CompositionBuilder<JMidiComposition> {
-
-    /**
-     * Tracks represents a collection of JMidiTracks.
-     */
-    private HashMap<Integer, JMidiTrack> tracks;
-
-    /**
-     * Tempo represents the BPM measurement of the composition.
-     */
-    private Integer tempo;
-
-    /**
-     * Constructs a {@JMidiComposition.Bulider}.
-     */
-    public Builder() {
-
-      //Define the default values
-      this.tracks = new HashMap<Integer, JMidiTrack>();
-      this.tempo = 200000;
-
-    }
-
-    /**
-     * sets the instrument of the jMidiTrack {@JMidiComposition.Bulider}.
-     */
-    public Builder setInstrument(int track, JVirtualInstrument instrument)
-            throws IllegalArgumentException {
-
-      if (track < 0) {
-        throw new IllegalArgumentException("track cant be negative");
-      }
-
-      if (instrument == null) {
-        throw new IllegalArgumentException("instrument cant be null");
-      }
-
-      //if no track create a track with the instrument
-      if (!this.tracks.keySet().contains(track)) {
-        this.tracks.put(track, new JMidiTrack(JMidiUtils.defualtVI()));
-      }
-
-      tracks.get(track).setInstrument(instrument);
-
-      return this;
-
-    }
-
-    /**
-     * Returns the final composition.
-     */
-    public JMidiComposition build() {
-
-      return new JMidiComposition(this.tracks, this.tempo);
-
-    }
-
-    @Override
-    public Builder setTempo(int tempo) throws IllegalArgumentException {
-      if (tempo < 1) {
-        throw new IllegalArgumentException("tempo can only be a positive value");
-      }
-
-      this.tempo = tempo;
-
-      return this;
-    }
-
-    @Override
-    public Builder addNote(int start, int end, int instrument, int pitch, int volume)
-            throws IllegalArgumentException {
-
-      if (instrument < 0) {
-
-        throw new IllegalArgumentException("Instrument cant be negative!");
-      }
-
-
-      //create the note
-      JMidiEvent note = JMidiEvent.builder().tick(start).duration(end + 1 - start).channel(
-              instrument).pitch(pitch).velocity(volume).build();
-
-      //assign a track
-      JMidiTrack track = this.tracks.getOrDefault(instrument, null);
-
-      //if not existent create one
-      if (track == null) {
-        tracks.put(instrument, new JMidiTrack(JMidiUtils.defualtVI()));
-        track = this.tracks.get(instrument);
-      }
-
-      //add to track
-      track.addEvent(note);
-
-      return this;
-    }
-
-  }
-  
-  /******************
-   * METHODS:
-   ******************/
-  
-  
-  /**
    * Updates the maxPitch and maxTick of the grid.
    */
   private void updateMaxValues() {
@@ -210,6 +102,10 @@ public class JMidiComposition implements IjMidiComposition {
     }
     
   }
+  
+  /******************
+   * METHODS:
+   ******************/
   
   /**
    * updates the grid of the composition.
@@ -343,7 +239,6 @@ public class JMidiComposition implements IjMidiComposition {
     
   }
   
-  
   /**
    * Returns a MIDI events on a given point in time and pitch.
    *
@@ -458,6 +353,123 @@ public class JMidiComposition implements IjMidiComposition {
     }
     
     return grid;
+    
+  }
+  
+  public void addNote(int tick, int pitch) {
+    
+    tracks.getOrDefault(0, tracks.put(0, new JMidiTrack(JMidiUtils.defualtVI())));
+    
+    JMidiTrack track = tracks.get(0);
+    
+    JMidiEvent event = new JMidiEvent.Builder().tick(tick).pitch(pitch).build();
+    
+    track.addEvent(event);
+    
+    this.updateGrid();
+    
+  }
+  
+  
+  /**
+   * the class {@Builder} Builds a cs3500.music.model.JMidiComposition according to the default
+   * values or the ones directed by the user.
+   */
+  public static final class Builder implements CompositionBuilder<JMidiComposition> {
+    
+    /**
+     * Tracks represents a collection of JMidiTracks.
+     */
+    private HashMap<Integer, JMidiTrack> tracks;
+    
+    /**
+     * Tempo represents the BPM measurement of the composition.
+     */
+    private Integer tempo;
+    
+    /**
+     * Constructs a {@JMidiComposition.Bulider}.
+     */
+    public Builder() {
+      
+      //Define the default values
+      this.tracks = new HashMap<Integer, JMidiTrack>();
+      this.tempo = 200000;
+      
+    }
+    
+    /**
+     * sets the instrument of the jMidiTrack {@JMidiComposition.Bulider}.
+     */
+    public Builder setInstrument(int track, JVirtualInstrument instrument)
+            throws IllegalArgumentException {
+      
+      if (track < 0) {
+        throw new IllegalArgumentException("track cant be negative");
+      }
+      
+      if (instrument == null) {
+        throw new IllegalArgumentException("instrument cant be null");
+      }
+      
+      //if no track create a track with the instrument
+      if (!this.tracks.keySet().contains(track)) {
+        this.tracks.put(track, new JMidiTrack(JMidiUtils.defualtVI()));
+      }
+      
+      tracks.get(track).setInstrument(instrument);
+      
+      return this;
+      
+    }
+    
+    /**
+     * Returns the final composition.
+     */
+    public JMidiComposition build() {
+      
+      return new JMidiComposition(this.tracks, this.tempo);
+      
+    }
+    
+    @Override public Builder setTempo(int tempo) throws IllegalArgumentException {
+      if (tempo < 1) {
+        throw new IllegalArgumentException("tempo can only be a positive value");
+      }
+      
+      this.tempo = tempo;
+      
+      return this;
+    }
+    
+    @Override public Builder addNote(int start, int end, int instrument, int pitch, int volume)
+            throws IllegalArgumentException {
+      
+      if (instrument < 0) {
+        
+        throw new IllegalArgumentException("Instrument cant be negative!");
+      }
+      
+      
+      //create the note
+      JMidiEvent note =
+              JMidiEvent.builder().tick(start).duration(end + 1 - start).channel(instrument)
+                      .pitch(pitch).velocity(volume).build();
+      
+      //assign a track
+      JMidiTrack track = this.tracks.getOrDefault(instrument, null);
+      
+      //if not existent create one
+      if (track == null) {
+        tracks.put(instrument, new JMidiTrack(JMidiUtils.defualtVI()));
+        track = this.tracks.get(instrument);
+      }
+      
+      //add to track
+      track.addEvent(note);
+      
+      return this;
+    }
     
   }
 

@@ -5,7 +5,9 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import cs3500.music.controller.PlaybackCommands.Forward;
 import cs3500.music.controller.PlaybackCommands.Play;
+import cs3500.music.controller.PlaybackCommands.Stop;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.CompositeView;
 
@@ -24,8 +26,11 @@ public class CompositeController implements IVisitableController {
   }
   
   protected void addCommands() {
-    
-    supportedCommands.put(KeyEvent.VK_SPACE, new Play());
+  
+    supportedCommands.put(80, new Play());
+    supportedCommands.put(83, new Stop());
+    supportedCommands.put(70, new Forward());
+    supportedCommands.put(66, new Forward());
     
   }
 
@@ -35,14 +40,13 @@ public class CompositeController implements IVisitableController {
     this.supportedCommands = new HashMap<>();
     this.addCommands();
     view.addListener(this);
-    
   }
   
   @Override public void keyPressed(KeyEvent e) {
   
-    IPlaybackCommand cmd = supportedCommands.getOrDefault(e, null);
+    IPlaybackCommand cmd = supportedCommands.getOrDefault(e.getKeyCode(), null);
     if (cmd == null) {
-      JMidiUtils.message("Command Registered, try another key!", ap);
+      JMidiUtils.message(e.getKeyCode() + " command NOT registered, try another key!", ap);
     } else {
       cmd.execute(view);
     }
@@ -58,6 +62,8 @@ public class CompositeController implements IVisitableController {
   }
   
   @Override public void mouseClicked(MouseEvent e) {
+  
+    view.addNote(e.getPoint());
   
   }
   

@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.controller.IVisitableController;
 import cs3500.music.model.JMidiComposition;
 
 /**
@@ -11,7 +12,7 @@ public class CompositeView extends AudioView {
   MusicEditorGUI visual;
   
   @Override public void initialize(JMidiComposition composition, Appendable ap) {
-  
+
     this.composition = composition;
     this.visual = new MusicEditorGUI();
     this.visual.initialize(composition, ap);
@@ -46,6 +47,10 @@ public class CompositeView extends AudioView {
     this.play();
     this.sync();
     
+  }
+  
+  public void addListener(IVisitableController controller) {
+    visual.addListener(controller);
   }
   
 }

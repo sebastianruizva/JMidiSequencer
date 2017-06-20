@@ -8,6 +8,6 @@ import cs3500.music.view.AudioView;
  */
 public class Stop implements IPlaybackCommand {
   @Override public void execute(AudioView controller) {
-    controller.stop();
+    controller.pause();
   }
 }
