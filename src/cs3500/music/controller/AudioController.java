@@ -4,9 +4,6 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.*;
-
-import cs3500.music.controller.CompositeViewCommands.Play;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.AudioView;
 
@@ -15,7 +12,7 @@ import cs3500.music.view.AudioView;
  */
 public class AudioController implements IVisitableController {
   
-  private Map<Integer, IAudioCommand> supportedCommands;
+  private Map<Integer, IPlaybackCommand> supportedCommands;
   private AudioView view;
   private Appendable ap;
   
@@ -36,7 +33,7 @@ public class AudioController implements IVisitableController {
   
   @Override public void keyTyped(KeyEvent e) {
     
-    IAudioCommand cmd = supportedCommands.getOrDefault(e, null);
+    IPlaybackCommand cmd = supportedCommands.getOrDefault(e, null);
     if (cmd == null) {
       JMidiUtils.message("No command found!", ap);
     } else {
@@ -53,7 +50,7 @@ public class AudioController implements IVisitableController {
   
     JMidiUtils.message("KeyPressed", ap);
     
-    IAudioCommand cmd = supportedCommands.getOrDefault(e, null);
+    IPlaybackCommand cmd = supportedCommands.getOrDefault(e, null);
     if (cmd == null) {
       JMidiUtils.message("No command found!", ap);
     } else {

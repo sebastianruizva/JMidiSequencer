@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import cs3500.music.controller.CompositeViewCommands.Play;
+import cs3500.music.controller.PlaybackCommands.Play;
 import cs3500.music.view.CompositeView;
 
 /**
@@ -12,7 +12,7 @@ import cs3500.music.view.CompositeView;
  */
 public class CompositeController implements IVisitableController {
   
-  private Map<Integer, IAudioCommand> supportedCommands;
+  private Map<Integer, IPlaybackCommand> supportedCommands;
   private CompositeView view;
 
   @Override
@@ -34,7 +34,7 @@ public class CompositeController implements IVisitableController {
   
   @Override public void keyPressed(KeyEvent e) {
   
-    IAudioCommand cmd = supportedCommands.getOrDefault(e, null);
+    IPlaybackCommand cmd = supportedCommands.getOrDefault(e, null);
     if (cmd == null) {
       throw new IllegalArgumentException();
     } else {

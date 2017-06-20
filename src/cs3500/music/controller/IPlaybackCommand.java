@@ -5,7 +5,7 @@ import cs3500.music.view.AudioView;
 /**
  * Created by sebastian on 6/19/17.
  */
-public interface IAudioCommand {
+public interface IPlaybackCommand {
   
   void execute(AudioView view);
   
