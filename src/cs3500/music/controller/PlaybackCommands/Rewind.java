@@ -6,8 +6,8 @@ import cs3500.music.view.AudioView;
 /**
  * Created by sebastian on 6/20/17.
  */
-public class Forward implements IPlaybackCommand {
+public class Rewind implements IPlaybackCommand {
   @Override public void execute(AudioView view) {
-    view.forward();
+    view.rewind();
   }
 }

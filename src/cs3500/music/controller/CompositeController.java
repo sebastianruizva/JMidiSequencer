@@ -75,8 +75,6 @@ public class CompositeController implements IVisitableController {
   
   @Override public void mouseEntered(MouseEvent e) {
   
-    view.sync();
-  
   }
   
   @Override public void mouseExited(MouseEvent e) {
