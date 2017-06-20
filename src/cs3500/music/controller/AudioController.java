@@ -2,8 +2,6 @@ package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 import cs3500.music.controller.PlaybackCommands.Play;
 import cs3500.music.util.JMidiUtils;
@@ -29,7 +27,7 @@ public class AudioController implements IVisitableController {
     this.view = view;
     view.addKeyListener(this);
     JMidiUtils.message("Controller connected to View", ap);
-    view.play();
+    new Play().execute(view);
     
   }
   
