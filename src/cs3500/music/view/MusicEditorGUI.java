@@ -328,7 +328,12 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   }
 
   public PianoKey getKeyAtPosition(Point point) {
-    Point corrected = new Point(point.x - 180, 0);
+    int y = point.y - 350;
+    if (y < 0) {
+      y = 0;
+    }
+
+    Point corrected = new Point(point.x - 180, y);
     return keyMap.getKeyAtPosition(corrected);
   }
 
