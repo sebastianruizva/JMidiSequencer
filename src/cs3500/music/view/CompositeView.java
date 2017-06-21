@@ -74,11 +74,10 @@ public class CompositeView extends AudioView {
       JMidiUtils.message("***********************************", ap);
       JMidiUtils.message("*          Note added             *", ap);
       JMidiUtils.message("***********************************", ap);
-      JMidiUtils.message(composition.toString(), ap);
+      JMidiUtils.message(key.toString(), ap);
     } catch (IllegalArgumentException e) {
       JMidiUtils.message("No key here...", ap);
     }
-  
   }
   
   public void addListener(ICompositionController controller) {

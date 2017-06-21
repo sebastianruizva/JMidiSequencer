@@ -6,9 +6,16 @@ import org.junit.Test;
  * Tests for the MusicEditorGui.
  */
 public class MusicEditorGUITest {
+  /*
+  Test:
+  - Constructor
+  - getComposition
+  - addListener
+  - getPreferred Size, I guess
+  - setCursorPosition
+   */
   @Test(expected = IllegalArgumentException.class)
   public void testNullCompositionCausesError() {
-    //MusicEditorGUI fail = new MusicEditorGUI();
-    //fail.initialize(null, new StringBuffer());
+
   }
 }

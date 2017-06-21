@@ -21,17 +21,21 @@ public class PitchViewPanel extends JPanel {
   /**
    * Constructs a new PitchViewPanel based on the provided composition.
    *
+   * @param gui The {@link MusicEditorGUI} to draw information from.
    * @throws IllegalArgumentException if the composition is null.
    */
   public PitchViewPanel(MusicEditorGUI gui) throws IllegalArgumentException {
     this.gui = gui;
 
     setPreferredSize(new Dimension(DrawValues.RECTANGLE_W, determineHeight()));
-    setMaximumSize(getPreferredSize());
   }
 
-
-
+  /**
+   * Determines the height of this JPanel based on the parameters of the GUI's
+   * {@link JMidiComposition}. The height will return a default value if the range is not large
+   * enough.
+   * @return the correct height for the grid, notes, and JPanel.
+   */
   private int determineHeight() {
     JMidiComposition composition = gui.getComposition();
     int maxPitch = composition.getMaxPitch();
