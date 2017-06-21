@@ -32,7 +32,7 @@ public class CompositeView extends AudioView {
   
   public void initialize() {
     new CompositeController(this, ap);
-    JMidiUtils.message("Composite vie initialized", ap);
+    JMidiUtils.message("Composite view initialized", ap);
   }
   
   /**

@@ -30,9 +30,7 @@ public class ConsoleView implements ICompositionView {
   }
   
   @Override public void initialize() {
-  
     JMidiUtils.message(composition.toString(), ap);
     JMidiUtils.message("Console view initialized", ap);
-  
   }
 }
