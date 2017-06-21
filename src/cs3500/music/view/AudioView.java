@@ -13,6 +13,7 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
+import cs3500.music.controller.AudioController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
@@ -28,18 +29,21 @@ public class AudioView implements ICompositionView {
   protected Sequencer sequencer;
   protected JMidiComposition composition;
   
-  /**
-   * Plays the directed composition.
-   * @param composition the composition you want to play.
-   */
-  public void initialize(JMidiComposition composition, Appendable ap) {
-  
+  AudioView(JMidiComposition composition, Appendable ap) {
     JMidiUtils.message("Preparing Audio View", ap);
     this.ap = ap;
     this.composition = composition;
     this.prepareSequencer();
     JMidiUtils.message("Audio View Ready", ap);
+  }
   
+  /**
+   * Plays the directed composition.
+   */
+  public void initialize() {
+    new AudioController(this, ap);
+    JMidiUtils.message("Audio View Initialized", ap);
+    
   }
   
   protected void prepareSequencer() {
@@ -154,8 +158,8 @@ public class AudioView implements ICompositionView {
    * Stops rewinds playback.
    */
   public void rewind() {
-    JMidiUtils.message("Forwarding Sequence", ap);
-    sequencer.setTickPosition(sequencer.getTickPosition() - 1);
+    JMidiUtils.message("Rewinding Sequence", ap);
+    sequencer.setTickPosition(sequencer.getTickPosition() - 24);
     sequencer.setTempoInMPQ(composition.getTempo());
   }
   

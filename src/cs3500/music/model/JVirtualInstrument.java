@@ -2,8 +2,6 @@ package cs3500.music.model;
 
 import java.util.ArrayList;
 
-import javax.sound.midi.Synthesizer;
-
 /**
  * The class {@JVirtualInstrument} Represents a midi based musical instrument.
  */
@@ -12,8 +10,6 @@ public class JVirtualInstrument implements IjVirtualInstrument {
   private final int number;
   
   private final ArrayList<String> scale;
-
-  private Synthesizer synth;
 
   /**
    * Constructs a {@JVirtualInstrument}
@@ -60,14 +56,6 @@ public class JVirtualInstrument implements IjVirtualInstrument {
       throw new IllegalArgumentException("cant support negative values!");
     }
     return scale.get(pitch % scale.size());
-  }
-
-  /**
-   * Returns a copy of the instrument's synthesizer.
-   */
-  @Override
-  public Synthesizer getSynth() {
-    return synth;
   }
   
   /**
