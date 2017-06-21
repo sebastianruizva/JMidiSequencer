@@ -12,6 +12,7 @@ public class AudioController extends CompositionController {
   private AudioView view;
   
   public AudioController(AudioView view, Appendable ap) {
+  
     JMidiUtils.message("Audio Controller Started", ap);
     this.view = view;
     JMidiUtils.message("Controller connected to View", ap);

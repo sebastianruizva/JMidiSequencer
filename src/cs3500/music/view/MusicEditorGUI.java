@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import cs3500.music.controller.CompositionController;
+import cs3500.music.controller.ICompositionController;
 import cs3500.music.controller.KeyboardController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
@@ -322,7 +322,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     repaint();
   }
   
-  public void addListener(CompositionController listener) {
+  public void addListener(ICompositionController listener) {
     super.addKeyListener(listener);
     super.addMouseListener(listener);
   }

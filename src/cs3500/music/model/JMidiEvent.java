@@ -121,7 +121,7 @@ public class JMidiEvent implements IjMidiEvent {
     private int pitch = 0;
     private int velocity = 64;
     private int channel = 0;
-    private int duration = 3;
+    private int duration = 1;
 
     /**
      * Assigns the same values of other Midi Event.

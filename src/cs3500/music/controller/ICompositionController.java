@@ -5,5 +5,4 @@ package cs3500.music.controller;
  */
 public interface ICompositionController
         extends java.awt.event.KeyListener, java.awt.event.MouseListener {
-  
 }

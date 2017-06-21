@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by sebastian on 6/19/17.
  */
-public class CompositionController implements ICompositionController {
+abstract class CompositionController implements ICompositionController {
   
   @Override public void keyTyped(KeyEvent e) {
   

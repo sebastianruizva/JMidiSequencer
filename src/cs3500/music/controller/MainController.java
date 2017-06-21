@@ -49,8 +49,9 @@ public class MainController {
    * Interacts with the user.
    */
   public void run() {
-    
-    JMidiUtils.message("please write the name of the file you want to open and its extension", ap);
+  
+    JMidiUtils.message("please write the name of the file you want to open and its extension or "
+            + "write Q to quit", ap);
 
     while (scanner.hasNextLine()) {
 
