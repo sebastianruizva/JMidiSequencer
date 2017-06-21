@@ -58,8 +58,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    */
   public MusicEditorGUI(JMidiComposition composition, Appendable ap) throws
           IllegalArgumentException {
-    if (composition == null) {
-      throw new IllegalArgumentException("Cannot initialize with null composition.");
+    if (composition == null || ap == null) {
+      throw new IllegalArgumentException("Cannot initialize with null composition or Appendable");
     }
 
     this.ap = ap;
@@ -76,12 +76,11 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
     initComponents();
 
-    this.setVisible(true);
-  
     JMidiUtils.message("GUI View Ready", ap);
   }
   
   @Override public void initialize() {
+    this.setVisible(true);
     new KeyboardController(this, ap);
   }
   
@@ -236,7 +235,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *
    * @return the position of the cursor.
    */
-  protected int getCursorPosition() {
+  public int getCursorPosition() {
     return cursorPosition;
   }
 
