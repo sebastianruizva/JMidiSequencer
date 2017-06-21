@@ -16,45 +16,33 @@ import cs3500.music.util.JMidiUtils;
  * in the composition will be generated.
  */
 public class PitchViewPanel extends JPanel {
-  private JMidiComposition composition;
-  private int maxPitch;
-  private int height;
+  private MusicEditorGUI gui;
 
   /**
    * Constructs a new PitchViewPanel based on the provided composition.
    *
-   * @param composition the composition to draw the range of pitches from.
    * @throws IllegalArgumentException if the composition is null.
    */
-  public PitchViewPanel(JMidiComposition composition) throws IllegalArgumentException {
-    if (composition == null) {
-      throw new IllegalArgumentException("Composition cannot be null.");
-    }
+  public PitchViewPanel(MusicEditorGUI gui) throws IllegalArgumentException {
+    this.gui = gui;
 
-    this.composition = composition;
-    this.maxPitch = composition.getMaxPitch();
-
-    if (maxPitch < 12) {
-      maxPitch = 12;
-    }
-
-    setSize();
-    setPreferredSize(new Dimension(DrawValues.RECTANGLE_W, height));
+    setPreferredSize(new Dimension(DrawValues.RECTANGLE_W, determineHeight()));
     setMaximumSize(getPreferredSize());
   }
 
-  /**
-   * Sets the size of this panel. If the calculated size is smaller than the defualt value, the
-   * default is used.
-   */
-  private void setSize() {
+
+
+  private int determineHeight() {
+    JMidiComposition composition = gui.getComposition();
+    int maxPitch = composition.getMaxPitch();
+
     if (DrawValues.MIN_GRID_HEIGHT < (DrawValues.RECTANGLE_H * maxPitch)) {
 
-      height = DrawValues.RECTANGLE_H * maxPitch;
+      return DrawValues.RECTANGLE_H * maxPitch;
 
     } else {
 
-      height = DrawValues.MIN_GRID_HEIGHT;
+      return DrawValues.MIN_GRID_HEIGHT;
 
     }
   }
@@ -63,11 +51,19 @@ public class PitchViewPanel extends JPanel {
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
 
+    JMidiComposition composition = gui.getComposition();
     IjVirtualInstrument inst = JMidiUtils.defualtVI();
+
+    setPreferredSize(new Dimension(DrawValues.RECTANGLE_W, determineHeight()));
     g.setFont(DrawValues.VERDANA);
 
-
     int minPitch = composition.getMinPitch();
+    int maxPitch = composition.getMaxPitch();
+
+    if (maxPitch < 12) {
+      maxPitch = 12;
+    }
+
     for (int i = minPitch; i <= maxPitch; i++) {
       g.drawString(inst.getNoteRepresentation(i) + (i / inst.getOctaveDegree()), 0,
               (maxPitch - i) * 20 + DrawValues.GRID_MARGIN + 20);

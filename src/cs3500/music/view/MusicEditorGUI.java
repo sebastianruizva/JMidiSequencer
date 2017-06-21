@@ -61,6 +61,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     if (composition == null) {
       throw new IllegalArgumentException("Cannot initialize with null composition.");
     }
+
     this.ap = ap;
     JMidiUtils.message("Preparing GUI View", ap);
   
@@ -165,7 +166,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    * @return the initialized {@link JScrollPane}.
    */
   private JScrollPane initPitchScrollPane() {
-    PitchViewPanel pitches = new PitchViewPanel(composition);
+    PitchViewPanel pitches = new PitchViewPanel(this);
     JScrollPane base = new JScrollPane(pitches);
 
     base.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -188,7 +189,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    */
   private JScrollPane initLedgerScrollPane() {
 
-    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(composition, this);
+    NotesAndGridViewPanel ledger = new NotesAndGridViewPanel(this);
 
     JScrollPane base = new JScrollPane(ledger);
 
@@ -310,6 +311,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   }
 
   public void refreshPanels() {
+
     this.scoreLayout.revalidate();
     this.scoreLayout.repaint();
 
@@ -326,7 +328,11 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   }
 
   public PianoKey getKeyAtPosition(Point point) {
-    return keyMap.getKeyAtPosition(point);
+    Point corrected = new Point(point.x - 180, 0);
+    return keyMap.getKeyAtPosition(corrected);
   }
-  
+
+  public JMidiComposition getComposition() {
+    return this.composition;
+  }
 }

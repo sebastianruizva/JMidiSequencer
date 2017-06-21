@@ -6,6 +6,7 @@ import cs3500.music.controller.CompositeController;
 import cs3500.music.controller.CompositionController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.JMidiUtils;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  * The class {@CompositeView} Creates an Audio Visual view of the composition.
@@ -70,15 +71,15 @@ public class CompositeView extends AudioView {
       PianoKey key = visual.getKeyAtPosition(point);
       composition.addNote(visual.getCursorPosition(), key.getPitch());
       visual.refreshPanels();
+      System.out.println(key);
       JMidiUtils.message("Note added", ap);
     } catch (IllegalArgumentException e) {
       JMidiUtils.message("NOP", ap);
     }
-    
   }
   
   public void addListener(CompositionController controller) {
     visual.addListener(controller);
   }
-  
+
 }

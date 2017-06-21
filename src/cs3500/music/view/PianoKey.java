@@ -41,10 +41,6 @@ public class PianoKey {
     return new Rectangle(hitBox.x, hitBox.y, hitBox.width, hitBox.height);
   }
 
-  public boolean isBeingClicked(Point p) {
-    return hitBox.contains(p);
-  }
-
   public Color getColor() {
     return type.getColor();
   }

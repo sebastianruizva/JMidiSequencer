@@ -161,7 +161,13 @@ public class PianoViewPanel extends JLayeredPane {
 
   public PianoKey getKeyAtPosition(Point point) {
     for (PianoKey p : keys) {
-      if (p.getHitBox().contains(point)) {
+      if (p.getHitBox().contains(point) && p.getType() == PianoKey.PianoType.BLACK) {
+        return p;
+      }
+    }
+
+    for (PianoKey p : keys) {
+      if (p.getHitBox().contains(point) && p.getType() == PianoKey.PianoType.WHITE) {
         return p;
       }
     }

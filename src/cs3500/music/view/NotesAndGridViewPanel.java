@@ -1,80 +1,67 @@
 package cs3500.music.view;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
-
+import java.awt.*;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
-import cs3500.music.model.JVirtualInstrument;
 import cs3500.music.model.SectorType;
-import cs3500.music.util.JMidiUtils;
 
 /**
  * A {@link JPanel} for the notes and the grid of the provided composition, as well as the cursor
  * image.
  */
 public class NotesAndGridViewPanel extends JPanel {
-  private JMidiComposition composition;
-  private HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
-  private int width;
-  private int height;
-  private int maxPitch;
-  private int maxTick;
-  private int minPitch;
   private MusicEditorGUI gui;
 
   /**
    * Constructs a NotesAndGridPanel based on the content of the provided composition and gui.
    *
-   * @param composition the composition to draw the notes and grid size from/
-   * @param gui         the gui to draw the cursor from.
+   * @param gui the gui to draw the cursor from.
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
-  public NotesAndGridViewPanel(JMidiComposition composition, MusicEditorGUI gui) {
+  public NotesAndGridViewPanel(MusicEditorGUI gui) {
+    JMidiComposition composition = gui.getComposition();
 
     if (composition == null || gui == null) {
       throw new IllegalArgumentException("cant be null!");
     }
 
-    this.composition = composition;
-    this.grid = composition.getGrid();
-    this.maxPitch = composition.getMaxPitch();
-    this.maxTick = composition.getMaxTick();
-    this.minPitch = composition.getMinPitch();
     this.gui = gui;
-    setValues();
 
-    setPreferredSize(new Dimension(width, height));
+    setPreferredSize(new Dimension(determineWidth(), determineHeight()));
   }
 
-  /**
-   * Sets the size for this grid and panel. If the calculated height of the note range and
-   * grid are greater than the preset minimum, that height will be used. Otherwise, the minimum
-   * height will be implemented.
-   */
-  private void setValues() {
+
+  private int determineHeight() {
+    JMidiComposition composition = gui.getComposition();
+    int maxPitch = composition.getMaxPitch();
+    int minPitch = composition.getMinPitch();
+
     if (DrawValues.MIN_GRID_HEIGHT < (maxPitch - minPitch + 4) * DrawValues.RECTANGLE_H + 1) {
 
-      this.height = (maxPitch - minPitch + 4) * DrawValues.RECTANGLE_H + 1;
+      return (maxPitch - minPitch + 4) * DrawValues.RECTANGLE_H + 1;
 
     } else {
 
-      this.height = DrawValues.MIN_GRID_HEIGHT;
+      return DrawValues.MIN_GRID_HEIGHT;
 
     }
+  }
+
+  private int determineWidth() {
+    JMidiComposition composition = gui.getComposition();
+    int maxTick = composition.getMaxTick();
 
     if (DrawValues.MIN_GRID_WIDTH < (DrawValues.RECTANGLE_W * maxTick)) {
 
-      this.width = DrawValues.RECTANGLE_W * maxTick;
+      return DrawValues.RECTANGLE_W * maxTick;
 
     } else {
 
-      this.width = DrawValues.MIN_GRID_WIDTH;
+      return DrawValues.MIN_GRID_WIDTH;
 
     }
   }
@@ -82,6 +69,8 @@ public class NotesAndGridViewPanel extends JPanel {
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
+    setPreferredSize(new Dimension(determineWidth(), determineHeight()));
+
     paintNotes(g);
     paintGrid(g);
     paintBeatNumbers(g);
@@ -98,11 +87,12 @@ public class NotesAndGridViewPanel extends JPanel {
     //Place the elements in the grid
     int noteWidth = DrawValues.RECTANGLE_W;
     int noteHeight = DrawValues.RECTANGLE_H;
+    JMidiComposition composition = gui.getComposition();
+    HashMap<Integer, HashMap<Integer, JMidiEvent>> grid = composition.getGrid();
+    int maxPitch = composition.getMaxPitch();
 
-    JVirtualInstrument inst = JMidiUtils.defualtVI();
-
-    for (Integer tick : this.grid.keySet()) {
-      for (Integer pitch : this.grid.get(tick).keySet()) {
+    for (Integer tick : grid.keySet()) {
+      for (Integer pitch : grid.get(tick).keySet()) {
         SectorType type = composition.getSectorType(tick, pitch);
 
         if (SectorType.HEAD == type) {
@@ -128,6 +118,12 @@ public class NotesAndGridViewPanel extends JPanel {
    * @param g the graphics component with which to draw.
    */
   private void paintGrid(Graphics g) {
+    JMidiComposition composition = gui.getComposition();
+    int maxPitch = composition.getMaxPitch();
+    int minPitch = composition.getMinPitch();
+    int width = determineWidth();
+    int height = determineHeight();
+
     for (int i = 0; i <= (width / DrawValues.RECTANGLE_W); i++) {
       if (i % 4 == 0) {
         g.setColor(DrawValues.GRID_BORDER_COLOR);
@@ -151,6 +147,9 @@ public class NotesAndGridViewPanel extends JPanel {
    * @param g the graphics component with which to draw.
    */
   private void paintBeatNumbers(Graphics g) {
+    JMidiComposition composition = gui.getComposition();
+    int maxTick = composition.getMaxTick();
+
     g.setFont(DrawValues.VERDANA);
 
     for (int i = 0; i < maxTick; i += 4) {
@@ -171,6 +170,8 @@ public class NotesAndGridViewPanel extends JPanel {
    * @param g the graphics component with which to draw.
    */
   private void paintCursor(Graphics g) {
+    int height = getHeight();
+
     g.setColor(Color.RED);
 
     g.drawLine(gui.getCursorPosition() * DrawValues.RECTANGLE_W, DrawValues.GRID_MARGIN,
