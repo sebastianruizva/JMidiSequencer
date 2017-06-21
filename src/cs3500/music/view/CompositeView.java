@@ -2,9 +2,6 @@ package cs3500.music.view;
 
 import java.awt.*;
 
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-
 import cs3500.music.controller.CompositeController;
 import cs3500.music.controller.CompositionController;
 import cs3500.music.model.JMidiComposition;
@@ -15,10 +12,6 @@ import cs3500.music.util.JMidiUtils;
  */
 public class CompositeView extends AudioView {
   
-  protected Appendable ap;
-  protected Sequence sequence;
-  protected Sequencer sequencer;
-  protected JMidiComposition composition;
   protected MusicEditorGUI visual;
   
   /**
@@ -28,20 +21,18 @@ public class CompositeView extends AudioView {
   public CompositeView(JMidiComposition composition, Appendable ap) {
     
     super(composition, ap);
-    JMidiUtils.message("Preparing Composite View", ap);
-    this.composition = super.composition;
-    this.sequence = super.sequence;
-    this.sequencer = super.sequencer;
-    this.ap = super.ap;
+    JMidiUtils.message("Connecting to GUI", ap);
     this.visual = new MusicEditorGUI(composition, ap);
     this.visual.initialize();
+    JMidiUtils.message("Synchronizing views", ap);
     this.sync();
-    JMidiUtils.message("Composite View Ready", ap);
+    JMidiUtils.message("Composite view ready!", ap);
     
   }
   
   public void initialize() {
     new CompositeController(this, ap);
+    JMidiUtils.message("Composite vie initialized", ap);
   }
   
   /**

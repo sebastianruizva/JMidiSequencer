@@ -41,8 +41,8 @@ public class AudioView implements ICompositionView {
    * Plays the directed composition.
    */
   public void initialize() {
-    
     new AudioController(this, ap);
+    JMidiUtils.message("Audio View Initialized", ap);
     
   }
   

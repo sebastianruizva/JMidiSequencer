@@ -2,6 +2,7 @@ package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
 
+import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.MusicEditorGUI;
 
 /**
@@ -12,8 +13,10 @@ public class KeyboardController extends CompositionController {
   private MusicEditorGUI view;
   
   public KeyboardController(MusicEditorGUI view, Appendable ap) {
+    JMidiUtils.message("Keyboard Controller Started", ap);
     this.view = view;
     view.addListener(this);
+    JMidiUtils.message("Controller connected to view", ap);
   }
   
   @Override

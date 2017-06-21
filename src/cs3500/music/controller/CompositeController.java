@@ -22,11 +22,13 @@ public class CompositeController extends CompositionController {
   private Appendable ap;
   
   public CompositeController(CompositeView view, Appendable ap) {
+    JMidiUtils.message("Composite Controller Started", ap);
     this.ap = ap;
     this.view = view;
     this.supportedCommands = new HashMap<>();
     this.addCommands();
     view.addListener(this);
+    JMidiUtils.message("Controller connected to View", ap);
   }
   
   protected void addCommands() {
