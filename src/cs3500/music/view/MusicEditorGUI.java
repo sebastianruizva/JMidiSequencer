@@ -43,10 +43,10 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   // The scroll bar used to keep in time with the cursor once it hits the edge of the display.
   private JScrollBar horizontalCursorTracker;
 
-  private JScrollBar verticalPitchTracker;
-
+  // A mapping of the keyboard and their positions for note selection.
   private PianoViewPanel keyMap;
-  
+
+  // The appendable to notify the user of changes.
   private Appendable ap;
 
   /**
@@ -58,8 +58,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    */
   public MusicEditorGUI(JMidiComposition composition, Appendable ap) throws
           IllegalArgumentException {
-    if (composition == null) {
-      throw new IllegalArgumentException("Cannot initialize with null composition.");
+    if (composition == null || ap == null) {
+      throw new IllegalArgumentException("Cannot initialize with null composition or Appendable");
     }
 
     this.ap = ap;
@@ -76,12 +76,11 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
     initComponents();
 
-    this.setVisible(true);
-  
     JMidiUtils.message("GUI View Ready", ap);
   }
   
   @Override public void initialize() {
+    this.setVisible(true);
     new KeyboardController(this, ap);
   }
   
@@ -173,9 +172,9 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     base.setPreferredSize(new Dimension(40, DrawValues.MIN_GRID_HEIGHT));
     base.setBorder(null);
 
-    verticalPitchTracker = base.getVerticalScrollBar();
-    verticalPitchTracker.setModel(scrollModel);
-    verticalPitchTracker.setPreferredSize(new Dimension(0, 0));
+    JScrollBar verticalBar = base.getVerticalScrollBar();
+    verticalBar.setModel(scrollModel);
+    verticalBar.setPreferredSize(new Dimension(0, 0));
 
     return base;
   }
@@ -310,8 +309,10 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     return pitches;
   }
 
-  public void refreshPanels() {
-
+  /**
+   * Refreshes the panels within the JFrame.
+   */
+  protected void refreshPanels() {
     this.scoreLayout.revalidate();
     this.scoreLayout.repaint();
 
@@ -321,13 +322,23 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     revalidate();
     repaint();
   }
-  
+
+  /**
+   * Adds a key and mouse listener to this JFrame.
+   * @param listener the listener to be added.
+   */
   public void addListener(ICompositionController listener) {
     super.addKeyListener(listener);
     super.addMouseListener(listener);
   }
 
-  public PianoKey getKeyAtPosition(Point point) {
+  /**
+   * Returns the {@link PianoKey} associated with the given {@link Point}. This allows for notes
+   * to be added based on the pitch of the selected key.
+   * @param point The point used to locate the selected {@link PianoKey}.
+   * @return the selected {@link PianoKey}.
+   */
+  protected PianoKey getKeyAtPosition(Point point) {
     int y = point.y - 350;
     if (y < 0) {
       y = 0;
@@ -337,6 +348,10 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     return keyMap.getKeyAtPosition(corrected);
   }
 
+  /**
+   * Returns this composition.
+   * @return this composition.
+   */
   public JMidiComposition getComposition() {
     return this.composition;
   }

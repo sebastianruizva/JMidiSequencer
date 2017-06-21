@@ -34,7 +34,12 @@ public class NotesAndGridViewPanel extends JPanel {
     setPreferredSize(new Dimension(determineWidth(), determineHeight()));
   }
 
-
+  /**
+   * Determines the height of this JPanel based on the parameters of the GUI's
+   * {@link JMidiComposition}. The height will return a default value if the range is not large
+   * enough.
+   * @return the correct height for the grid, notes, and JPanel.
+   */
   private int determineHeight() {
     JMidiComposition composition = gui.getComposition();
     int maxPitch = composition.getMaxPitch();
@@ -51,6 +56,12 @@ public class NotesAndGridViewPanel extends JPanel {
     }
   }
 
+  /**
+   * Determines the width of this JPanel based on the parameters of the GUI's
+   * {@link JMidiComposition}.The width will return a default value if the range is not large
+   * enough.
+   * @return the correct width for the grid, notes, and JPanel.
+   */
   private int determineWidth() {
     JMidiComposition composition = gui.getComposition();
     int maxTick = composition.getMaxTick();
