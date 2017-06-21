@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import cs3500.music.controller.IVisitableController;
+import cs3500.music.controller.CompositionController;
+import cs3500.music.controller.KeyboardController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.util.JMidiUtils;
@@ -45,6 +46,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   private JScrollBar verticalPitchTracker;
 
   private PianoViewPanel keyMap;
+  
+  private Appendable ap;
 
   /**
    * Initializes all of the panels in the {@link JFrame}, and makes it visible.
@@ -53,14 +56,14 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *                    JPanel}.
    * @throws IllegalArgumentException if the provided composition is null.
    */
-  public void initialize(JMidiComposition composition, Appendable ap) throws
+  public MusicEditorGUI(JMidiComposition composition, Appendable ap) throws
           IllegalArgumentException {
     if (composition == null) {
       throw new IllegalArgumentException("Cannot initialize with null composition.");
     }
-  
+    this.ap = ap;
     JMidiUtils.message("Preparing GUI View", ap);
-
+  
     this.windowBoundLeft = 0;
     this.windowBoundRight = 40;
 
@@ -76,7 +79,11 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   
     JMidiUtils.message("GUI View Ready", ap);
   }
-
+  
+  @Override public void initialize() {
+    new KeyboardController(this, ap);
+  }
+  
   /**
    * Adds all of the initialized {@link JPanel}s to the {@link JFrame}, the layout of the
    * {@link JFrame}, and packs.
@@ -311,8 +318,8 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     this.pianoLayout.revalidate();
     this.pianoLayout.repaint();
   }
-
-  public void addListener(IVisitableController listener) {
+  
+  public void addListener(CompositionController listener) {
     super.addKeyListener(listener);
     super.addMouseListener(listener);
   }

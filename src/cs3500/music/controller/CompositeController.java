@@ -15,32 +15,27 @@ import cs3500.music.view.CompositeView;
 /**
  * Created by sebastian on 6/19/17.
  */
-public class CompositeController implements IVisitableController {
+public class CompositeController extends CompositionController {
   
   private Map<Integer, IPlaybackCommand> supportedCommands;
   private CompositeView view;
   private Appendable ap;
-
-  @Override
-  public void accept(IVisitor visitor) {
-    visitor.visit(this);
-  }
   
-  protected void addCommands() {
-  
-    supportedCommands.put(80, new Play());
-    supportedCommands.put(83, new Stop());
-    supportedCommands.put(37, new Rewind());
-    supportedCommands.put(39, new Forward());
-    
-  }
-
-  public void initialize(CompositeView view, Readable rd, Appendable ap) {
+  public CompositeController(CompositeView view, Appendable ap) {
     this.ap = ap;
     this.view = view;
     this.supportedCommands = new HashMap<>();
     this.addCommands();
     view.addListener(this);
+  }
+  
+  protected void addCommands() {
+    
+    supportedCommands.put(80, new Play());
+    supportedCommands.put(83, new Stop());
+    supportedCommands.put(37, new Rewind());
+    supportedCommands.put(39, new Forward());
+    
   }
   
   @Override public void keyPressed(KeyEvent e) {
@@ -54,33 +49,10 @@ public class CompositeController implements IVisitableController {
     
   }
   
-  @Override public void keyTyped(KeyEvent e) {
-  
-  }
-  
-  @Override public void keyReleased(KeyEvent e) {
-  
-  }
-  
   @Override public void mouseClicked(MouseEvent e) {
   
     view.addNote(e.getPoint());
   
   }
   
-  @Override public void mousePressed(MouseEvent e) {
-  
-  }
-  
-  @Override public void mouseReleased(MouseEvent e) {
-  
-  }
-  
-  @Override public void mouseEntered(MouseEvent e) {
-  
-  }
-  
-  @Override public void mouseExited(MouseEvent e) {
-  
-  }
 }

@@ -17,13 +17,10 @@ public class MainController {
 
   final Readable rd;
   final Appendable ap;
-  IVisitableController controller;
-  ControllerInitializer initializer;
   private String fileName;
   private Scanner scanner;
   private JMidiComposition composition;
   private ICompositionView selected;
-
   
   /**
    * Constructs a {@code MainController} object.
@@ -77,6 +74,7 @@ public class MainController {
         } catch (IOException | IllegalArgumentException e) {
 
           fileName = null;
+  
           JMidiUtils.message(e.toString(), ap);
 
         }
@@ -84,12 +82,9 @@ public class MainController {
       } else if (selected == null) {
 
         try {
-
-          selected = ViewManager.select(next);
-          selected.initialize(composition, ap);
-          controller = ControllerManager.select(selected);
-          initializer = new ControllerInitializer(selected, rd, ap);
-          controller.accept(initializer);
+  
+          selected = ViewManager.select(next, composition, ap);
+          selected.initialize();
 
         } catch (IllegalArgumentException e) {
   

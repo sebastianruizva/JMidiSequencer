@@ -76,8 +76,8 @@ public class MidiViewImplTest {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(0, 4, 0, 1,
             30).build();
-
-    midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
@@ -113,8 +113,8 @@ public class MidiViewImplTest {
   public void TestMidiView_CompositionEmpty() throws Exception {
     this.initCond();
     jMidiComposition = compositionBuilder.build();
-
-    midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initialize(jMidiComposition, ap);
     assertEquals("", log.toString());
   }
 
@@ -124,8 +124,8 @@ public class MidiViewImplTest {
 
     jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
             compositionBuilder);
-
-    midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
@@ -154,8 +154,8 @@ public class MidiViewImplTest {
 
     jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
             compositionBuilder);
-
-    midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:600000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
@@ -181,8 +181,8 @@ public class MidiViewImplTest {
 
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             compositionBuilder);
-
-    midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initialize(jMidiComposition, ap);
 
   }
 
