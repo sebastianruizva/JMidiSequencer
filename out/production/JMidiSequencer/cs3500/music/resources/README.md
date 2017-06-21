@@ -100,47 +100,47 @@ Takes care of the command line interactions.
 
 **Class Hierarchy**
 
-cs3500.music.view.ConsoleView (implements cs3500.music.view.ICompositionView)
+cs3500.music.audio.ConsoleView (implements cs3500.music.audio.ICompositionView)
 
-cs3500.music.view.DrawValues
+cs3500.music.audio.DrawValues
 
-cs3500.music.view.AudioView (implements cs3500.music.view.ICompositionView)
+cs3500.music.audio.AudioView (implements cs3500.music.audio.ICompositionView)
 
-cs3500.music.view.ViewManager
+cs3500.music.audio.ViewManager
 
 
 **Interface Hierarchy**
 
-cs3500.music.view.ICompositionView
+cs3500.music.audio.ICompositionView
 
 ----------------------------------------------------
 
 **_DESCRIPTIONS:_**
 
-**cs3500.music.view.ConsoleView** 
+**cs3500.music.audio.ConsoleView** 
 
-Renders a console view of the composition
+Renders a console audio of the composition
 
-**cs3500.music.view.DrawValues**
+**cs3500.music.audio.DrawValues**
 
 Holds constants for a unified visual render between classes
 
-**cs3500.music.view.AudioView** 
+**cs3500.music.audio.AudioView** 
 
-Renders an audio view of the composition
+Renders an audio audio of the composition
 
-**cs3500.music.view.ViewManager**
+**cs3500.music.audio.ViewManager**
 
 This is a factory class for views that allows the client to easily select between a console version
 of the output and the more complex GUI. 
 
-**cs3500.music.view.ICompositionView**
+**cs3500.music.audio.ICompositionView**
 
 A unified typing for views relating to the music editor. As what and how different aspects of a 
 composition should be displayed is not totally concrete, this only contains one method, initialize.
-rather than a series of methods dictating what should be included in the view.
+rather than a series of methods dictating what should be included in the audio.
 
-**cs3500.music.view.MusicEditorGUI**
+**cs3500.music.audio.MusicEditorGUI**
 
 A class responsible for displaying all the necessary interfaces related to a JMidiComposition. 
 This includes a ledger containing every note in the composition, arranged horizontally, with each
