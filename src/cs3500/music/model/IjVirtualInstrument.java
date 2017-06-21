@@ -1,7 +1,5 @@
 package cs3500.music.model;
 
-import javax.sound.midi.Synthesizer;
-
 /**
  * The interface {@IjVirtualInstrument} Represents a midi based musical instrument interface for
  * a midi track.
@@ -28,6 +26,6 @@ public interface IjVirtualInstrument {
   /**
    * Returns its current synthesizer.
    */
-  Synthesizer getSynth();
+  int getNumber();
 
 }
