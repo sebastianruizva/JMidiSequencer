@@ -312,7 +312,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   /**
    * Refreshes the panels within the JFrame.
    */
-  protected void refreshPanels() {
+  public void refreshPanels() {
     this.scoreLayout.revalidate();
     this.scoreLayout.repaint();
 
@@ -338,7 +338,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    * @param point The point used to locate the selected {@link PianoKey}.
    * @return the selected {@link PianoKey}.
    */
-  protected PianoKey getKeyAtPosition(Point point) {
+  public PianoKey getKeyAtPosition(Point point) {
     int y = point.y - 350;
     if (y < 0) {
       y = 0;
