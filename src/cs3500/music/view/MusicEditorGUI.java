@@ -236,7 +236,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *
    * @return the position of the cursor.
    */
-  protected int getCursorPosition() {
+  public int getCursorPosition() {
     return cursorPosition;
   }
 

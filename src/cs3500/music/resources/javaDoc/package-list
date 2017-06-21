@@ -3,4 +3,4 @@ cs3500.music.controller
 cs3500.music.model
 cs3500.music.tests
 cs3500.music.util
-cs3500.music.view
+cs3500.music.audio

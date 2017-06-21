@@ -83,7 +83,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its " + "extension\n"
-                    + "console, visual or MIDI?\n");
+                    + "console, gui or MIDI?\n");
 
   }
 
@@ -101,7 +101,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its " + "extension\n"
-                    + "console, visual or MIDI?\n"
+                    + "console, gui or MIDI?\n"
                     + "java.lang.IllegalArgumentException: there is no view with that name...\n");
 
   }
@@ -121,7 +121,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "MIDI view Initialized\n"
+                    + "console, gui or MIDI?\n" + "MIDI view Initialized\n"
                     + "Playing Track #0\n" + "Write Q to quit\n");
 
   }
@@ -140,7 +140,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "Console view initialized\n"
+                    + "console, gui or MIDI?\n" + "Console view initialized\n"
                     + "       E0   F0  F#0   G0  G#0   A0  A#0   B0   C1  C#1   D1  D#1   E1"
                     + "   F1  F#1   G1  G#1   A1  A#1   B1   C2  C#2   D2  D#2   E2   F2  F#2   "
                     + "G2  G#2   A2  A#2   B2   C3  C#3   D3  D#3   E3   F3  F#3   G3  G#3   A3 "
@@ -229,7 +229,7 @@ public class JMidiControllerTests {
     this.initCond();
 
     //Simulate user input
-    rd = new StringReader("singleChannel.txt\n" + "visual");
+    rd = new StringReader("singleChannel.txt\n" + "gui");
 
     controller = new MainController(rd, ap);
 
@@ -237,7 +237,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "Visual view Initialized!\n"
+                    + "console, gui or MIDI?\n" + "Visual view Initialized!\n"
                     + "Write Q to quit\n");
 
   }
@@ -255,7 +255,7 @@ public class JMidiControllerTests {
 
     assertEquals(ap.toString(),
             "please write the name of the file you want to open and its extension\n"
-                    + "console, visual or MIDI?\n" + "bye!\n");
+                    + "console, gui or MIDI?\n" + "bye!\n");
 
   }
 

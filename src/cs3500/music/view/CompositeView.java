@@ -1,7 +1,5 @@
 package cs3500.music.view;
 
-import java.awt.*;
-
 import cs3500.music.controller.CompositeController;
 import cs3500.music.controller.ICompositionController;
 import cs3500.music.model.JMidiComposition;
@@ -12,7 +10,7 @@ import cs3500.music.util.JMidiUtils;
  */
 public class CompositeView extends AudioView {
   
-  protected MusicEditorGUI visual;
+  protected MusicEditorGUI gui;
   
   /**
    * Plays the directed composition.
@@ -22,8 +20,8 @@ public class CompositeView extends AudioView {
     
     super(composition, ap);
     JMidiUtils.message("Connecting to GUI", ap);
-    this.visual = new MusicEditorGUI(composition, ap);
-    this.visual.initialize();
+    this.gui = new MusicEditorGUI(composition, ap);
+    this.gui.initialize();
     JMidiUtils.message("Synchronizing views", ap);
     this.sync();
     JMidiUtils.message("Composite view ready!", ap);
@@ -31,12 +29,12 @@ public class CompositeView extends AudioView {
   }
   
   public void initialize() {
-    new CompositeController(this, ap);
+    new CompositeController(this, gui, composition, ap);
     JMidiUtils.message("Composite view initialized", ap);
   }
   
   /**
-   * Synchronizes the audio and visual views.
+   * Synchronizes the audio and gui views.
    */
   public void sync() {
     Thread syncThreat = new Thread(() -> {
@@ -49,13 +47,13 @@ public class CompositeView extends AudioView {
           newTick = (int) sequencer.getTickPosition() / 24;
           interval = newTick - oldTick;
           if (interval != 0) {
-            visual.setCursorPosition(interval);
+            gui.setCursorPosition(interval);
           }
         } else {
           this.pause();
           sequencer.setTickPosition(0);
           sequencer.setTempoInMPQ(composition.getTempo());
-          visual.setCursorPosition(0);
+          gui.setCursorPosition(0);
           newTick = 0;
           oldTick = 0;
         }
@@ -64,25 +62,8 @@ public class CompositeView extends AudioView {
     syncThreat.start();
   }
   
-  public void addNote(Point point) {
-    
-    try {
-      PianoKey key = visual.getKeyAtPosition(point);
-      composition.addNote(visual.getCursorPosition(), key.getPitch());
-      visual.setCursorPosition(1);
-      visual.refreshPanels();
-      JMidiUtils.message("***********************************", ap);
-      JMidiUtils.message("*          Note added             *", ap);
-      JMidiUtils.message("***********************************", ap);
-      JMidiUtils.message(composition.toString(), ap);
-    } catch (IllegalArgumentException e) {
-      JMidiUtils.message("No key here...", ap);
-    }
-  
-  }
-  
   public void addListener(ICompositionController controller) {
-    visual.addListener(controller);
+    gui.addListener(controller);
   }
   
 }
