@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
+import javax.swing.*;
 
 import cs3500.music.controller.CompositeController;
 import cs3500.music.controller.ICompositionController;
@@ -14,6 +15,7 @@ import cs3500.music.util.JMidiUtils;
 public class CompositeView extends AudioView implements MetaEventListener {
   
   protected MusicEditorGUI gui;
+  Timer timer;
   
   /**
    * Plays the directed composition.
@@ -26,9 +28,9 @@ public class CompositeView extends AudioView implements MetaEventListener {
     this.gui = new MusicEditorGUI(composition, ap);
     this.gui.initialize();
     JMidiUtils.message("Synchronizing views", ap);
-    sequencer.addMetaEventListener(this);
+    timer = new javax.swing.Timer(100, e -> sync());
+    timer.start();
     JMidiUtils.message("Composite view ready!", ap);
-    
   }
   
   public void initialize() {
@@ -36,42 +38,44 @@ public class CompositeView extends AudioView implements MetaEventListener {
     JMidiUtils.message("Composite view initialized", ap);
   }
   
-  /**
-   * Synchronizes the audio and gui views.
-   */
-  public void sync() {
-    Thread syncThreat = new Thread(() -> {
-      int newTick = 0;
-      int oldTick;
-      int interval;
-      while (true) {
-        if (newTick < composition.getMaxTick()) {
-          oldTick = newTick;
-          newTick = (int) sequencer.getTickPosition() / 24;
-          interval = newTick - oldTick;
-          if (interval != 0) {
-            gui.setCursorPosition(interval);
-          }
-        } else {
-          this.pause();
-          sequencer.setTickPosition(0);
-          sequencer.setTempoInMPQ(composition.getTempo());
-          gui.setCursorPosition(0);
-          newTick = 0;
-          oldTick = 0;
-        }
-      }
-    });
-    syncThreat.start();
-  }
-  
   public void addListener(ICompositionController controller) {
     gui.addListener(controller);
   }
   
+  
+  
+  /**
+   * Synchronizes the audio and gui views.
+   */
+  public void sync() {
+    if ((int) sequencer.getTickPosition() / 24 < composition.getMaxTick()) {
+      gui.setCursorAbsolutePosition((int) sequencer.getTickPosition() / 24);
+    } else {
+      sequencer.setTickPosition(0);
+      sequencer.setTempoInMPQ(composition.getTempo());
+    }
+  }
+  
+  /**
+   * MAkes sure that once the sequence has ended the sequencer closes.
+   */
   @Override public void meta(MetaMessage meta) {
     
-    System.out.println(meta.getStatus());
+    if (meta.getType() == 47) {
+      
+      sequencer.close();
+      
+    }
     
   }
+  
+  public void play() {
+    super.play();
+  }
+  
+  public void pause() {
+    super.pause();
+  }
+  
+  
 }

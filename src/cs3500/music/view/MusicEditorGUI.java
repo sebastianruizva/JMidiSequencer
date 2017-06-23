@@ -267,6 +267,23 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
 
     refreshPanels();
   }
+  
+  public void setCursorAbsolutePosition(int posn) throws IllegalArgumentException {
+    if (posn < 0) {
+      throw new IllegalArgumentException("Cannot decrease position below zero.");
+    }
+    
+    if (posn > composition.getMaxTick()) {
+      throw new IllegalArgumentException("Cannot increase position above maximum tick.");
+    }
+    
+    this.cursorPosition = posn;
+    
+    adjustWindowBounds();
+    adjustScrollBar();
+    
+    refreshPanels();
+  }
 
   /**
    * Adjusts the current position of the scrollbar to match the position of the cursor. For
