@@ -25,6 +25,9 @@ public class PitchViewPanel extends JPanel {
    * @throws IllegalArgumentException if the composition is null.
    */
   public PitchViewPanel(MusicEditorGUI gui) throws IllegalArgumentException {
+    if (gui == null) {
+      throw new IllegalArgumentException("GUI cannot be null.");
+    }
     this.gui = gui;
 
     setPreferredSize(new Dimension(DrawValues.RECTANGLE_W, determineHeight()));

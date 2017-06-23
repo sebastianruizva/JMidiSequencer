@@ -23,10 +23,8 @@ public class NotesAndGridViewPanel extends JPanel {
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
   public NotesAndGridViewPanel(MusicEditorGUI gui) {
-    JMidiComposition composition = gui.getComposition();
-
-    if (composition == null || gui == null) {
-      throw new IllegalArgumentException("cant be null!");
+    if (gui == null) {
+      throw new IllegalArgumentException("GUI can't be null!");
     }
 
     this.gui = gui;
