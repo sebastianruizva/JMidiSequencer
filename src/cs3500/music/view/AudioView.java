@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -22,7 +24,7 @@ import cs3500.music.util.JMidiUtils;
 /**
  * The class {@MidiViewImpl} implements a MIDI playback view of a composition.
  */
-public class AudioView implements ICompositionView {
+public class AudioView implements ICompositionView, MetaEventListener {
   
   protected Appendable ap;
   protected Sequence sequence;
@@ -34,6 +36,7 @@ public class AudioView implements ICompositionView {
     this.ap = ap;
     this.composition = composition;
     this.prepareSequencer();
+    this.sequencer.addMetaEventListener(this);
     JMidiUtils.message("Audio View Ready", ap);
   }
   
@@ -179,6 +182,19 @@ public class AudioView implements ICompositionView {
     JMidiUtils.message("Done :)", ap);
     return file;
   
+  }
+  
+  /**
+   * Makes sure that once the sequence has ended the sequencer closes.
+   */
+  public void meta(MetaMessage meta) {
+    
+    if (meta.getType() == 47) {
+      
+      sequencer.close();
+      
+    }
+    
   }
   
 }
