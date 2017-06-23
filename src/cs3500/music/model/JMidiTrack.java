@@ -144,7 +144,7 @@ public class JMidiTrack {
 
     //determine if there is anything in the way
     if (!this.available(tick, pitch, event.getDuration())) {
-      throw new IllegalArgumentException("there is something there already!");
+     throw new IllegalArgumentException("there is something there already!");
     }
 
     //assign the appropriate sectors
