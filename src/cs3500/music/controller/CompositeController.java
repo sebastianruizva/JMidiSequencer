@@ -17,7 +17,7 @@ import cs3500.music.view.MusicEditorGUI;
 import cs3500.music.view.PianoKey;
 
 /**
- * Created by sebastian on 6/19/17.
+ * A controller that for the Composite view
  */
 public class CompositeController extends CompositionController {
   

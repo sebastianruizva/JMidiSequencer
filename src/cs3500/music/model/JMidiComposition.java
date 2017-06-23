@@ -56,20 +56,20 @@ public class JMidiComposition implements IjMidiComposition {
     this.updateMaxValues();
     this.updateGrid();
   }
-  
-  /******************
-   * BUILDER:
-   ******************/
 
   /**
    * starts a builder for its construction.
    */
   public static Builder builder() {
-
+  
     return new Builder();
-
+  
   }
-
+  
+  /******************
+   * METHODS:
+   ******************/
+  
   /**
    * Updates the maxPitch and maxTick of the grid.
    */
@@ -102,10 +102,6 @@ public class JMidiComposition implements IjMidiComposition {
     }
     
   }
-  
-  /******************
-   * METHODS:
-   ******************/
   
   /**
    * updates the grid of the composition.
@@ -355,6 +351,10 @@ public class JMidiComposition implements IjMidiComposition {
     return grid;
     
   }
+  
+  /******************
+   * BUILDER:
+   ******************/
   
   /**
    * Adds a  Note to the composition

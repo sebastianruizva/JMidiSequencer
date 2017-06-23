@@ -3,7 +3,7 @@ package cs3500.music.controller;
 import cs3500.music.view.AudioView;
 
 /**
- * Created by sebastian on 6/19/17.
+ * an interface for playback related commands
  */
 public interface IPlaybackCommand {
   

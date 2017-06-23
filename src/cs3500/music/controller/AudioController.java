@@ -5,7 +5,7 @@ import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.AudioView;
 
 /**
- * Created by sebastian on 6/20/17.
+ * A controller made to handle te audio view only
  */
 public class AudioController extends CompositionController {
   

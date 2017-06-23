@@ -6,7 +6,7 @@ import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.MusicEditorGUI;
 
 /**
- * Created by sebastian on 6/20/17.
+ * A controller for the visual view only
  */
 public class KeyboardController extends CompositionController {
 

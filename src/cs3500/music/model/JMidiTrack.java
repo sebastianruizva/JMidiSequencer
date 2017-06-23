@@ -143,19 +143,17 @@ public class JMidiTrack {
     int tick = event.getTick();
 
     //determine if there is anything in the way
-    if (!this.available(tick, pitch, event.getDuration())) {
-     throw new IllegalArgumentException("there is something there already!");
-    }
-
-    //assign the appropriate sectors
-    for (int i = 0; i < event.getDuration(); i++) {
-
-      HashMap<Integer, JMidiEvent> sector = grid.getOrDefault(tick + i, new HashMap<>());
-
-      sector.put(pitch, event);
-
-      grid.put(tick + i, sector);
-
+    if (this.available(tick, pitch, event.getDuration())) {
+      //assign the appropriate sectors
+      for (int i = 0; i < event.getDuration(); i++) {
+      
+        HashMap<Integer, JMidiEvent> sector = grid.getOrDefault(tick + i, new HashMap<>());
+      
+        sector.put(pitch, event);
+      
+        grid.put(tick + i, sector);
+      
+      }
     }
 
     //update canvas

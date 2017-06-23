@@ -1,5 +1,8 @@
 package cs3500.music.view;
 
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
+
 import cs3500.music.controller.CompositeController;
 import cs3500.music.controller.ICompositionController;
 import cs3500.music.model.JMidiComposition;
@@ -8,7 +11,7 @@ import cs3500.music.util.JMidiUtils;
 /**
  * The class {@CompositeView} Creates an Audio Visual view of the composition.
  */
-public class CompositeView extends AudioView {
+public class CompositeView extends AudioView implements MetaEventListener {
   
   protected MusicEditorGUI gui;
   
@@ -23,7 +26,7 @@ public class CompositeView extends AudioView {
     this.gui = new MusicEditorGUI(composition, ap);
     this.gui.initialize();
     JMidiUtils.message("Synchronizing views", ap);
-    this.sync();
+    sequencer.addMetaEventListener(this);
     JMidiUtils.message("Composite view ready!", ap);
     
   }
@@ -66,4 +69,9 @@ public class CompositeView extends AudioView {
     gui.addListener(controller);
   }
   
+  @Override public void meta(MetaMessage meta) {
+    
+    System.out.println(meta.getStatus());
+    
+  }
 }

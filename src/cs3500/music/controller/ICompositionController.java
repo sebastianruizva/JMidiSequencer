@@ -1,7 +1,7 @@
 package cs3500.music.controller;
 
 /**
- * Created by sebastian on 6/21/17.
+ * An interface for a controller for a JMidi composition
  */
 public interface ICompositionController
         extends java.awt.event.KeyListener, java.awt.event.MouseListener {

@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
- * Created by sebastian on 6/19/17.
+ * A general controller for any JMidi composition
  */
 abstract class CompositionController implements ICompositionController {
   
