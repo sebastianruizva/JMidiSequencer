@@ -18,11 +18,16 @@ public class ConsoleView implements ICompositionView {
    * @param ap          the appendable that tracks the messages.
    */
   public ConsoleView(JMidiComposition composition, Appendable ap) {
-  
-    JMidiUtils.message("Preparing console view", ap);
-    if (composition == null || ap == null) {
-      throw new IllegalArgumentException("params cant be null!");
+    if (composition == null) {
+      throw new IllegalArgumentException("Composition cant be null!");
     }
+
+    if (ap == null) {
+      throw new IllegalArgumentException("Appendable cant be null!");
+    }
+
+    JMidiUtils.message("Preparing console view", ap);
+
     this.ap = ap;
     this.composition = composition;
     JMidiUtils.message("Console view ready!", ap);
