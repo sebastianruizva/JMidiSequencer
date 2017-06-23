@@ -2,9 +2,7 @@
 import org.junit.Test;
 
 import cs3500.music.model.JMidiComposition;
-import cs3500.music.model.JMidiTrack;
-import cs3500.music.util.JMidiUtils;
-import cs3500.music.view.MusicEditorGUI;
+import cs3500.music.view.visual.MusicEditorGUI;
 
 import static junit.framework.TestCase.assertEquals;
 

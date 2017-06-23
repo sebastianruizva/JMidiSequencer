@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import cs3500.music.controller.KeyboardController;
-import cs3500.music.view.MusicEditorGUI;
-import cs3500.music.view.PianoKey;
+import cs3500.music.controller.VisualController;
+import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.visual.PianoKey;
 
 /**
  * Tester clas for the KeyHandler. Prints messages to the appendable based on what keys are
  * pressed and what they're doing.
  */
-public class MockKeyHandler extends KeyboardController {
+public class MockKeyHandler extends VisualController {
 
   // The log where different actions are going to be recorded.
   public StringBuilder log;

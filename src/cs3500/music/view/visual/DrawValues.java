@@ -1,7 +1,6 @@
-package cs3500.music.view;
+package cs3500.music.view.visual;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 
 /**

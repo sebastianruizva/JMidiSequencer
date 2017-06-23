@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view.visual;
 
 import java.awt.*;
 
@@ -6,9 +6,9 @@ import java.awt.*;
  * Created by joe on 6/19/17.
  */
 public class PianoKey {
+  public int pitch;
   private Rectangle hitBox;
   private PianoType type;
-  public int pitch;
 
   public PianoKey(int x, int y, PianoType type, int pitch) {
     this.type = type;

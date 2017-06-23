@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view.visual;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import cs3500.music.controller.ICompositionController;
-import cs3500.music.controller.KeyboardController;
+import cs3500.music.controller.VisualController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.util.JMidiUtils;
+import cs3500.music.view.ICompositionView;
 
 /**
  * A frame for the Music Editor GUI. This frame will contain a scrollable display of the pitches
@@ -81,7 +82,7 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   
   @Override public void initialize() {
     this.setVisible(true);
-    new KeyboardController(this, ap);
+    new VisualController(this, ap);
   }
   
   /**

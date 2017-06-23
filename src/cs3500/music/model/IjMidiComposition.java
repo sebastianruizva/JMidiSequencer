@@ -1,5 +1,6 @@
 package cs3500.music.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -32,6 +33,12 @@ public interface IjMidiComposition {
    * Returns a the maximum pitch in the track.
    */
   int getMaxPitch();
+  
+  /**
+   * Returns a list of elements in the designated tick
+   * @param tick the tick where the events are.
+   */
+  ArrayList<JMidiEvent> getEventsOnTick(int tick);
 
   /**
    * Returns the type of sector in an specific position of the grid.

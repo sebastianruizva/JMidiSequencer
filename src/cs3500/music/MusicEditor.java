@@ -14,11 +14,15 @@ import cs3500.music.controller.MainController;
 public class MusicEditor {
   /**
    * Initiates the controller, prompting the user to select a file and a method for viewing.
+   * @param args main arguments
    */
   public static void main(String[] args)
           throws IOException, InvalidMidiDataException, MidiUnavailableException {
+    //set reader
     Readable reader = new InputStreamReader(System.in);
+    //set controller
     MainController controller = new MainController(reader, System.out);
+    //run main view
     controller.run();
   }
 }

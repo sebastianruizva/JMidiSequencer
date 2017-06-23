@@ -1,4 +1,4 @@
-package cs3500.music.view;
+package cs3500.music.view.visual;
 
 import java.awt.*;
 import java.util.HashMap;

@@ -289,27 +289,7 @@ public class JMidiTrack {
     }
 
   }
-
-  /**
-   * Updates the event distance.
-   *
-   * @param event       the event you want to update.
-   * @param newDistance the new distance for the event.
-   * @throws IllegalArgumentException if it collides with other in the region or there is no such
-   *                                  event.
-   */
-  protected void resizeEvent(JMidiEvent event, int newDistance)
-          throws IllegalArgumentException {
-
-    if (event == null) {
-      throw new IllegalArgumentException("event cant be null!");
-    }
-
-    this.editEvent(event, event.getPitch(), event.getTick(), newDistance,
-            event.getVelocity(), event.getChannel());
-
-  }
-
+  
   /**
    * Returns a clone of all the different MIDI events on a given point in time.
    *

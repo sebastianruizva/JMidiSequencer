@@ -12,8 +12,7 @@ public class ConsoleView implements ICompositionView {
   JMidiComposition composition;
 
   /**
-   * Initializes the view.
-   *
+   * Constructs the view.
    * @param composition the composition to be rendered.
    * @param ap          the appendable that tracks the messages.
    */
@@ -34,6 +33,9 @@ public class ConsoleView implements ICompositionView {
 
   }
   
+  /**
+   * Initializes the view.
+   */
   @Override public void initialize() {
     JMidiUtils.message(composition.toString(), ap);
     JMidiUtils.message("Console view initialized", ap);

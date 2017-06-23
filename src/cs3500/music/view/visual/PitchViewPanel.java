@@ -1,9 +1,8 @@
-package cs3500.music.view;
+package cs3500.music.view.visual;
 
-import java.awt.Graphics;
-import java.awt.Dimension;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.model.IjVirtualInstrument;
 import cs3500.music.model.JMidiComposition;

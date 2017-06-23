@@ -8,7 +8,7 @@ import java.util.Arrays;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
-import cs3500.music.view.MusicEditorGUI;
+import cs3500.music.view.visual.MusicEditorGUI;
 
 import static org.junit.Assert.assertEquals;
 

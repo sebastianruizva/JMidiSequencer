@@ -46,22 +46,25 @@ public class MainController {
   }
 
   /**
-   * Interacts with the user.
+   * Interacts with the user to select the desired view.
    */
   public void run() {
   
     JMidiUtils.message("please write the name of the file you want to open and its extension or "
             + "write Q to quit", ap);
-
+  
+    //look around the appendable
     while (scanner.hasNextLine()) {
 
       String next = scanner.nextLine();
-
+  
+      //make sure if q is pressed it can be aborted
       if (next.equalsIgnoreCase("Q")) {
 
         JMidiUtils.message("bye!", ap);
         return;
-
+  
+        //ask for a file
       } else if (fileName == null) {
 
         fileName = next;
@@ -76,10 +79,11 @@ public class MainController {
 
           fileName = null;
   
-          JMidiUtils.message(e.toString(), ap);
+          JMidiUtils.message("file not found", ap);
 
         }
-
+  
+        //ask for a view
       } else if (selected == null) {
 
         try {
@@ -90,7 +94,7 @@ public class MainController {
         } catch (IllegalArgumentException e) {
   
           selected = null;
-          JMidiUtils.message(e.toString(), ap);
+          JMidiUtils.message("view not found", ap);
 
         }
 

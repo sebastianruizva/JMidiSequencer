@@ -24,7 +24,7 @@ public interface IjVirtualInstrument {
   String getNoteRepresentation(int pitch) throws IllegalArgumentException;
 
   /**
-   * Returns its current synthesizer.
+   * Returns its current instrument number.
    */
   int getNumber();
 

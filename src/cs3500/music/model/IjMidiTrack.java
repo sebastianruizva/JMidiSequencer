@@ -17,12 +17,12 @@ public interface IjMidiTrack {
    * Returns a the maximum tick in the track.
    */
   int getMaxTick();
-
+  
   /**
    * Returns a clone of all the different MIDI events on a given point in time.
    *
    * @param tick the tick where the events are.
    */
   ArrayList<JMidiEvent> getEventsOnTick(int tick);
-
+  
 }

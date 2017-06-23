@@ -26,12 +26,29 @@ import cs3500.music.util.JMidiUtils;
  */
 public class AudioView implements ICompositionView, MetaEventListener {
   
+  /**
+   * an appendable for messages.
+   */
   protected Appendable ap;
+  /**
+   * A MIDI Sequence object
+   */
   protected Sequence sequence;
+  /**
+   * A MIDI sequencer object
+   */
   protected Sequencer sequencer;
+  /**
+   * the composition being observed
+   */
   protected JMidiComposition composition;
   
-  AudioView(JMidiComposition composition, Appendable ap) {
+  /**
+   * Constructs an {@AudioView}.
+   * @param ap          an appendable for messages.
+   * @param composition the composition being observed
+   */
+  public AudioView(JMidiComposition composition, Appendable ap) {
     JMidiUtils.message("Preparing Audio View", ap);
     this.ap = ap;
     this.composition = composition;
@@ -41,15 +58,28 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
-   * Plays the directed composition.
+   * Initializes the view
    */
   public void initialize() {
     new AudioController(this, ap);
     JMidiUtils.message("Audio View Initialized", ap);
-    
+  
   }
   
-  protected void prepareSequencer() {
+  
+  /**
+   * refreshes the state of the sequencer
+   */
+  public void refreshSequencer() {
+    long tick = sequencer.getTickPosition();
+    this.prepareSequencer();
+    sequencer.setTickPosition(tick);
+  }
+  
+  /**
+   * Constructs the sequencer
+   */
+  public void prepareSequencer() {
     try {
       
       JMidiUtils.message("Initializing Sequencer", ap);
@@ -68,6 +98,9 @@ public class AudioView implements ICompositionView, MetaEventListener {
     }
   }
   
+  /**
+   * Adds all the tracks
+   */
   protected void addAllTracks() {
     //add all the tracks
     for (Integer k : composition.getTracks().keySet()) {
@@ -116,15 +149,6 @@ public class AudioView implements ICompositionView, MetaEventListener {
       }
   
     }
-    
-  }
-  
-  /**
-   * Returns the current position of the tick.
-   */
-  public long getTickPosition() {
-    
-    return sequencer.getTickPosition();
     
   }
   
@@ -186,6 +210,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   
   /**
    * Makes sure that once the sequence has ended the sequencer closes.
+   * @param meta the metaMessage
    */
   public void meta(MetaMessage meta) {
     

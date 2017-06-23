@@ -1,12 +1,10 @@
-package cs3500.music.view;
-
-import org.omg.CosNaming.NamingContextPackage.NotFound;
+package cs3500.music.view.visual;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-import javax.swing.JLayeredPane;
+import javax.swing.*;
 
 /**
  * A view panel displaying a ten-octave keyboard. Notes that are currently selected by the

@@ -1,22 +1,23 @@
 package cs3500.music.controller;
 
-import cs3500.music.controller.PlaybackCommands.Play;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.AudioView;
 
 /**
- * A controller made to handle te audio view only
+ * A controller made to handle the audio view only
  */
 public class AudioController extends CompositionController {
   
-  private AudioView view;
+  private AudioView audio;
   
-  public AudioController(AudioView view, Appendable ap) {
+  public AudioController(AudioView audio, Appendable ap) {
   
     JMidiUtils.message("Audio Controller Started", ap);
-    this.view = view;
+    this.audio = audio;
     JMidiUtils.message("Controller connected to View", ap);
-    new Play().execute(view);
+    
+    //Play the composition
+    audio.play();
     
   }
   

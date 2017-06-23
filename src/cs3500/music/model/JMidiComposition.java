@@ -13,10 +13,6 @@ import cs3500.music.util.JMidiUtils;
  * parameters.
  */
 public class JMidiComposition implements IjMidiComposition {
-  
-  /******************
-   * CONSTRUCTOR:
-   ******************/
 
   /**
    * The maximum pitch in the composition.
@@ -65,10 +61,6 @@ public class JMidiComposition implements IjMidiComposition {
     return new Builder();
   
   }
-  
-  /******************
-   * METHODS:
-   ******************/
   
   /**
    * Updates the maxPitch and maxTick of the grid.
@@ -268,8 +260,8 @@ public class JMidiComposition implements IjMidiComposition {
    * @param tick the tick where the events are
    */
   public ArrayList<JMidiEvent> getEventsOnTick(int tick) {
-    
-    ArrayList<JMidiEvent> events = new ArrayList<JMidiEvent>();
+  
+    ArrayList<JMidiEvent> events = new ArrayList<>();
     
     if (grid.getOrDefault(tick, null) != null) {
       
@@ -306,7 +298,7 @@ public class JMidiComposition implements IjMidiComposition {
     
     
     //build a grid according to its current state
-    StringBuilder grid = buildStringGrid(width, height);
+    StringBuilder grid = buildGrid(width, height);
     
     //Place the elements in the grid
     for (Integer tick : this.grid.keySet()) {
@@ -322,7 +314,7 @@ public class JMidiComposition implements IjMidiComposition {
   /**
    * Draws a string grid with the given dimensions.
    */
-  private StringBuilder buildStringGrid(int width, int height) {
+  private StringBuilder buildGrid(int width, int height) {
     
     int length = height * width;
     StringBuilder grid = new StringBuilder(length);
@@ -352,15 +344,12 @@ public class JMidiComposition implements IjMidiComposition {
     
   }
   
-  /******************
-   * BUILDER:
-   ******************/
-  
   /**
    * Adds a  Note to the composition
    */
   public void addNote(int tick, int pitch) {
-    
+  
+    //create a new track
     if (tracks.getOrDefault(-1, null) == null) {
       tracks.put(-1, new JMidiTrack(JMidiUtils.defualtVI()));
     }
@@ -398,7 +387,7 @@ public class JMidiComposition implements IjMidiComposition {
     public Builder() {
       
       //Define the default values
-      this.tracks = new HashMap<Integer, JMidiTrack>();
+      this.tracks = new HashMap<>();
       this.tempo = 200000;
       
     }

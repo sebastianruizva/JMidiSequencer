@@ -1,7 +1,7 @@
 
 import org.junit.Test;
 
-import cs3500.music.view.PianoViewPanel;
+import cs3500.music.view.visual.PianoViewPanel;
 
 /**
  * Tests for PianoViewPanel.
