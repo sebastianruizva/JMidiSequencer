@@ -75,6 +75,7 @@ public class CompositeController extends CompositionController {
     supportedCommands.put(80, () -> audio.play());
     supportedCommands.put(83, () -> audio.pause());
     supportedCommands.put(37, () -> audio.rewind());
+    supportedCommands.put(39, () -> audio.forward());
     supportedCommands.put(69, () -> audio.end());
     supportedCommands.put(66, () -> audio.beginning());
     supportedCommands.put(88, () -> audio.export());
