@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Tests for ConsoleView.
  */
-public class ConsoleViewTest {
+public class ConsoleViewTests {
   @Test(expected = IllegalArgumentException.class)
   public void errorWhenCompositionIsNull() {
     ConsoleView fail = new ConsoleView(null, new StringBuilder());

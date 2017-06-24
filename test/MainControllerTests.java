@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * The class {@JMidiControllerTests} represents tests for the JMidiController.
  */
-public class JMidiControllerTests {
+public class MainControllerTests {
 
   MainController controller;
 

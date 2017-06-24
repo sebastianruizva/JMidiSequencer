@@ -4,7 +4,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
 
-public class TestReceiver implements Receiver {
+public class MockReceiver implements Receiver {
 
   //the log where the messages are going to be recorded
   public StringBuilder log;
@@ -13,7 +13,7 @@ public class TestReceiver implements Receiver {
    * Constructs a {@TestReciever}.
    * @param log the log where the messages get recorded
    */
-  public TestReceiver(StringBuilder log) {
+  public MockReceiver(StringBuilder log) {
     this.log = log;
   }
 

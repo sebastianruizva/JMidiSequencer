@@ -13,7 +13,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Tests for the class {@ViewSelector}.
  */
-public class ViewSelectorTest {
+public class ViewManagerTests {
 
 
   @Test

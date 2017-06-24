@@ -45,6 +45,10 @@ public class JMidiUtils {
     }
   }
   
+  /**
+   * Transalates a sequence to  areadable format
+   * @param sequence the sequence that is going to be translated.
+   */
   public static java.lang.String translateSequence(Sequence sequence) {
     StringBuilder summary = new StringBuilder();
     
@@ -57,8 +61,8 @@ public class JMidiUtils {
         try {
           ShortMessage event = (ShortMessage) track.get(i).getMessage();
           summary.append(
-                  "msg[Tck:" + track.get(i).getTick() + ", Cmd:" + event.getCommand() + " Chn:"
-                          + event.getChannel() + " Ptc:" + event.getData1() + " Vel:" + event
+                  "msg[Tck:" + track.get(i).getTick() + ", Cmd:" + event.getCommand() + " Chn:" +
+                          event.getChannel() + " Ptc:" + event.getData1() + " Vel:" + event
                           .getData2() + "] \n");
         } catch (ClassCastException e) {
         

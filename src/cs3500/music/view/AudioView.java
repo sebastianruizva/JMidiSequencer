@@ -49,6 +49,9 @@ public class AudioView implements ICompositionView, MetaEventListener {
    * @param composition the composition being observed
    */
   public AudioView(JMidiComposition composition, Appendable ap) {
+    if (composition == null || sequencer == null || ap == null) {
+      throw new IllegalArgumentException("no null!");
+    }
     JMidiUtils.message("Preparing Audio View", ap);
   
     this.ap = ap;
@@ -64,8 +67,12 @@ public class AudioView implements ICompositionView, MetaEventListener {
    * @param ap          an appendable for messages.
    * @param composition the composition being observed
    * @param sequencer   space for a custom sequencer
+   *                    @throws IllegalArgumentException if anything is null
    */
   public AudioView(JMidiComposition composition, Appendable ap, Sequencer sequencer) {
+    if (composition == null || sequencer == null || ap == null) {
+      throw new IllegalArgumentException("no null!");
+    }
     JMidiUtils.message("Preparing Audio View", ap);
   
     try {

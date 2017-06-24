@@ -345,16 +345,16 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Adds a  Note to the composition
+   * Adds a  Note to the composition in track 0
    */
   public void addNote(int tick, int pitch) {
   
     //create a new track
-    if (tracks.getOrDefault(-1, null) == null) {
-      tracks.put(-1, new JMidiTrack(JMidiUtils.defualtVI()));
+    if (tracks.getOrDefault(0, null) == null) {
+      tracks.put(0, new JMidiTrack(JMidiUtils.defualtVI()));
     }
-    
-    JMidiTrack track = tracks.get(-1);
+  
+    JMidiTrack track = tracks.get(0);
     
     JMidiEvent event = new JMidiEvent.Builder().tick(tick).pitch(pitch).build();
     

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
  * Tests for the actions of KeyBindings. These tests are to ensure that the correct actions
  * are being taken when pressing a given key, and that effects are present as well.
  */
-public class KeyBindingsTest {
+public class CompositionControllerTests {
   /**
    * A JMidiComposition example.
    */

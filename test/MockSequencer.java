@@ -15,7 +15,7 @@ import javax.sound.midi.Transmitter;
 /**
  * A Mock Sequencer class
  */
-public class TestSequencer implements Sequencer {
+public class MockSequencer implements Sequencer {
   
   StringBuilder log;
   private Sequence sequence;
@@ -24,7 +24,7 @@ public class TestSequencer implements Sequencer {
    * Constructs a {@TestSequencer}.
    * @param log the log where the messages get recorded
    */
-  TestSequencer(StringBuilder log){
+  MockSequencer(StringBuilder log) {
   
     this.log = log;
     log.append("sequencer initialized \n");
@@ -42,7 +42,7 @@ public class TestSequencer implements Sequencer {
   
   @Override public Sequence getSequence() {
     try {
-      return new TestSequence(Sequence.PPQ, 24, log);
+      return new MockSequence(Sequence.PPQ, 24, log);
     } catch (InvalidMidiDataException e) {
       throw new UnsupportedOperationException();
     }
@@ -52,12 +52,6 @@ public class TestSequencer implements Sequencer {
     
     this.sequence = sequence;
     
-  }
-  
-  public void refreshLog() {
-    
-    log.append(sequence);
-
   }
   
   @Override public void start() {
@@ -169,7 +163,7 @@ public class TestSequencer implements Sequencer {
   }
   
   @Override public Receiver getReceiver() throws MidiUnavailableException {
-    TestReceiver receiver = new TestReceiver(log);
+    MockReceiver receiver = new MockReceiver(log);
     return receiver;
   }
   

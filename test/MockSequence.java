@@ -5,10 +5,10 @@ import javax.sound.midi.Track;
 /**
  * Created by sebastian on 6/23/17.
  */
-public class TestSequence extends Sequence {
+public class MockSequence extends Sequence {
   StringBuilder log;
   
-  public TestSequence(float divisionType, int resolution, StringBuilder log)
+  public MockSequence(float divisionType, int resolution, StringBuilder log)
           throws InvalidMidiDataException {
     super(divisionType, resolution);
     this.log = log;

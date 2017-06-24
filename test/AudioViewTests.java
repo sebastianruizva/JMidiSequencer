@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * The class {@MidiViewImplTest} represents tests for the class (@MidiViewImpl}.
  */
-public class MidiViewImplTest {
+public class AudioViewTests {
 
   /**
    * A JMidiComposition example.
@@ -62,7 +62,7 @@ public class MidiViewImplTest {
   /**
    * Mock sequencer.
    */
-  TestSequencer testSequencer;
+  MockSequencer testSequencer;
   
   
   /**
@@ -81,8 +81,8 @@ public class MidiViewImplTest {
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
     
     compositionBuilder = JMidiComposition.builder();
-    
-    testSequencer = new TestSequencer(log);
+  
+    testSequencer = new MockSequencer(log);
     
   }
 
@@ -97,7 +97,7 @@ public class MidiViewImplTest {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
   
-    TestSequencer sequencer = new TestSequencer(log2);
+    MockSequencer sequencer = new MockSequencer(log2);
     AudioView view = new AudioView(jMidiComposition, log, sequencer);
     File file = view.export();
     Sequence sequence = MidiSystem.getSequence(file);
@@ -191,8 +191,61 @@ public class MidiViewImplTest {
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             compositionBuilder);
   
-    //midiView.initialize(jMidiComposition, ap);
-
+    new AudioView(jMidiComposition, ap).initialize();
+  
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void TestMidiView_CompositionFromReader_invalidNull() throws Exception {
+    this.initCond();
+    
+    new AudioView(null, null).initialize();
+    
+  }
+  
+  @Test public void TestMidiView_refreshSequencer() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    MockSequencer sequencer = new MockSequencer(log2);
+    AudioView view = new AudioView(jMidiComposition, log, sequencer);
+    File file = view.export();
+    Sequence sequence = MidiSystem.getSequence(file);
+    
+    assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n" + "Track #2\n"
+            + "msg[Tck:0, Cmd:192 Chn:5 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n", JMidiUtils.translateSequence(sequence));
+    
+    jMidiComposition.addNote(40, 1);
+    view.refreshSequencer();
+    file = view.export();
+    sequence = MidiSystem.getSequence(file);
+    
+    System.out.println(log);
+    
+    assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:0 Ptc:0 Vel:0] \n" + "Track #2\n"
+            + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n" + "Track #3\n"
+            + "msg[Tck:0, Cmd:192 Chn:5 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n", JMidiUtils.translateSequence(sequence));
+    
   }
 
 }
