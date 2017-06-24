@@ -14,12 +14,30 @@ import cs3500.music.view.ViewManager;
  * The class {@ModeSelector} Creates a view according to the user instructions.
  */
 public class MainController {
-
+  
+  /**
+   * User input
+   */
   final Readable rd;
+  /**
+   * output
+   */
   final Appendable ap;
+  /**
+   * holds file to open
+   */
   private String fileName;
+  /**
+   * holds input by word
+   */
   private Scanner scanner;
+  /**
+   * the generated composition
+   */
   private JMidiComposition composition;
+  /**
+   * the selected view
+   */
   private ICompositionView selected;
   
   /**
