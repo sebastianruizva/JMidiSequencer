@@ -8,7 +8,7 @@ import cs3500.music.controller.MainController;
 import static org.junit.Assert.assertEquals;
 
 /**
- * The class {@JMidiControllerTests} represents tests for the Jmidi controller.
+ * The class {@JMidiControllerTests} represents tests for the JMidiController.
  */
 public class JMidiControllerTests {
 
@@ -37,7 +37,8 @@ public class JMidiControllerTests {
     controller.run();
 
     assertEquals(ap.toString(),
-            "please write the name of the file you want to open and its " + "extension\n");
+            "please write the name of the file you want to open and its extension or write Q to "
+                    + "quit\n");
 
   }
 
@@ -63,8 +64,8 @@ public class JMidiControllerTests {
     controller.run();
 
     assertEquals(ap.toString(),
-            "please write the name of the file you want to open and its " + "extension\n"
-                    + "java.io.FileNotFoundException: fakefile.tft (No such file or directory)\n");
+            "please write the name of the file you want to open and its extension or write Q to "
+                    + "quit\n" + "file not found\n");
 
   }
 
@@ -99,9 +100,9 @@ public class JMidiControllerTests {
     controller.run();
 
     assertEquals(ap.toString(),
-            "please write the name of the file you want to open and its " + "extension\n"
-                    + "console, gui or MIDI?\n"
-                    + "java.lang.IllegalArgumentException: there is no view with that name...\n");
+            "please write the name of the file you want to open and its extension or write Q to "
+                    + "quit\n"
+                    + "file not found\n" + "file not found\n");
 
   }
 
@@ -253,8 +254,9 @@ public class JMidiControllerTests {
     controller.run();
 
     assertEquals(ap.toString(),
-            "please write the name of the file you want to open and its extension\n"
-                    + "console, gui or MIDI?\n" + "bye!\n");
+            "please write the name of the file you want to open and its extension or write Q to "
+                    + "quit\n"
+                    + "file not found\n" + "bye!\n");
 
   }
 
@@ -270,7 +272,8 @@ public class JMidiControllerTests {
     controller.run();
 
     assertEquals(ap.toString(),
-            "please write the name of the file you want to open and its extension\n"
+            "please write the name of the file you want to open and its extension or write Q to "
+                    + "quit\n"
                     + "bye!\n");
 
   }

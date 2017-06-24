@@ -58,6 +58,22 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
+   * Constructs an {@AudioView}.
+   * @param ap          an appendable for messages.
+   * @param composition the composition being observed
+   * @param sequencer   space for a custom sequencer
+   */
+  public AudioView(JMidiComposition composition, Appendable ap, Sequencer sequencer) {
+    JMidiUtils.message("Preparing Audio View", ap);
+    this.sequencer = sequencer;
+    this.ap = ap;
+    this.composition = composition;
+    this.prepareSequencer();
+    this.sequencer.addMetaEventListener(this);
+    JMidiUtils.message("Audio View Ready", ap);
+  }
+  
+  /**
    * Initializes the view
    */
   public void initialize() {

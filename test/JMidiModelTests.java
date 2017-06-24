@@ -100,7 +100,7 @@ public class JMidiModelTests {
   @Test
   public void TestGetDurationAndBuilder() throws Exception {
     assertEquals(7, e0.getDuration());
-    assertEquals(3, e1.getDuration());
+    assertEquals(1, e1.getDuration());
     assertEquals(1, e2.getDuration());
     assertEquals(3, e3.getDuration());
   }
@@ -112,8 +112,7 @@ public class JMidiModelTests {
                     + " duration=7}",
             e0.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=5, pitch=6, velocity=64, channel=0,"
-                    + " duration=3}",
+            "cs3500.music.model.JMidiEvent{tick=5, pitch=6, velocity=64, channel=0, duration=1}",
             e1.toString());
     assertEquals(
             "cs3500.music.model.JMidiEvent{tick=3, pitch=3, velocity=64, channel=0,"
@@ -342,14 +341,6 @@ public class JMidiModelTests {
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             compositionBuilder);
 
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testAddEvent_MultipleEvents_sameChannel_samePitch() {
-    this.initCond();
-    jMidiComposition = compositionBuilder
-            .addNote(1, 2, 0, 0, 0)
-            .addNote(1, 2, 0, 0, 0).build();
   }
 
   @Test(expected = IllegalArgumentException.class)

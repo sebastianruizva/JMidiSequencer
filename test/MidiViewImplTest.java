@@ -42,6 +42,7 @@ public class MidiViewImplTest {
    * A Log that keeps track of the MIDI events.
    */
   StringBuilder log;
+  StringBuilder log2;
 
   /**
    * An appendable that keeps track of system messages.
@@ -53,16 +54,33 @@ public class MidiViewImplTest {
    */
   ArrayList<String> scale = new ArrayList<>(
           Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-
-  /**
-   * An example of a midi view implementation.
-   */
-  AudioView midiView;
   
   /**
    * Mock sequencer.
    */
   TestSequencer testSequencer;
+  
+  
+  /**
+   * Initial conditions for testing.
+   */
+  public void initCond() {
+    
+    log = new StringBuilder();
+    
+    log2 = new StringBuilder();
+    
+    ap = new StringBuilder();
+    
+    jVirtualInstrument = new JVirtualInstrument(scale, 0);
+    
+    jMidiTrack = new JMidiTrack(jVirtualInstrument);
+    
+    compositionBuilder = JMidiComposition.builder();
+    
+    testSequencer = new TestSequencer(log);
+    
+  }
 
   /**
    * ***************
@@ -76,6 +94,8 @@ public class MidiViewImplTest {
     jMidiComposition = compositionBuilder.addNote(0, 4, 0, 1,
             30).build();
   
+    new AudioView(jMidiComposition, log2, testSequencer).initialize();
+  
     //midiView.initialize(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
             + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
@@ -87,26 +107,6 @@ public class MidiViewImplTest {
             + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n", log.toString());
   }
 
-  /**
-   * Initial conditions for testing.
-   */
-  public void initCond() {
-
-    log = new StringBuilder();
-
-    ap = new StringBuilder();
-
-    jVirtualInstrument = new JVirtualInstrument(scale, 0);
-
-    jMidiTrack = new JMidiTrack(jVirtualInstrument);
-
-    //midiView = new MidiViewImpl(new TestSequencer(log));
-
-    compositionBuilder = JMidiComposition.builder();
-    
-    testSequencer = new TestSequencer(log);
-
-  }
 
   @Test
   public void TestMidiView_CompositionEmpty() throws Exception {

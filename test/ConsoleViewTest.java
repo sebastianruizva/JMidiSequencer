@@ -27,6 +27,6 @@ public class ConsoleViewTest {
     view.initialize();
     assertEquals(
             "Preparing console view\n" + "Console view ready!\n" + "      C#0 \n" + "    1     \n"
-                    + "    2  X  \n" + "Console view initialized\n", appendable);
+                    + "    2  X  \n" + "Console view initialized\n", appendable.toString());
   }
 }
