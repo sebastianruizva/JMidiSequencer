@@ -22,7 +22,6 @@ public class TestReceiver implements Receiver {
 
     ShortMessage event = (ShortMessage) message;
 
-
     log.append("msg[Tck:" + timeStamp + ", Cmd:" + event.getCommand() + " Chn:" + event
             .getChannel() + " Ptc:"
             + event.getData1() + " Vel:" + event.getData2() + "] \n");

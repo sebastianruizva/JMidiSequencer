@@ -8,6 +8,9 @@ import cs3500.music.view.AudioView;
  */
 public class AudioController extends CompositionController {
   
+  /**
+   * The audio view
+   */
   private AudioView audio;
   
   public AudioController(AudioView audio, Appendable ap) {

@@ -50,10 +50,12 @@ public class AudioView implements ICompositionView, MetaEventListener {
    */
   public AudioView(JMidiComposition composition, Appendable ap) {
     JMidiUtils.message("Preparing Audio View", ap);
+  
     this.ap = ap;
     this.composition = composition;
     this.prepareSequencer();
     this.sequencer.addMetaEventListener(this);
+  
     JMidiUtils.message("Audio View Ready", ap);
   }
   
@@ -65,11 +67,27 @@ public class AudioView implements ICompositionView, MetaEventListener {
    */
   public AudioView(JMidiComposition composition, Appendable ap, Sequencer sequencer) {
     JMidiUtils.message("Preparing Audio View", ap);
-    this.sequencer = sequencer;
-    this.ap = ap;
-    this.composition = composition;
-    this.prepareSequencer();
-    this.sequencer.addMetaEventListener(this);
+  
+    try {
+    
+      JMidiUtils.message("Initializing Sequencer", ap);
+    
+      this.ap = ap;
+      this.composition = composition;
+      this.sequence = sequencer.getSequence();
+      this.addAllTracks();
+      this.sequencer = MidiSystem.getSequencer();
+      this.sequencer.setTempoInMPQ(composition.getTempo());
+      this.sequencer.open();
+      this.sequencer.setSequence(sequence);
+      this.sequencer.addMetaEventListener(this);
+    
+      JMidiUtils.message("Sequencer Ready", ap);
+    
+    } catch (MidiUnavailableException | InvalidMidiDataException e) {
+      e.printStackTrace();
+    }
+    
     JMidiUtils.message("Audio View Ready", ap);
   }
   
@@ -79,7 +97,6 @@ public class AudioView implements ICompositionView, MetaEventListener {
   public void initialize() {
     new AudioController(this, ap);
     JMidiUtils.message("Audio View Initialized", ap);
-  
   }
   
   

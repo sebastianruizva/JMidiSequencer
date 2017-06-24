@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Track;
 
 import cs3500.music.model.JVirtualInstrument;
 
@@ -42,5 +43,29 @@ public class JMidiUtils {
     } catch (IOException e) {
       //not needed
     }
+  }
+  
+  public static java.lang.String translateSequence(Sequence sequence) {
+    StringBuilder summary = new StringBuilder();
+    
+    int trackNumber = 0;
+    for (Track track : sequence.getTracks()) {
+      trackNumber++;
+      summary.append("Track #" + trackNumber + "\n");
+      for (int i = 0; i < track.size(); i++) {
+        
+        try {
+          ShortMessage event = (ShortMessage) track.get(i).getMessage();
+          summary.append(
+                  "msg[Tck:" + track.get(i).getTick() + ", Cmd:" + event.getCommand() + " Chn:"
+                          + event.getChannel() + " Ptc:" + event.getData1() + " Vel:" + event
+                          .getData2() + "] \n");
+        } catch (ClassCastException e) {
+        
+        }
+      }
+    }
+    
+    return summary.toString();
   }
 }

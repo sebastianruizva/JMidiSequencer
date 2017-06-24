@@ -25,7 +25,7 @@ public final class ViewManager {
       case "composite":
       case "Composite":
         return new CompositeView(composition, ap);
-      case "gui":
+      case "visual":
       case "VISUAL":
         return new MusicEditorGUI(composition, ap);
       case "console":

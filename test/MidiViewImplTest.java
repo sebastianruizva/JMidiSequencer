@@ -1,13 +1,17 @@
-
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequence;
+
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
+import cs3500.music.util.JMidiUtils;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.AudioView;
 
@@ -91,20 +95,26 @@ public class MidiViewImplTest {
   @Test
   public void TestMidiView_Composition1NoteIn0() throws Exception {
     this.initCond();
-    jMidiComposition = compositionBuilder.addNote(0, 4, 0, 1,
-            30).build();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
   
-    new AudioView(jMidiComposition, log2, testSequencer).initialize();
+    TestSequencer sequencer = new TestSequencer(log2);
+    AudioView view = new AudioView(jMidiComposition, log, sequencer);
+    File file = view.export();
+    Sequence sequence = MidiSystem.getSequence(file);
   
     //midiView.initialize(jMidiComposition, ap);
-    assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:0, Cmd:144 Chn:0 Ptc:1 Vel:30] \n"
-            + "msg[Tck:1000000, Cmd:128 Chn:0 Ptc:1 Vel:30] \n", log.toString());
+    assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n" + "Track #2\n"
+            + "msg[Tck:0, Cmd:192 Chn:5 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n"
+            + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n", JMidiUtils.translateSequence(sequence));
   }
 
 
@@ -114,7 +124,7 @@ public class MidiViewImplTest {
     jMidiComposition = compositionBuilder.build();
   
     //midiView.initialize(jMidiComposition, ap);
-    assertEquals("", log.toString());
+    assertEquals("sequencer started \n" + "sequence set \n", log.toString());
   }
 
   @Test
