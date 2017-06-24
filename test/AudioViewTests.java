@@ -124,7 +124,7 @@ public class AudioViewTests {
     jMidiComposition = compositionBuilder.build();
   
     //midiView.initialize(jMidiComposition, ap);
-    assertEquals("sequencer started \n" + "sequence set \n", log.toString());
+    assertEquals("sequencer initialized \n", log.toString());
   }
 
   @Test
@@ -231,15 +231,16 @@ public class AudioViewTests {
     sequence = MidiSystem.getSequence(file);
     
     System.out.println(log);
-    
-    assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:0 Ptc:0 Vel:0] \n" + "Track #2\n"
-            + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
+  
+    assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
+            + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
-            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n" + "Track #3\n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n"
+            + "msg[Tck:120, Cmd:128 Chn:1 Ptc:1 Vel:30] \n" + "Track #2\n"
             + "msg[Tck:0, Cmd:192 Chn:5 Ptc:0 Vel:0] \n"
             + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
             + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"

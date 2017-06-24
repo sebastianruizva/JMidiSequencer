@@ -91,7 +91,7 @@ public class MainController {
 
           composition = MusicReader.parseFile(new FileReader(fileName), JMidiComposition.builder());
   
-          JMidiUtils.message("console, gui, composite or MIDI?", ap);
+          JMidiUtils.message("console, visual, composite or MIDI?", ap);
 
         } catch (IOException | IllegalArgumentException e) {
 
@@ -112,7 +112,7 @@ public class MainController {
         } catch (IllegalArgumentException e) {
   
           selected = null;
-          JMidiUtils.message("view not found", ap);
+          JMidiUtils.message(e.toString(), ap);
 
         }
 

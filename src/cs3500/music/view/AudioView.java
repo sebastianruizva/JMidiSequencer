@@ -49,7 +49,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
    * @param composition the composition being observed
    */
   public AudioView(JMidiComposition composition, Appendable ap) {
-    if (composition == null || sequencer == null || ap == null) {
+    if (composition == null || ap == null) {
       throw new IllegalArgumentException("no null!");
     }
     JMidiUtils.message("Preparing Audio View", ap);
