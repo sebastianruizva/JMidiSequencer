@@ -345,7 +345,7 @@ public class JMidiComposition implements IjMidiComposition {
   }
   
   /**
-   * Adds a  Note to the composition in track 0
+   * Adds a  Note to the composition in the latest track.
    * @param tick the tick of the note
    * @param pitch the pitch of the note
    */

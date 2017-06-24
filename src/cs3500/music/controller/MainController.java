@@ -16,27 +16,27 @@ import cs3500.music.view.ViewManager;
 public class MainController {
   
   /**
-   * User input
+   * User input.
    */
   final Readable rd;
   /**
-   * output
+   * output.
    */
   final Appendable ap;
   /**
-   * holds file to open
+   * holds file to open.
    */
   private String fileName;
   /**
-   * holds input by word
+   * holds input by word.
    */
   private Scanner scanner;
   /**
-   * the generated composition
+   * the generated composition.
    */
   private JMidiComposition composition;
   /**
-   * the selected view
+   * the selected view.
    */
   private ICompositionView selected;
   

@@ -6,19 +6,19 @@ import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.visual.MusicEditorGUI;
 
 /**
- * A {@VisualController} controller for the visual view only
+ * A {@VisualController} controller for the visual view only.
  */
 public class VisualController extends CompositionController {
   
   /**
-   * The controlled view
+   * The controlled view.
    */
   private MusicEditorGUI view;
   
   /**
    * Constructs a {@VisualController}.
-   * @param view the linked visual view
-   * @param ap   an appendable for message handling
+   * @param view the linked visual view.
+   * @param ap   an appendable for message handling.
    */
   public VisualController(MusicEditorGUI view, Appendable ap) {
     JMidiUtils.message("Keyboard Controller Started", ap);
@@ -28,8 +28,8 @@ public class VisualController extends CompositionController {
   }
   
   /**
-   * listens for key presses
-   * @param e the key typed
+   * listens for key presses.
+   * @param e the key typed.
    */
   @Override
   public void keyPressed(KeyEvent e) {
@@ -37,12 +37,14 @@ public class VisualController extends CompositionController {
       try {
         view.setCursorPosition(1);
       } catch (IllegalArgumentException i) {
+        //if error means that there is no key, so do nothing.
       }
     }
     if (e.getKeyCode() == KeyEvent.VK_LEFT) {
       try {
         view.setCursorPosition(-1);
       } catch (IllegalArgumentException i) {
+        //if error means that there is no key, so do nothing.
       }
     }
   }

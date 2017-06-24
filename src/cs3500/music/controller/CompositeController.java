@@ -19,23 +19,23 @@ import cs3500.music.view.visual.PianoKey;
 public class CompositeController extends CompositionController {
   
   /**
-   * A map of The supported commands
+   * A map of The supported commands.
    */
   private Map<Integer, Runnable> supportedCommands;
   /**
-   * the linked audio view
+   * the linked audio view.
    */
   private CompositeView audio;
   /**
-   * An appendable for messages
+   * An appendable for messages.
    */
   private Appendable ap;
   /**
-   * The composition being watched
+   * The composition being watched.
    */
   private JMidiComposition composition;
   /**
-   * the visual view
+   * the visual view.
    */
   private MusicEditorGUI gui;
   
@@ -61,7 +61,7 @@ public class CompositeController extends CompositionController {
   
   /**
    * Populates the list of supported Commands.
-   *  Keys:.
+   * Keys:.
    * <-  :move cursor to the left.
    * ->  :move cursor to the Right.
    * S   :Stop.
@@ -83,7 +83,7 @@ public class CompositeController extends CompositionController {
   }
   
   /**
-   * Keeps track of key presses
+   * Keeps track of key presses.
    * @param e the key
    */
   @Override public void keyPressed(KeyEvent e) {
@@ -98,7 +98,7 @@ public class CompositeController extends CompositionController {
   }
   
   /**
-   * Keeps track of click presses
+   * Keeps track of click presses.
    * @param e the click
    */
   @Override public void mouseClicked(MouseEvent e) {
@@ -107,6 +107,10 @@ public class CompositeController extends CompositionController {
     
   }
   
+  /**
+   * Adds a note to the composition
+   * @param point the point where the new note should go.
+   */
   public void addNote(Point point) {
     
     try {

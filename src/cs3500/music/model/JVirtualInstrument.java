@@ -59,7 +59,7 @@ public class JVirtualInstrument implements IjVirtualInstrument {
   }
   
   /**
-   * Returns the number of the instrument to be played;
+   * Returns the number of the instrument to be played.
    */
   public int getNumber() {
     return number;
