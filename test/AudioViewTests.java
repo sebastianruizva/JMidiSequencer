@@ -248,5 +248,83 @@ public class AudioViewTests {
             + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n", JMidiUtils.translateSequence(sequence));
     
   }
+  
+  @Test public void TestMidiView_play() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.play();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Playing Sequence\n");
+  }
+  
+  @Test public void TestMidiView_rewind() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.rewind();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Rewinding Sequence\n");
+  }
+  
+  @Test public void TestMidiView_stop() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.pause();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Stopping Sequence\n");
+  }
+  
+  @Test public void TestMidiView_beginning() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.beginning();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "jumping to Start\n");
+  }
+  
+  @Test public void TestMidiView_end() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.end();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "jumping End\n");
+  }
+  
+  @Test public void TestMidiView_export() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    
+    view.export();
+    assertEquals(log.toString(),
+            "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Exporting Sequence...\n" + "Done :)\n");
+  }
 
 }

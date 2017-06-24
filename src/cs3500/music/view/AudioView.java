@@ -231,6 +231,24 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
+   * Jumps to the beginning of the composition
+   */
+  public void beginning() {
+    JMidiUtils.message("jumping to Start", ap);
+    sequencer.setTickPosition(0);
+    sequencer.setTempoInMPQ(composition.getTempo());
+  }
+  
+  
+  /**
+   * Jumps to the end of the composition
+   */
+  public void end() {
+    JMidiUtils.message("jumping End", ap);
+    sequencer.setTickPosition((composition.getMaxTick() - 1) * 24);
+    sequencer.setTempoInMPQ(composition.getTempo());
+  }
+  /**
    * return the midi file of the composition
    */
   public File export() {

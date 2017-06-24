@@ -14,6 +14,7 @@ import cs3500.music.view.visual.PianoKey;
 
 /**
  * the class {@CompositeController} represents a controller customized for the Composite view
+ * Takes care of user interactions in the Composite view.
  */
 public class CompositeController extends CompositionController {
   
@@ -59,14 +60,24 @@ public class CompositeController extends CompositionController {
   }
   
   /**
-   * Populates the list of supported Commands
+   * Populates the list of supported Commands.
+   *  Keys:.
+   * <-  :move cursor to the left.
+   * ->  :move cursor to the Right.
+   * S   :Stop.
+   * P   :Play.
+   * B   :go to Start of composition.
+   * E   :go to the end of the composition.
+   * X    :export file to root
    */
   protected void addCommands() {
     
     supportedCommands.put(80, () -> audio.play());
     supportedCommands.put(83, () -> audio.pause());
     supportedCommands.put(37, () -> audio.rewind());
-    supportedCommands.put(39, () -> audio.forward());
+    supportedCommands.put(69, () -> audio.end());
+    supportedCommands.put(66, () -> audio.beginning());
+    supportedCommands.put(88, () -> audio.export());
     
   }
   

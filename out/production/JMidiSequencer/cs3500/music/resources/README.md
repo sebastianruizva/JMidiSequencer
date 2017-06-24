@@ -58,41 +58,65 @@ A simple class that represents a MIDI Instrument. It basically sets how the even
 are going to be represented from the track to the user in a mor musical way 
 (defines scale degrees, intervals, etc...). This is used by cs3500.music.model.JMidiTrack
 
-**Modifications from last assignment**
-Removal of TimeSignature class (we decided to leave everything in 4/4 as the assignment suggested
- and not support dynamic time signatures in this release).
- 
-Removal of TimeSignature and Tempo change variables and methods from JMidiComposition (Smae 
-reason as above).
-
-Because JMidiTrack actually handles all the requirements of the assignment, in order to support 
-multiple instruments in different tracks we decided to use JMidiComposition as the adapter 
-between the MusicReader by implementing the builder on it and at the same time use it to group 
-several tracks.
-
-
 **CONTROLLER RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
 
 ----------------------------------------------------
 
 **Interface Hierarchy**
 
-cs3500.music.controller.ICmdController
+cs3500.music.controller.ICompositionController
 
 **Class Hierarchy**
 
 cs3500.music.controller.MainController (implements cs3500.music.controller.MainController)
+
+cs3500.music.controller.CompositionController
+
+cs3500.music.controller.VisualController
+
+cs3500.music.controller.AudioController
+
+cs3500.music.controller.CompositeController
 
 
 ----------------------------------------------------
 
 **_DESCRIPTIONS:_**
 
-**cs3500.music.controller.ICmdController**
+**cs3500.music.controller.MainController**
 
-Takes care of the command line interactions.
+Takes care of the initial command line interactions.
 
+**cs3500.music.controller.CompositionController**
 
+Takes care of the initial command line interactions.
+
+**cs3500.music.controller.VisualController**
+
+Takes care of the user interactions with the visual view only.
+
+Keys: <- move cursor to the left, ->  move cursor to the Right
+
+**cs3500.music.controller.AudioController**
+
+Takes care of user interactions in the midi only view.
+
+**cs3500.music.controller.CompositeController**
+
+Takes care of user interactions in the Composite view.
+
+Note: composition loops automatically so if you press R,
+make sure is not playing or will go back to the beginning automatically.
+
+Keys:
+ 
+ <-  :move cursor to the left, 
+ ->  :move cursor to the Right
+ S   :Stop
+ P   :Play
+ B   :go to Start of composition
+ E   :go to the end of the composition   
+ X   : export midi file to root folder
 
 **VIEW RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
 
@@ -119,15 +143,15 @@ cs3500.music.audio.ICompositionView
 
 **cs3500.music.audio.ConsoleView** 
 
-Renders a console audio of the composition
+Renders a console audio of the composition.
 
 **cs3500.music.audio.DrawValues**
 
-Holds constants for a unified visual render between classes
+Holds constants for a unified visual render between classes.
 
 **cs3500.music.audio.AudioView** 
 
-Renders an audio audio of the composition
+Renders an audio view of the composition and handles playback events of it.
 
 **cs3500.music.audio.ViewManager**
 
@@ -140,10 +164,19 @@ A unified typing for views relating to the music editor. As what and how differe
 composition should be displayed is not totally concrete, this only contains one method, initialize.
 rather than a series of methods dictating what should be included in the audio.
 
-**cs3500.music.audio.MusicEditorGUI**
+**cs3500.music.view.controller.visual**
 
-A class responsible for displaying all the necessary interfaces related to a JMidiComposition. 
-This includes a ledger containing every note in the composition, arranged horizontally, with each
+A group of classes responsible for displaying all the necessary interfaces related to a 
+JMidiComposition. This includes a ledger containing every note in the composition, arranged horizontally, with each
 row matching a pitch within the composition's range. A ten-octave keyboard is also displayed,
 and any selected notes are illuminated. 
+
+**cs3500.music.audio.CompositeView**
+
+An extension of the audio view, that syncs with a visual view.
+
+**Modifications from last assignment**
+- Fixed small bugs in MusicEditorGUI, and added a method for key retrieval.
+- Added playback methods to AudioView (play, pause, forward, rewind, beginning and end)
+- Added sequencer support instead of synth to the audio view.
 

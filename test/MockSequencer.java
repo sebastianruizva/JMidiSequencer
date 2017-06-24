@@ -19,13 +19,14 @@ public class MockSequencer implements Sequencer {
   
   StringBuilder log;
   private Sequence sequence;
+  private long tick;
   
   /**
    * Constructs a {@TestSequencer}.
    * @param log the log where the messages get recorded
    */
   MockSequencer(StringBuilder log) {
-  
+    tick = 0;
     this.log = log;
     log.append("sequencer initialized \n");
     try {
@@ -119,10 +120,13 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public long getTickPosition() {
-    return 0;
+    return this.tick;
   }
   
   @Override public void setTickPosition(long tick) {
+    System.out.println(tick);
+  
+    this.tick = 34;
   
   }
   
