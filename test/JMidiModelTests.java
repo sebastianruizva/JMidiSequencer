@@ -370,6 +370,37 @@ public class JMidiModelTests {
             jMidiComposition.toString());
 
   }
+  
+  @Test public void testAddEvent_At_End_after_builder() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).build();
+    jMidiComposition.addNote(3, 2);
+    
+    assertEquals("       C0  C#0   D0 \n" + "    1               \n" + "    2  X            \n"
+            + "    3  |            \n" + "    4            X  ", jMidiComposition.toString());
+    
+  }
+  
+  
+  @Test public void testAddEvent_At_Beginning_after_builder() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).build();
+    jMidiComposition.addNote(0, 2);
+    
+    assertEquals("       C0  C#0   D0 \n" + "    1            X  \n" + "    2  X            \n"
+            + "    3  |            ", jMidiComposition.toString());
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class) public void testAddEvent_At_Empty_composition() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.build();
+    jMidiComposition.addNote(0, 2);
+    
+    assertEquals("       C0  C#0   D0 \n" + "    1               \n" + "    2  X            \n"
+            + "    3  |            \n" + "    4            X  ", jMidiComposition.toString());
+    
+  }
 
   @Test
   public void testAddEvent_MultipleEvents_EdgePitch_EdgeVelocity() {

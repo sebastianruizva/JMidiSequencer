@@ -113,8 +113,8 @@ public class CompositeController extends CompositionController {
       PianoKey key = gui.getKeyAtPosition(point);
       composition.addNote(gui.getCursorPosition(), key.getPitch());
       audio.refreshSequencer();
-      audio.forward();
       gui.refreshPanels();
+      audio.forward();
       JMidiUtils.message("note added at " + key.getPitch(), ap);
     } catch (IllegalArgumentException e) {
       JMidiUtils.message("No key here...", ap);

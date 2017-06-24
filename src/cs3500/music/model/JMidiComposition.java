@@ -346,8 +346,14 @@ public class JMidiComposition implements IjMidiComposition {
   
   /**
    * Adds a  Note to the composition in track 0
+   * @param tick the tick of the note
+   * @param pitch the pitch of the note
    */
-  public void addNote(int tick, int pitch) {
+  public void addNote(int tick, int pitch) throws IllegalArgumentException {
+  
+    if (this.grid.size() == 0) {
+      throw new IllegalArgumentException("composition cant be empty!");
+    }
   
     //create a new track
     if (tracks.getOrDefault(this.tracks.size() - 1, null) == null) {
