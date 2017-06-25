@@ -31,15 +31,15 @@ public class AudioView implements ICompositionView, MetaEventListener {
    */
   protected Appendable ap;
   /**
-   * A MIDI Sequence object
+   * A MIDI Sequence object.
    */
   protected Sequence sequence;
   /**
-   * A MIDI sequencer object
+   * A MIDI sequencer object.
    */
   protected Sequencer sequencer;
   /**
-   * the composition being observed
+   * the composition being observed.
    */
   protected JMidiComposition composition;
   
@@ -67,7 +67,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
    * @param ap          an appendable for messages.
    * @param composition the composition being observed
    * @param sequencer   space for a custom sequencer
-   *                    @throws IllegalArgumentException if anything is null
+   * @throws IllegalArgumentException if anything is null
    */
   public AudioView(JMidiComposition composition, Appendable ap, Sequencer sequencer) {
     if (composition == null || sequencer == null || ap == null) {
@@ -99,7 +99,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
-   * Initializes the view
+   * Initializes the view.
    */
   public void initialize() {
     new AudioController(this, ap);
@@ -108,7 +108,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   
   
   /**
-   * refreshes the state of the sequencer
+   * refreshes the state of the sequencer.
    */
   public void refreshSequencer() {
     long tick = sequencer.getTickPosition();
@@ -117,7 +117,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
-   * Constructs the sequencer
+   * Constructs the sequencer.
    */
   public void prepareSequencer() {
     try {
@@ -139,7 +139,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
-   * Adds all the tracks
+   * Adds all the tracks.
    */
   protected void addAllTracks() {
     //add all the tracks
@@ -231,7 +231,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
   }
   
   /**
-   * Jumps to the beginning of the composition
+   * Jumps to the beginning of the composition.
    */
   public void beginning() {
     JMidiUtils.message("jumping to Start", ap);
@@ -241,18 +241,18 @@ public class AudioView implements ICompositionView, MetaEventListener {
   
   
   /**
-   * Jumps to the end of the composition
+   * Jumps to the end of the composition.
    */
   public void end() {
     JMidiUtils.message("jumping End", ap);
     sequencer.setTickPosition((composition.getMaxTick() - 1) * 24);
     sequencer.setTempoInMPQ(composition.getTempo());
   }
+  
   /**
-   * return the midi file of the composition
+   * return the midi file of the composition.
    */
   public File export() {
-  
     JMidiUtils.message("Exporting Sequence...", ap);
     File file = new File("composition.mid");
     try {
@@ -260,15 +260,13 @@ public class AudioView implements ICompositionView, MetaEventListener {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  
     JMidiUtils.message("Done :)", ap);
     return file;
-  
   }
   
   /**
    * Makes sure that once the sequence has ended the sequencer closes.
-   * @param meta the metaMessage
+   * @param meta the metaMessage.
    */
   public void meta(MetaMessage meta) {
     

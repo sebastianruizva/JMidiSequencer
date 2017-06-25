@@ -3,13 +3,20 @@ package cs3500.music.view.visual;
 import java.awt.*;
 
 /**
- * Created by joe on 6/19/17.
+ * Represents a key on a piano.
  */
 public class PianoKey {
   public int pitch;
   private Rectangle hitBox;
   private PianoType type;
-
+  
+  /**
+   * Constructs a key on a piano.
+   * @param x     the x posn.
+   * @param type  the type of key
+   * @param pitch the pitch of the key.
+   * @param y     the y posn.
+   */
   public PianoKey(int x, int y, PianoType type, int pitch) {
     this.type = type;
     this.pitch = pitch;

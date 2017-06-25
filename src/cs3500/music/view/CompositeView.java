@@ -19,7 +19,7 @@ public class CompositeView extends AudioView {
   protected MusicEditorGUI gui;
   
   /**
-   * A timer to keep the syncronization
+   * A timer to keep the syncronization.
    */
   Timer timer;
   
@@ -43,7 +43,7 @@ public class CompositeView extends AudioView {
   }
   
   /**
-   * Initializes the view
+   * Initializes the view.
    */
   public void initialize() {
     //selects its controller
@@ -52,7 +52,7 @@ public class CompositeView extends AudioView {
   }
   
   /**
-   * Assigns a keyboard and mouse listener
+   * Assigns a keyboard and mouse listener.
    */
   public void addListener(ICompositionController controller) {
     gui.addListener(controller);

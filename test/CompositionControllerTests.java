@@ -17,25 +17,6 @@ import static org.junit.Assert.assertEquals;
  * are being taken when pressing a given key, and that effects are present as well.
  */
 public class CompositionControllerTests {
-  /**
-   * A JMidiComposition example.
-   */
-  private JMidiComposition jMidiComposition;
-
-  /**
-   * A Midi Track example.
-   */
-  private JMidiTrack jMidiTrack;
-
-  /**
-   * An Virtual Instrument example for a MIDI Track.
-   */
-  private JVirtualInstrument jVirtualInstrument;
-
-  /**
-   * A composition builder example.
-   */
-  private JMidiComposition.Builder compositionBuilder;
 
   /**
    * An scale example for the virtual instrument.
@@ -57,9 +38,27 @@ public class CompositionControllerTests {
    * Initial conditions for testing.
    */
   private void initCond() {
+    /**
+     * A JMidiComposition example.
+     */
+    JMidiComposition jMidiComposition;
+  
+    /**
+     * A Midi Track example.
+     */
+    JMidiTrack jMidiTrack;
+  
+    /**
+     * An Virtual Instrument example for a MIDI Track.
+     */
+    JVirtualInstrument jVirtualInstrument;
+  
+    /**
+     * A composition builder example.
+     */
+    JMidiComposition.Builder compositionBuilder;
+    
     jVirtualInstrument = new JVirtualInstrument(scale, 0);
-
-    jMidiTrack = new JMidiTrack(jVirtualInstrument);
 
     compositionBuilder = JMidiComposition.builder();
 

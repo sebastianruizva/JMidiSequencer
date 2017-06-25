@@ -100,8 +100,9 @@ public class PianoViewPanel extends JLayeredPane {
         oddCount++;
         continue;
       }
-
-      keys.add(new PianoKey(i * size + size - 4 + offset, 0, PianoKey.PianoType.BLACK, blackPitchCount));
+  
+      keys.add(new PianoKey(i * size + size - 4 + offset, 0, PianoKey.PianoType.BLACK,
+              blackPitchCount));
 
       if (keyCount == skipCount) {
         blackPitchCount += 3;
@@ -132,7 +133,12 @@ public class PianoViewPanel extends JLayeredPane {
     g.setColor(Color.BLACK);
     g.drawRect(0, 0, DrawValues.MIN_GRID_WIDTH, 400);
   }
-
+  
+  
+  /**
+   * Paints a set of keys.
+   * @param g the graphics component with which to draw the keyboard.
+   */
   private void paintKeyset(Graphics g, Predicate<PianoKey> pred) {
     for (PianoKey p : keys) {
       if (pred.test(p)) {
@@ -148,7 +154,10 @@ public class PianoViewPanel extends JLayeredPane {
       }
     }
   }
-
+  
+  /**
+   * Returns the keys.
+   */
   public ArrayList<PianoKey> getKeys() {
     ArrayList<PianoKey> base = new ArrayList<>();
 
@@ -156,7 +165,10 @@ public class PianoViewPanel extends JLayeredPane {
 
     return base;
   }
-
+  
+  /**
+   * Returns the keys in an specific place.
+   */
   public PianoKey getKeyAtPosition(Point point) {
     for (PianoKey p : keys) {
       if (p.getHitBox().contains(point) && p.getType() == PianoKey.PianoType.BLACK) {

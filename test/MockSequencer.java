@@ -13,7 +13,7 @@ import javax.sound.midi.Track;
 import javax.sound.midi.Transmitter;
 
 /**
- * A Mock Sequencer class
+ * A Mock Sequencer class, represents a mock sequencer.
  */
 public class MockSequencer implements Sequencer {
   
@@ -36,10 +36,6 @@ public class MockSequencer implements Sequencer {
     }
   }
   
-  @Override public void setSequence(InputStream stream)
-          throws IOException, InvalidMidiDataException {
-    
-  }
   
   @Override public Sequence getSequence() {
     try {
@@ -53,6 +49,11 @@ public class MockSequencer implements Sequencer {
     
     this.sequence = sequence;
     
+  }
+  
+  @Override public void setSequence(InputStream stream)
+          throws IOException, InvalidMidiDataException {
+    //required but not needed.
   }
   
   @Override public void start() {
@@ -72,11 +73,11 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void startRecording() {
-  
+    //required but not needed.
   }
   
   @Override public void stopRecording() {
-  
+    //required but not needed.
   }
   
   @Override public boolean isRecording() {
@@ -84,11 +85,11 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void recordEnable(Track track, int channel) {
-  
+    //required but not needed.
   }
   
   @Override public void recordDisable(Track track) {
-  
+    //required but not needed.
   }
   
   @Override public float getTempoInBPM() {
@@ -96,7 +97,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setTempoInBPM(float bpm) {
-  
+    //required but not needed.
   }
   
   @Override public float getTempoInMPQ() {
@@ -104,7 +105,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setTempoInMPQ(float mpq) {
-  
+    //required but not needed.
   }
   
   @Override public float getTempoFactor() {
@@ -112,7 +113,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setTempoFactor(float factor) {
-  
+    //required but not needed.
   }
   
   @Override public long getTickLength() {
@@ -139,11 +140,11 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void open() throws MidiUnavailableException {
-  
+    //required but not needed.
   }
   
   @Override public void close() {
-  
+    //required but not needed.
   }
   
   @Override public boolean isOpen() {
@@ -155,7 +156,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setMicrosecondPosition(long microseconds) {
-  
+    //required but not needed.
   }
   
   @Override public int getMaxReceivers() {
@@ -188,7 +189,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setMasterSyncMode(SyncMode sync) {
-  
+    //required but not needed.
   }
   
   @Override public SyncMode[] getMasterSyncModes() {
@@ -200,7 +201,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setSlaveSyncMode(SyncMode sync) {
-  
+    //required but not needed.
   }
   
   @Override public SyncMode[] getSlaveSyncModes() {
@@ -208,7 +209,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setTrackMute(int track, boolean mute) {
-  
+    //required but not needed.
   }
   
   @Override public boolean getTrackMute(int track) {
@@ -216,7 +217,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setTrackSolo(int track, boolean solo) {
-  
+    //required but not needed.
   }
   
   @Override public boolean getTrackSolo(int track) {
@@ -228,7 +229,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void removeMetaEventListener(MetaEventListener listener) {
-  
+    //required but not needed.
   }
   
   @Override
@@ -246,7 +247,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setLoopStartPoint(long tick) {
-  
+    //required but not needed.
   }
   
   @Override public long getLoopEndPoint() {
@@ -254,7 +255,7 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setLoopEndPoint(long tick) {
-  
+    //required but not needed.
   }
   
   @Override public int getLoopCount() {
@@ -262,6 +263,6 @@ public class MockSequencer implements Sequencer {
   }
   
   @Override public void setLoopCount(int count) {
-  
+    //required but not needed.
   }
 }

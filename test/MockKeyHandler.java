@@ -20,7 +20,7 @@ public class MockKeyHandler extends VisualController {
   private MusicEditorGUI view;
 
   /**
-   * Constructs a new MockKeyHandler
+   * Constructs a new MockKeyHandler.
    */
   public MockKeyHandler(MusicEditorGUI view, Appendable ap) {
     super(view, ap);
@@ -34,7 +34,10 @@ public class MockKeyHandler extends VisualController {
     supportedCommands.put(KeyEvent.VK_LEFT, () -> "Rewinding.\n");
     supportedCommands.put(KeyEvent.VK_RIGHT, () -> "Forwarding.\n");
   }
-
+  
+  /**
+   * Detects a key press.
+   */
   public void keyPressed(int e) {
     int oldPosition = view.getCursorPosition();
 
@@ -55,10 +58,8 @@ public class MockKeyHandler extends VisualController {
                 + "[new cursor position: " + newPosition + "]\n");
       }
     }
-
-    if (e == KeyEvent.VK_LEFT)
-
-    {
+  
+    if (e == KeyEvent.VK_LEFT) {
       try {
         view.setCursorPosition(-1);
         int newPosition = view.getCursorPosition();
@@ -75,19 +76,18 @@ public class MockKeyHandler extends VisualController {
                 + "[new cursor position: " + newPosition + "]\n");
       }
     }
-
-    if (supportedCommands.getOrDefault(e, null) == null)
-
-    {
+  
+    if (supportedCommands.getOrDefault(e, null) == null) {
       log.append("No valid key!\n");
-    } else
-
-    {
+    } else {
       log.append(supportedCommands.getOrDefault(e, null).get());
     }
-
   }
-
+  
+  
+  /**
+   * Detects mpose clicks.
+   */
   public void mouseClicked(Point e) {
     try {
       int oldSize = view.getComposition().getEventsOnTick(view.getCursorPosition()).size();

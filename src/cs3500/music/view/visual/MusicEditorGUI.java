@@ -1,5 +1,6 @@
 package cs3500.music.view.visual;
 
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -269,6 +270,16 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
     refreshPanels();
   }
   
+  /**
+   * Sets the cursor position to the desired posn, and repaints the {@link JFrame} to update
+   * the necessary {@link JPanel}s, such as the keyboard view and the ledger view. If the desired
+   * increase would move the bar to a position lower than zero or greater than the maximum tick
+   * in the score, an exception is thrown.
+   * @throws IllegalArgumentException if the change would cause the cursor value to become less than
+   *                                  zero.
+   * @throws IllegalArgumentException if the change would cause the cursor value to become greater
+   *                                  than the maximum tick in the composition.
+   */
   public void setCursorAbsolutePosition(int posn) throws IllegalArgumentException {
     if (posn < 0) {
       throw new IllegalArgumentException("Cannot decrease position below zero.");

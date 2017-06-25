@@ -3,11 +3,14 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 
 /**
- * Created by sebastian on 6/23/17.
+ * A Mock sequence.
  */
 public class MockSequence extends Sequence {
   StringBuilder log;
   
+  /**
+   * Constructs a mock sequence.
+   */
   public MockSequence(float divisionType, int resolution, StringBuilder log)
           throws InvalidMidiDataException {
     super(divisionType, resolution);
