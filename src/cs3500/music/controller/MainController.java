@@ -73,7 +73,7 @@ public class MainController {
   
     //look around the appendable
     while (scanner.hasNextLine()) {
-
+  
       String next = scanner.nextLine();
   
       //make sure if q is pressed it can be aborted
