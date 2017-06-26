@@ -89,8 +89,8 @@ public class CompositeViewTests {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
     CompositeView view = new CompositeView(jMidiComposition, log);
-    
-    //midiView.initialize(jMidiComposition, ap);
+  
+    //midiView.initController(jMidiComposition, ap);
     assertEquals("sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
             + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n" + "Audio View Ready\n"
             + "Connecting to GUI\n" + "Preparing GUI View\n" + "GUI View Ready\n"

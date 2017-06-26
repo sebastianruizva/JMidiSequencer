@@ -24,7 +24,7 @@ public class ConsoleViewTests {
     Appendable appendable = new StringBuilder();
     ConsoleView view =
             new ConsoleView(JMidiComposition.builder().addNote(1, 1, 1, 1, 1).build(), appendable);
-    view.initialize();
+    view.initController();
     assertEquals(
             "Preparing console view\n" + "Console view ready!\n" + "      C#0 \n" + "    1     \n"
                     + "    2  X  \n" + "Console view initialized\n", appendable.toString());

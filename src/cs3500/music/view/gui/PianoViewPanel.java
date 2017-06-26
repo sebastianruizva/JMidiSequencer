@@ -1,4 +1,4 @@
-package cs3500.music.view.visual;
+package cs3500.music.view.gui;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,20 +8,20 @@ import javax.swing.*;
 
 /**
  * A view panel displaying a ten-octave keyboard. Notes that are currently selected by the
- * provided MusicEditorGUI will be illuminated orange.
+ * provided GuiView will be illuminated orange.
  */
 public class PianoViewPanel extends JLayeredPane {
-  private MusicEditorGUI gui;
+  private GuiView gui;
   private ArrayList<PianoKey> keys;
 
   /**
-   * Constructs a new view panel with the provided {@link MusicEditorGUI}. If the GUI is determined
+   * Constructs a new view panel with the provided {@link GuiView}. If the GUI is determined
    * to be null, an exception is thrown.
    *
    * @param gui the GUI from which to draw the currently selected notes for illumination.
    * @throws IllegalArgumentException if the GUI is null.
    */
-  public PianoViewPanel(MusicEditorGUI gui) throws IllegalArgumentException {
+  public PianoViewPanel(GuiView gui) throws IllegalArgumentException {
     if (gui == null) {
       throw new IllegalArgumentException("Cannot instantiate view panel with null GUI.");
     }

@@ -2,10 +2,10 @@ package cs3500.music.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -14,18 +14,24 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
+import javax.swing.*;
 
 import cs3500.music.controller.AudioController;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
+import cs3500.music.model.Repeat;
 import cs3500.music.util.JMidiUtils;
 
 /**
  * The class {@MidiViewImpl} implements a MIDI playback view of a composition.
  */
-public class AudioView implements ICompositionView, MetaEventListener {
+public class AudioView extends java.util.Observable implements ICompositionView {
   
+  /**
+   * the current tick.
+   */
+  public long tick;
   /**
    * an appendable for messages.
    */
@@ -42,6 +48,14 @@ public class AudioView implements ICompositionView, MetaEventListener {
    * the composition being observed.
    */
   protected JMidiComposition composition;
+  /**
+   * A List of repeats that have being applied
+   */
+  protected List<Integer> playedRepeats;
+  /**
+   * A list of bars that must not be replayed
+   */
+  protected List<Integer> ignoredBars;
   
   /**
    * Constructs an {@AudioView}.
@@ -53,12 +67,31 @@ public class AudioView implements ICompositionView, MetaEventListener {
       throw new IllegalArgumentException("no null!");
     }
     JMidiUtils.message("Preparing Audio View", ap);
-  
+    this.playedRepeats = new ArrayList<>();
+    this.ignoredBars = new ArrayList<>();
     this.ap = ap;
     this.composition = composition;
+    this.composition.addObserver(this);
     this.prepareSequencer();
-    this.sequencer.addMetaEventListener(this);
-  
+    Timer timer = new javax.swing.Timer(1000 / 24, (e) -> {
+      int bar = ((int) tick / 24) / 4;
+      if (this.composition.getRepeats().keySet().contains(bar) && !this.playedRepeats
+              .contains(bar)) {
+        JMidiUtils.message("Valid repeat point found", this.ap);
+        this.sequencer
+                .setTickPosition(this.composition.getRepeats().get(bar).startingBar * (4 * 24));
+        this.sequencer.setTempoInMPQ(this.composition.getTempo());
+        this.playedRepeats.add(bar);
+        if (this.composition.getRepeats().get(bar).type == Repeat.Type.ENDING) {
+          this.ignoredBars.add(bar - 1);
+        }
+      }
+      if (this.hasChanged()) {
+        setChanged();
+        notifyObservers((int) tick);
+      }
+    });
+    timer.start();
     JMidiUtils.message("Audio View Ready", ap);
   }
   
@@ -87,8 +120,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
       this.sequencer.setTempoInMPQ(composition.getTempo());
       this.sequencer.open();
       this.sequencer.setSequence(sequence);
-      this.sequencer.addMetaEventListener(this);
-    
+      //observe for repeats and update observers
       JMidiUtils.message("Sequencer Ready", ap);
     
     } catch (MidiUnavailableException | InvalidMidiDataException e) {
@@ -101,19 +133,9 @@ public class AudioView implements ICompositionView, MetaEventListener {
   /**
    * Initializes the view.
    */
-  public void initialize() {
-    new AudioController(this, ap);
+  public void initController() {
     JMidiUtils.message("Audio View Initialized", ap);
-  }
-  
-  
-  /**
-   * refreshes the state of the sequencer.
-   */
-  public void refreshSequencer() {
-    long tick = sequencer.getTickPosition();
-    this.prepareSequencer();
-    sequencer.setTickPosition(tick);
+    new AudioController(this, ap);
   }
   
   /**
@@ -130,7 +152,7 @@ public class AudioView implements ICompositionView, MetaEventListener {
       this.sequencer.setTempoInMPQ(composition.getTempo());
       this.sequencer.open();
       this.sequencer.setSequence(sequence);
-      
+      this.tick = this.sequencer.getTickPosition();
       JMidiUtils.message("Sequencer Ready", ap);
       
     } catch (MidiUnavailableException | InvalidMidiDataException e) {
@@ -264,18 +286,26 @@ public class AudioView implements ICompositionView, MetaEventListener {
     return file;
   }
   
-  /**
-   * Makes sure that once the sequence has ended the sequencer closes.
-   * @param meta the metaMessage.
-   */
-  public void meta(MetaMessage meta) {
-    
-    if (meta.getType() == 47) {
-      
-      sequencer.close();
-      
+  @Override public void update(java.util.Observable o, Object arg) {
+    JMidiUtils.message("Updating Audio VIew", ap);
+    try {
+      long tick = sequencer.getTickPosition();
+      this.sequence = new Sequence(Sequence.PPQ, 24);
+      this.addAllTracks();
+      this.sequencer.setSequence(sequence);
+      sequencer.setTickPosition(tick);
+    } catch (InvalidMidiDataException e) {
+      e.printStackTrace();
     }
-    
+  }
+  
+  @Override public boolean hasChanged() {
+    if (this.sequencer.getTickPosition() != this.tick) {
+      tick = this.sequencer.getTickPosition();
+      return true;
+    } else {
+      return false;
+    }
   }
   
 }

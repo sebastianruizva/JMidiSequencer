@@ -17,9 +17,8 @@ public class AudioController extends CompositionController {
   
     JMidiUtils.message("Audio Controller Started", ap);
     JMidiUtils.message("Controller connected to View", ap);
-    
-    //Play the composition
     audio.play();
+    JMidiUtils.message("playing composition", ap);
     
   }
   

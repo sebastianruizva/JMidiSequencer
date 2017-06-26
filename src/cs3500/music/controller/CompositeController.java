@@ -6,11 +6,13 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.*;
+
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.view.CompositeView;
-import cs3500.music.view.visual.MusicEditorGUI;
-import cs3500.music.view.visual.PianoKey;
+import cs3500.music.view.gui.GuiView;
+import cs3500.music.view.gui.PianoKey;
 
 /**
  * the class {@CompositeController} represents a controller customized for the Composite view
@@ -35,9 +37,17 @@ public class CompositeController extends CompositionController {
    */
   private JMidiComposition composition;
   /**
-   * the visual view.
+   * the gui view.
    */
-  private MusicEditorGUI gui;
+  private GuiView gui;
+  /**
+   * A counter for various actions.
+   */
+  private int counter;
+  /**
+   * A timer for various actions.
+   */
+  private Timer timer;
   
   /**
    * Constructs a {@CompositeController}.
@@ -46,9 +56,10 @@ public class CompositeController extends CompositionController {
    * @param ap          an appendable to send messages
    * @param gui         the graphic view
    */
-  public CompositeController(CompositeView audio, MusicEditorGUI gui, JMidiComposition composition,
+  public CompositeController(CompositeView audio, GuiView gui, JMidiComposition composition,
           Appendable ap) {
     JMidiUtils.message("Composite Controller Started", ap);
+    this.counter = 0;
     this.ap = ap;
     this.audio = audio;
     this.supportedCommands = new HashMap<>();
@@ -79,6 +90,8 @@ public class CompositeController extends CompositionController {
     supportedCommands.put(69, () -> audio.end());
     supportedCommands.put(66, () -> audio.beginning());
     supportedCommands.put(88, () -> audio.export());
+    supportedCommands.put(38, () -> composition.incTempo());
+    supportedCommands.put(40, () -> composition.decTempo());
     
   }
   
@@ -101,27 +114,39 @@ public class CompositeController extends CompositionController {
    * Keeps track of click presses.
    * @param e the click
    */
-  @Override public void mouseClicked(MouseEvent e) {
-    
-    this.addNote(e.getPoint());
+  @Override public void mousePressed(MouseEvent e) {
+  
+    timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> counter++);
+    timer.start();
     
   }
+  
+  /**
+   * Keeps track of click r.
+   * @param e the click
+   */
+  @Override public void mouseReleased(MouseEvent e) {
+    timer.stop();
+    this.addNote(e.getPoint(), counter);
+    counter = 0;
+  }
+  
   
   /**
    * Adds a note to the composition
    * @param point the point where the new note should go.
    */
-  public void addNote(Point point) {
+  public void addNote(Point point, int duration) {
     
     try {
       PianoKey key = gui.getKeyAtPosition(point);
-      composition.addNote(gui.getCursorPosition(), key.getPitch());
-      audio.refreshSequencer();
-      gui.refreshPanels();
-      audio.forward();
-      JMidiUtils.message("note added at " + key.getPitch(), ap);
+      composition.addNote(gui.getCursorPosition(), key.getPitch(), duration);
+      JMidiUtils.message("note added at tick " + audio.tick / 24 + " pitch " + key.getPitch(), ap);
+      for (int i = 0; i < counter; i++) {
+        audio.forward();
+      }
     } catch (IllegalArgumentException e) {
-      JMidiUtils.message("No key here...", ap);
+      JMidiUtils.message(e.toString(), ap);
     }
     
   }

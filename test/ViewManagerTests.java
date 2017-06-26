@@ -6,7 +6,7 @@ import cs3500.music.view.AudioView;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.ICompositionView;
 import cs3500.music.view.ViewManager;
-import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.gui.GuiView;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -30,10 +30,10 @@ public class ViewManagerTests {
   public void testViewSelector_GetGuiView() throws Exception {
   
     ICompositionView view = new ViewManager()
-            .select("visual", JMidiComposition.builder().build(), new StringBuilder());
+            .select("gui", JMidiComposition.builder().build(), new StringBuilder());
   
   
-    assertEquals(true, view instanceof MusicEditorGUI);
+    assertEquals(true, view instanceof GuiView);
 
   }
 

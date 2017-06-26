@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import java.util.Observable;
+
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.util.JMidiUtils;
 
@@ -24,20 +26,26 @@ public class ConsoleView implements ICompositionView {
     if (ap == null) {
       throw new IllegalArgumentException("Appendable cant be null!");
     }
-
     JMidiUtils.message("Preparing console view", ap);
-
     this.ap = ap;
     this.composition = composition;
+    this.composition.addObserver(this);
     JMidiUtils.message("Console view ready!", ap);
 
   }
   
   /**
-   * Initializes the view.
+   * Initializes the view's Controller.
    */
-  @Override public void initialize() {
+  @Override public void initController() {
     JMidiUtils.message(composition.toString(), ap);
     JMidiUtils.message("Console view initialized", ap);
+  }
+  
+  /**
+   * Updates the console's values.
+   */
+  @Override public void update(Observable o, Object arg) {
+    JMidiUtils.message(composition.toString(), ap);
   }
 }

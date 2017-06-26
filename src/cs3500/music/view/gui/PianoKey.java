@@ -1,4 +1,4 @@
-package cs3500.music.view.visual;
+package cs3500.music.view.gui;
 
 import java.awt.*;
 

@@ -2,7 +2,7 @@
 import org.junit.Test;
 
 import cs3500.music.model.JMidiComposition;
-import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.gui.GuiView;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -12,21 +12,21 @@ import static junit.framework.TestCase.assertEquals;
 public class MusicEditorGUITest {
   @Test(expected = IllegalArgumentException.class)
   public void testNullCompositionCausesError() {
-    MusicEditorGUI fail = new MusicEditorGUI(null, new StringBuffer());
+    GuiView fail = new GuiView(null, new StringBuffer());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNullAppendableCausesError() {
     JMidiComposition comp = JMidiComposition.builder().build();
-
-    MusicEditorGUI fail = new MusicEditorGUI(comp, null);
+  
+    GuiView fail = new GuiView(comp, null);
   }
 
   @Test
   public void testSetCursorPosition() {
     JMidiComposition comp = JMidiComposition.builder()
             .addNote(0, 10, 1, 60, 60).build();
-    MusicEditorGUI gui = new MusicEditorGUI(comp, new StringBuffer());
+    GuiView gui = new GuiView(comp, new StringBuffer());
     gui.setCursorPosition(1);
 
     assertEquals(gui.getCursorPosition(), 1);
@@ -36,7 +36,7 @@ public class MusicEditorGUITest {
   public void testSetCursorPositionTooLow() {
     JMidiComposition comp = JMidiComposition.builder()
             .addNote(0, 10, 1, 60, 60).build();
-    MusicEditorGUI gui = new MusicEditorGUI(comp, new StringBuffer());
+    GuiView gui = new GuiView(comp, new StringBuffer());
     gui.setCursorPosition(11);
 
   }
@@ -45,7 +45,7 @@ public class MusicEditorGUITest {
   public void testSetCursorPositionTooHigh() {
     JMidiComposition comp = JMidiComposition.builder()
             .addNote(0, 10, 1, 60, 60).build();
-    MusicEditorGUI gui = new MusicEditorGUI(comp, new StringBuffer());
+    GuiView gui = new GuiView(comp, new StringBuffer());
     gui.setCursorPosition(-11);
 
   }

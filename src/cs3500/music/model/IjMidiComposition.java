@@ -35,6 +35,16 @@ public interface IjMidiComposition {
   int getMaxPitch();
   
   /**
+   * Increases the tempo by 10000 micro seconds.
+   */
+  void incTempo();
+  
+  /**
+   * Decreases the tempo by 10000 micro seconds.
+   */
+  void decTempo();
+  
+  /**
    * Returns a list of elements in the designated tick
    * @param tick the tick where the events are.
    */

@@ -12,7 +12,7 @@ import cs3500.music.util.JMidiUtils;
  * The class {@JMidiComosition} Represents a MIDI Track that can be played with the assigned
  * parameters.
  */
-public class JMidiComposition implements IjMidiComposition {
+public class JMidiComposition extends java.util.Observable implements IjMidiComposition {
 
   /**
    * The maximum pitch in the composition.
@@ -26,10 +26,11 @@ public class JMidiComposition implements IjMidiComposition {
    * the grid of the composition.
    */
   HashMap<Integer, HashMap<Integer, JMidiEvent>> grid;
+  
   /**
    * The collection of tracks int he composition by number.
    */
-  private HashMap<Integer, JMidiTrack> tracks;
+  private HashMap<Integer, Repeat> repeats;
   /**
    * Tempo represents the BPM measurement of the composition.
    */
@@ -38,12 +39,18 @@ public class JMidiComposition implements IjMidiComposition {
    * the minimum pitch.
    */
   private int minPitch;
+  /**
+   * A collection of repeating commands.
+   */
+  private HashMap<Integer, JMidiTrack> tracks;
 
   /**
    * Constructs a {@JMidiComposition}.
    */
-  private JMidiComposition(HashMap<Integer, JMidiTrack> tracks, int tempo) {
+  private JMidiComposition(HashMap<Integer, JMidiTrack> tracks, int tempo,
+          HashMap<Integer, Repeat> repeats) {
     this.tracks = tracks;
+    this.repeats = repeats;
     this.tempo = tempo;
     this.maxPitch = 0;
     this.minPitch = 0;
@@ -52,7 +59,7 @@ public class JMidiComposition implements IjMidiComposition {
     this.updateMaxValues();
     this.updateGrid();
   }
-
+  
   /**
    * starts a builder for its construction.
    */
@@ -60,6 +67,13 @@ public class JMidiComposition implements IjMidiComposition {
   
     return new Builder();
   
+  }
+  
+  /**
+   * Returns a clone of the repeats in the composition
+   */
+  public HashMap<Integer, Repeat> getRepeats() {
+    return (HashMap<Integer, Repeat>) repeats.clone();
   }
   
   /**
@@ -128,6 +142,9 @@ public class JMidiComposition implements IjMidiComposition {
     
     //update min and max values
     this.updateMaxValues();
+    //tell observers something changed
+    setChanged();
+    notifyObservers();
     
   }
   
@@ -156,6 +173,22 @@ public class JMidiComposition implements IjMidiComposition {
     
     return tempo;
     
+  }
+  
+  /**
+   * Increases the tempo by 10000 micro seconds.
+   */
+  public void incTempo() {
+    this.tempo += 10000;
+  }
+  
+  /**
+   * Decreases the tempo by 10000 micro seconds.
+   */
+  public void decTempo() {
+    if (this.tempo > 0) {
+      this.tempo -= 10000;
+    }
   }
   
   /**
@@ -349,7 +382,7 @@ public class JMidiComposition implements IjMidiComposition {
    * @param tick the tick of the note
    * @param pitch the pitch of the note
    */
-  public void addNote(int tick, int pitch) throws IllegalArgumentException {
+  public void addNote(int tick, int pitch, int duration) throws IllegalArgumentException {
   
     if (this.grid.size() == 0) {
       throw new IllegalArgumentException("composition cant be empty!");
@@ -361,8 +394,8 @@ public class JMidiComposition implements IjMidiComposition {
     }
   
     JMidiTrack track = tracks.get(this.tracks.size() - 1);
-    
-    JMidiEvent event = new JMidiEvent.Builder().tick(tick).pitch(pitch).build();
+  
+    JMidiEvent event = new JMidiEvent.Builder().tick(tick).pitch(pitch).duration(duration).build();
     
     track.addEvent(event);
     
@@ -388,13 +421,32 @@ public class JMidiComposition implements IjMidiComposition {
     private Integer tempo;
     
     /**
+     * The collection of tracks int he composition by number.
+     */
+    private HashMap<Integer, Repeat> repeats;
+    
+    /**
      * Constructs a {@JMidiComposition.Bulider}.
      */
     public Builder() {
-      
+  
       //Define the default values
       this.tracks = new HashMap<>();
       this.tempo = 200000;
+      this.repeats = new HashMap<>();
+  
+    }
+    
+    @Override public Builder addRepeat(Repeat repeat) {
+      
+      if (repeats.keySet().contains(repeat.endingBar)) {
+        throw new IllegalArgumentException(
+                "there is already a repeat with the same ending " + "point!");
+      }
+      
+      repeats.put(repeat.endingBar, repeat);
+      
+      return this;
       
     }
     
@@ -420,15 +472,6 @@ public class JMidiComposition implements IjMidiComposition {
       tracks.get(track).setInstrument(instrument);
       
       return this;
-      
-    }
-    
-    /**
-     * Returns the final composition.
-     */
-    public JMidiComposition build() {
-      
-      return new JMidiComposition(this.tracks, this.tempo);
       
     }
     
@@ -469,6 +512,16 @@ public class JMidiComposition implements IjMidiComposition {
       track.addEvent(note);
       
       return this;
+    }
+    
+    
+    /**
+     * Returns the final composition.
+     */
+    public JMidiComposition build() {
+      
+      return new JMidiComposition(this.tracks, this.tempo, this.repeats);
+      
     }
     
   }

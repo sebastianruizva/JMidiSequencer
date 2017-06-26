@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import cs3500.music.controller.VisualController;
-import cs3500.music.view.visual.MusicEditorGUI;
-import cs3500.music.view.visual.PianoKey;
+import cs3500.music.view.gui.GuiView;
+import cs3500.music.view.gui.PianoKey;
 
 /**
  * Tester clas for the KeyHandler. Prints messages to the appendable based on what keys are
@@ -17,12 +17,12 @@ public class MockKeyHandler extends VisualController {
   // The log where different actions are going to be recorded.
   public StringBuilder log;
   private Map<Integer, Supplier<String>> supportedCommands;
-  private MusicEditorGUI view;
+  private GuiView view;
 
   /**
    * Constructs a new MockKeyHandler.
    */
-  public MockKeyHandler(MusicEditorGUI view, Appendable ap) {
+  public MockKeyHandler(GuiView view, Appendable ap) {
     super(view, ap);
 
     this.view = view;
@@ -92,8 +92,8 @@ public class MockKeyHandler extends VisualController {
     try {
       int oldSize = view.getComposition().getEventsOnTick(view.getCursorPosition()).size();
       PianoKey key = view.getKeyAtPosition(e);
-
-      view.getComposition().addNote(view.getCursorPosition(), key.getPitch());
+  
+      view.getComposition().addNote(view.getCursorPosition(), key.getPitch(), 1);
       int newSize = view.getComposition().getEventsOnTick(view.getCursorPosition()).size();
 
       log.append("addNote: " + "[pitch: " + key.pitch + "] \n"

@@ -3,6 +3,8 @@ package cs3500.music.util;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import cs3500.music.model.Repeat;
+
 /**
  * A helper to read music data and construct a music composition from it.
  */
@@ -31,6 +33,20 @@ public class MusicReader {
     while (scanner.hasNext()) {
       String lineType = scanner.next();
       switch (lineType) {
+        case "repeat":
+          try {
+            piece.addRepeat(new Repeat(scanner.nextInt(), scanner.nextInt()));
+          } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("Malformed repeat line: " + scanner.nextLine());
+          }
+          break;
+        case "ending":
+          try {
+            piece.addRepeat(new Repeat(Repeat.Type.ENDING, scanner.nextInt(), scanner.nextInt()));
+          } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("Malformed end line: " + scanner.nextLine());
+          }
+          break;
         case "tempo":
           try {
             piece.setTempo(scanner.nextInt());

@@ -1,13 +1,15 @@
 package cs3500.music.view;
 
+import java.util.Observer;
+
 /**
  * Represents the interface for a Musical view.
  */
-public interface ICompositionView {
+public interface ICompositionView extends Observer {
 
   /**
-   * Initiates the view.
+   * Initiates the view's controller.
    */
-  void initialize();
+  void initController();
 
 }

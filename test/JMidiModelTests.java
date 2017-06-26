@@ -10,6 +10,7 @@ import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiEvent;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
+import cs3500.music.model.Repeat;
 import cs3500.music.util.MusicReader;
 
 import static org.junit.Assert.assertEquals;
@@ -374,7 +375,7 @@ public class JMidiModelTests {
   @Test public void testAddEvent_At_End_after_builder() {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).build();
-    jMidiComposition.addNote(3, 2);
+    jMidiComposition.addNote(3, 2, 1);
     
     assertEquals("       C0  C#0   D0 \n" + "    1               \n" + "    2  X            \n"
             + "    3  |            \n" + "    4            X  ", jMidiComposition.toString());
@@ -385,7 +386,7 @@ public class JMidiModelTests {
   @Test public void testAddEvent_At_Beginning_after_builder() {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).build();
-    jMidiComposition.addNote(0, 2);
+    jMidiComposition.addNote(0, 2, 1);
     
     assertEquals("       C0  C#0   D0 \n" + "    1            X  \n" + "    2  X            \n"
             + "    3  |            ", jMidiComposition.toString());
@@ -395,7 +396,7 @@ public class JMidiModelTests {
   @Test(expected = IllegalArgumentException.class) public void testAddEvent_At_Empty_composition() {
     this.initCond();
     jMidiComposition = compositionBuilder.build();
-    jMidiComposition.addNote(0, 2);
+    jMidiComposition.addNote(0, 2, 1);
     
     assertEquals("       C0  C#0   D0 \n" + "    1               \n" + "    2  X            \n"
             + "    3  |            \n" + "    4            X  ", jMidiComposition.toString());
@@ -533,6 +534,52 @@ public class JMidiModelTests {
     assertEquals(2,
             jMidiComposition.getMaxTick());
 
+  }
+  
+  
+  /**
+   * ************** Repeats
+   */
+  
+  @Test public void testRepeats_validSingle() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(1, 5)).build();
+    
+    assertEquals(jMidiComposition.getRepeats().toString(),
+            "{5=Repeat{startingBar=1, endingBar=5}}");
+    
+  }
+  
+  @Test public void testRepeats_validOverlapped() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(1, 5)).addRepeat(new Repeat(2, 6)).build();
+    
+    assertEquals(jMidiComposition.getRepeats().toString(),
+            "{5=Repeat{startingBar=1, endingBar=5}, 6=Repeat{startingBar=2, endingBar=6}}");
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class) public void testRepeats_invalidOverlapped() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(1, 5)).addRepeat(new Repeat(2, 5)).build();
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class) public void testRepeats_invalidRepeat() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(-1, 5)).addRepeat(new Repeat(2, 5)).build();
+    
+  }
+  
+  @Test(expected = IllegalArgumentException.class) public void testRepeats_invalidStartRepeat() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(-1, 5)).addRepeat(new Repeat(2, 5)).build();
+    
   }
 
 

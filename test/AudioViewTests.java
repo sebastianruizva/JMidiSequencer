@@ -102,7 +102,7 @@ public class AudioViewTests {
     File file = view.export();
     Sequence sequence = MidiSystem.getSequence(file);
   
-    //midiView.initialize(jMidiComposition, ap);
+    //midiView.initController(jMidiComposition, ap);
     assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
@@ -123,7 +123,7 @@ public class AudioViewTests {
     this.initCond();
     jMidiComposition = compositionBuilder.build();
   
-    //midiView.initialize(jMidiComposition, ap);
+    //midiView.initController(jMidiComposition, ap);
     assertEquals("sequencer initialized \n", log.toString());
   }
 
@@ -134,7 +134,7 @@ public class AudioViewTests {
     jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
             compositionBuilder);
   
-    //midiView.initialize(jMidiComposition, ap);
+    //midiView.initController(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
@@ -164,7 +164,7 @@ public class AudioViewTests {
     jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
             compositionBuilder);
   
-    //midiView.initialize(jMidiComposition, ap);
+    //midiView.initController(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:600000, Cmd:128 Chn:1 Ptc:4 Vel:72] \n"
             + "msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
@@ -191,15 +191,15 @@ public class AudioViewTests {
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             compositionBuilder);
   
-    new AudioView(jMidiComposition, ap).initialize();
+    new AudioView(jMidiComposition, ap).initController();
   
   }
   
   @Test(expected = IllegalArgumentException.class)
   public void TestMidiView_CompositionFromReader_invalidNull() throws Exception {
     this.initCond();
-    
-    new AudioView(null, null).initialize();
+  
+    new AudioView(null, null).initController();
     
   }
   
@@ -224,9 +224,9 @@ public class AudioViewTests {
             + "msg[Tck:24, Cmd:144 Chn:5 Ptc:3 Vel:2] \n"
             + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n"
             + "msg[Tck:96, Cmd:128 Chn:5 Ptc:3 Vel:2] \n", JMidiUtils.translateSequence(sequence));
-    
-    jMidiComposition.addNote(40, 1);
-    view.refreshSequencer();
+  
+    jMidiComposition.addNote(40, 1, 1);
+    //view.refreshSequencer();
     file = view.export();
     sequence = MidiSystem.getSequence(file);
     

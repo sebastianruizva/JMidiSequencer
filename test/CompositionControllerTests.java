@@ -8,7 +8,7 @@ import java.util.Arrays;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
-import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.gui.GuiView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +32,7 @@ public class CompositionControllerTests {
   /**
    * A GUI view for testing.
    */
-  private MusicEditorGUI gui;
+  private GuiView gui;
 
   /**
    * Initial conditions for testing.
@@ -66,8 +66,8 @@ public class CompositionControllerTests {
             .addNote(0, 4, 0, 50, 100)
             .addNote(9, 10, 0, 50, 100)
             .build();
-
-    gui = new MusicEditorGUI(jMidiComposition, new StringBuilder());
+  
+    gui = new GuiView(jMidiComposition, new StringBuilder());
 
     handler = new MockKeyHandler(gui, new StringBuilder());
   }

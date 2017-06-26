@@ -1,5 +1,7 @@
 package cs3500.music.util;
 
+import cs3500.music.model.Repeat;
+
 /**
  * A builder of compositions.  Since we do not know in advance what
  * the name of the main type is for a model, we parameterize this builder interface
@@ -22,6 +24,11 @@ public interface CompositionBuilder<T> {
    * @return This builder.
    */
   CompositionBuilder<T> setTempo(int tempo);
+  
+  /**
+   * Adds repeats to the piece.
+   */
+  CompositionBuilder<T> addRepeat(Repeat repeat);
 
   /**
    * Adds a new note to the piece.

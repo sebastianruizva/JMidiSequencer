@@ -1,7 +1,7 @@
 
 import org.junit.Test;
 
-import cs3500.music.view.visual.NotesAndGridViewPanel;
+import cs3500.music.view.gui.NotesAndGridViewPanel;
 
 /**
  * Tests for NotesAndGridViewPanel.

@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.model.JMidiComposition;
-import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.gui.GuiView;
 
 /**
  * The class {@ViewSelector} Returns a view according to the user input.
@@ -25,9 +25,9 @@ public final class ViewManager {
       case "composite":
       case "Composite":
         return new CompositeView(composition, ap);
-      case "visual":
+      case "gui":
       case "VISUAL":
-        return new MusicEditorGUI(composition, ap);
+        return new GuiView(composition, ap);
       case "console":
       case "CONSOLE":
         return new ConsoleView(composition, ap);

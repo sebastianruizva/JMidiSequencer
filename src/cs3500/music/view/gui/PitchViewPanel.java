@@ -1,4 +1,4 @@
-package cs3500.music.view.visual;
+package cs3500.music.view.gui;
 
 import java.awt.*;
 
@@ -15,15 +15,15 @@ import cs3500.music.util.JMidiUtils;
  * in the composition will be generated.
  */
 public class PitchViewPanel extends JPanel {
-  private MusicEditorGUI gui;
+  private GuiView gui;
 
   /**
    * Constructs a new PitchViewPanel based on the provided composition.
    *
-   * @param gui The {@link MusicEditorGUI} to draw information from.
+   * @param gui The {@link GuiView} to draw information from.
    * @throws IllegalArgumentException if the composition is null.
    */
-  public PitchViewPanel(MusicEditorGUI gui) throws IllegalArgumentException {
+  public PitchViewPanel(GuiView gui) throws IllegalArgumentException {
     if (gui == null) {
       throw new IllegalArgumentException("GUI cannot be null.");
     }

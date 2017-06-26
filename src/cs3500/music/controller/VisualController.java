@@ -3,24 +3,24 @@ package cs3500.music.controller;
 import java.awt.event.KeyEvent;
 
 import cs3500.music.util.JMidiUtils;
-import cs3500.music.view.visual.MusicEditorGUI;
+import cs3500.music.view.gui.GuiView;
 
 /**
- * A {@VisualController} controller for the visual view only.
+ * A {@VisualController} controller for the gui view only.
  */
 public class VisualController extends CompositionController {
   
   /**
    * The controlled view.
    */
-  private MusicEditorGUI view;
+  private GuiView view;
   
   /**
    * Constructs a {@VisualController}.
-   * @param view the linked visual view.
+   * @param view the linked gui view.
    * @param ap   an appendable for message handling.
    */
-  public VisualController(MusicEditorGUI view, Appendable ap) {
+  public VisualController(GuiView view, Appendable ap) {
     JMidiUtils.message("Keyboard Controller Started", ap);
     this.view = view;
     view.addListener(this);

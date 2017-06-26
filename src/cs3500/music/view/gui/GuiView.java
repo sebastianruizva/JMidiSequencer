@@ -1,8 +1,9 @@
-package cs3500.music.view.visual;
+package cs3500.music.view.gui;
 
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import javax.swing.*;
 
@@ -20,7 +21,7 @@ import cs3500.music.view.ICompositionView;
  * below. A move-able red bar will also be displayed, and any notes selected by the bar will be
  * illuminated by the keyboard.
  */
-public class MusicEditorGUI extends JFrame implements ICompositionView {
+public class GuiView extends JFrame implements ICompositionView {
   // The composition from which to draw the pitch range and notes.
   private JMidiComposition composition;
 
@@ -54,35 +55,34 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
   /**
    * Initializes all of the panels in the {@link JFrame}, and makes it visible.
    *
-   * @param composition the componsition with which to initialize all of the data for each {@link
+   * @param composition the componsition with which to initController all of the data for each
+   * {@link
    *                    JPanel}.
    * @throws IllegalArgumentException if the provided composition is null.
    */
-  public MusicEditorGUI(JMidiComposition composition, Appendable ap) throws
-          IllegalArgumentException {
+  public GuiView(JMidiComposition composition, Appendable ap) throws IllegalArgumentException {
     if (composition == null || ap == null) {
-      throw new IllegalArgumentException("Cannot initialize with null composition or Appendable");
+      throw new IllegalArgumentException(
+              "Cannot initController with null composition or Appendable");
     }
-
+  
     this.ap = ap;
     JMidiUtils.message("Preparing GUI View", ap);
-  
     this.windowBoundLeft = 0;
     this.windowBoundRight = 40;
-
     initScrollModel();
     this.cursorPosition = 0;
     this.composition = composition;
+    this.composition.addObserver(this);
     this.pianoLayout = initPianoLayout();
     this.scoreLayout = initScoreLayout();
-
     initComponents();
-
+    this.setVisible(true);
+    this.initController();
     JMidiUtils.message("GUI View Ready", ap);
   }
   
-  @Override public void initialize() {
-    this.setVisible(true);
+  @Override public void initController() {
     new VisualController(this, ap);
   }
   
@@ -281,19 +281,14 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    *                                  than the maximum tick in the composition.
    */
   public void setCursorAbsolutePosition(int posn) throws IllegalArgumentException {
-    if (posn < 0) {
-      throw new IllegalArgumentException("Cannot decrease position below zero.");
+    if (!(posn < 0 || posn > composition.getMaxTick())) {
+    
+      this.cursorPosition = posn;
+    
     }
-    
-    if (posn > composition.getMaxTick()) {
-      throw new IllegalArgumentException("Cannot increase position above maximum tick.");
-    }
-    
-    this.cursorPosition = posn;
-    
     adjustWindowBounds();
     adjustScrollBar();
-    
+  
     refreshPanels();
   }
 
@@ -383,5 +378,13 @@ public class MusicEditorGUI extends JFrame implements ICompositionView {
    */
   public JMidiComposition getComposition() {
     return this.composition;
+  }
+  
+  @Override public void update(Observable o, Object arg) {
+    JMidiUtils.message("Updating GuiVIew", ap);
+    if (arg instanceof Integer) {
+      this.setCursorAbsolutePosition((int) arg / 24);
+    }
+    refreshPanels();
   }
 }

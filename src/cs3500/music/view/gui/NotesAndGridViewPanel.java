@@ -1,4 +1,4 @@
-package cs3500.music.view.visual;
+package cs3500.music.view.gui;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import cs3500.music.model.SectorType;
  * image.
  */
 public class NotesAndGridViewPanel extends JPanel {
-  private MusicEditorGUI gui;
+  private GuiView gui;
 
   /**
    * Constructs a NotesAndGridPanel based on the content of the provided composition and gui.
@@ -22,7 +22,7 @@ public class NotesAndGridViewPanel extends JPanel {
    * @param gui the gui to draw the cursor from.
    * @throws IllegalArgumentException if the composition or the gui is null.
    */
-  public NotesAndGridViewPanel(MusicEditorGUI gui) {
+  public NotesAndGridViewPanel(GuiView gui) {
     if (gui == null) {
       throw new IllegalArgumentException("GUI can't be null!");
     }
