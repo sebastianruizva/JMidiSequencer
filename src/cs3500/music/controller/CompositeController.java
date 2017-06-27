@@ -116,7 +116,10 @@ public class CompositeController extends CompositionController {
    */
   @Override public void mousePressed(MouseEvent e) {
   
-    timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> counter++);
+    timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> {
+      counter++;
+      audio.forward();
+    });
     timer.start();
     
   }
@@ -140,11 +143,11 @@ public class CompositeController extends CompositionController {
     
     try {
       PianoKey key = gui.getKeyAtPosition(point);
-      composition.addNote(gui.getCursorPosition(), key.getPitch(), duration);
+      composition.addNote(gui.getCursorPosition() - counter, key.getPitch(), duration);
       JMidiUtils.message("note added at tick " + audio.tick / 24 + " pitch " + key.getPitch(), ap);
-      for (int i = 0; i < counter; i++) {
+/*      for (int i = 0; i < counter; i++) {
         audio.forward();
-      }
+      }*/
     } catch (IllegalArgumentException e) {
       JMidiUtils.message(e.toString(), ap);
     }

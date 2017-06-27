@@ -39,7 +39,7 @@ public class CompositeView extends AudioView {
   }
   
   /**
-   * Assigns a keyboard and mouse listener.
+   * Assigns a keyboard and mouse listener to the gui.
    */
   public void addListener(ICompositionController controller) {
     gui.addListener(controller);

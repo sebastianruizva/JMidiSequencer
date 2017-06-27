@@ -3,7 +3,9 @@ package cs3500.music.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
@@ -56,6 +58,10 @@ public class AudioView extends java.util.Observable implements ICompositionView 
    * A list of bars that must not be replayed
    */
   protected List<Integer> ignoredBars;
+  /**
+   * A list of tasks to be repeated continuously
+   */
+  protected Map<Integer, Runnable> tasks;
   
   /**
    * Constructs an {@AudioView}.
@@ -69,39 +75,17 @@ public class AudioView extends java.util.Observable implements ICompositionView 
     JMidiUtils.message("Preparing Audio View", ap);
     this.playedRepeats = new ArrayList<>();
     this.ignoredBars = new ArrayList<>();
+    this.tasks = new HashMap<>();
     this.ap = ap;
     this.composition = composition;
     this.composition.addObserver(this);
     this.prepareSequencer();
-    Timer timer = new javax.swing.Timer(1000 / 24, (e) -> {
-      int bar = ((int) tick / 24) / 4;
-      if (this.composition.getRepeats().keySet().contains(bar) && !this.playedRepeats
-              .contains(bar)) {
-        JMidiUtils.message("Valid repeat point found", this.ap);
-        this.sequencer
-                .setTickPosition(this.composition.getRepeats().get(bar).startingBar * (4 * 24));
-        this.sequencer.setTempoInMPQ(this.composition.getTempo());
-        this.playedRepeats.add(bar);
-        if (this.composition.getRepeats().get(bar).type == Repeat.Type.ENDING) {
-          JMidiUtils.message("End bar is going to be jumped in the next repeat", this.ap);
-          this.ignoredBars.add(bar - 1);
-        }
-      }
-      if (ignoredBars.contains(bar)) {
-        this.sequencer.setTickPosition(this.sequencer.getTickPosition() + (24 * 4));
-        this.sequencer.setTempoInMPQ(this.composition.getTempo());
-      }
-      if (this.hasChanged()) {
-        setChanged();
-        notifyObservers((int) tick);
-      }
-    });
-    timer.start();
+    this.initTasks();
     JMidiUtils.message("Audio View Ready", ap);
   }
   
   /**
-   * Constructs an {@AudioView}.
+   * Constructs an {@AudioView} [Alternative constructor for testing].
    * @param ap          an appendable for messages.
    * @param composition the composition being observed
    * @param sequencer   space for a custom sequencer
@@ -144,6 +128,66 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   }
   
   /**
+   * Initializes time related tasks.
+   */
+  public void initTasks() {
+    //add tasks
+    tasks.put(1, () -> validRepeat());
+    tasks.put(2, () -> ignoredBar());
+    tasks.put(3, () -> registerChanges());
+    //create timer every 1000 / (sequencers resolution) of a ms.
+    Timer timer = new javax.swing.Timer(1000 / 24, (e) -> {
+      for (Integer i : tasks.keySet()) {
+        tasks.get(i).run();
+      }
+    });
+    //run
+    timer.start();
+  }
+  
+  
+  
+  /**
+   * Registers changes if any
+   */
+  public void registerChanges() {
+    if (this.sequencer.getTickPosition() != this.tick) {
+      this.tick = this.sequencer.getTickPosition();
+      setChanged();
+      notifyObservers((int) tick);
+    }
+  }
+  
+  /**
+   * Determines if the current bar should be ignored.
+   */
+  public void ignoredBar() {
+    int bar = ((int) tick / 24) / 4;
+    if (ignoredBars.contains(bar)) {
+      JMidiUtils.message("Jumping bar", this.ap);
+      this.sequencer.setTickPosition(this.sequencer.getTickPosition() + (24 * 4));
+      this.sequencer.setTempoInMPQ(this.composition.getTempo());
+    }
+  }
+  
+  /**
+   * Determines if the current bar is part of a repeat.
+   */
+  public void validRepeat() {
+    int bar = ((int) tick / 24) / 4;
+    if (this.composition.getRepeats().keySet().contains(bar) && !this.playedRepeats.contains(bar)) {
+      JMidiUtils.message("Valid repeat point found", this.ap);
+      this.sequencer.setTickPosition(this.composition.getRepeats().get(bar).startingBar * (4 * 24));
+      this.sequencer.setTempoInMPQ(this.composition.getTempo());
+      this.playedRepeats.add(bar);
+      if (this.composition.getRepeats().get(bar).type == Repeat.Type.ENDING) {
+        JMidiUtils.message("Bar is going to be jumped in the next repeat", this.ap);
+        this.ignoredBars.add(bar - 1);
+      }
+    }
+  }
+  
+  /**
    * Constructs the sequencer.
    */
   public void prepareSequencer() {
@@ -183,39 +227,39 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Plays the directed track.
    * @param track the track you want to play.
+   * @param trackNumber the track's number
    */
   protected void addTrack(JMidiTrack track, int trackNumber) throws InvalidMidiDataException {
     
     JMidiUtils.message("Adding Track #" + trackNumber, ap);
-    
     Track sTrack = sequence.createTrack();
-    
     //set instrument and voice
     ShortMessage message = new ShortMessage();
     message.setMessage(ShortMessage.PROGRAM_CHANGE, trackNumber, track.getInstrument().getNumber(),
             0);
     sTrack.add(new MidiEvent(message, 0));
-    
-    //add all the notes to the midi track
+    //add all the notes to the track
     for (int i = 0; i < track.getMaxTick(); i++) {
-  
-      for (JMidiEvent e : track.getEventsOnTick(i)) {
-    
-        //start message
-        MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, e.getChannel(), e.getPitch(),
-                e.getVelocity());
-        MidiEvent aEvent = new MidiEvent(start, e.getTick() * 24);
-        sTrack.add(aEvent);
-    
-        //end message
-        MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, e.getChannel(), e.getPitch(),
-                e.getVelocity());
-        MidiEvent bEvent = new MidiEvent(stop, (e.getTick() + e.getDuration()) * 24);
-        sTrack.add(bEvent);
-        
+      for (JMidiEvent event : track.getEventsOnTick(i)) {
+        addEvent(sTrack, event);
       }
-  
     }
+  
+  }
+  
+  protected void addEvent(Track track, JMidiEvent event) throws InvalidMidiDataException {
+    
+    //start message
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, event.getChannel(), event.getPitch(),
+            event.getVelocity());
+    MidiEvent aEvent = new MidiEvent(start, event.getTick() * 24);
+    track.add(aEvent);
+    
+    //end message
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, event.getChannel(), event.getPitch(),
+            event.getVelocity());
+    MidiEvent bEvent = new MidiEvent(stop, (event.getTick() + event.getDuration()) * 24);
+    track.add(bEvent);
     
   }
   
@@ -234,27 +278,33 @@ public class AudioView extends java.util.Observable implements ICompositionView 
    * Stops playback.
    */
   public void pause() {
+  
     JMidiUtils.message("Stopping Sequence", ap);
     sequencer.stop();
     sequencer.setTempoInMPQ(composition.getTempo());
+  
   }
   
   /**
    * Stops forwards playback.
    */
   public void forward() {
+  
     JMidiUtils.message("Forwarding Sequence", ap);
     sequencer.setTickPosition(sequencer.getTickPosition() + 24);
     sequencer.setTempoInMPQ(composition.getTempo());
+  
   }
   
   /**
    * Stops rewinds playback.
    */
   public void rewind() {
+  
     JMidiUtils.message("Rewinding Sequence", ap);
     sequencer.setTickPosition(sequencer.getTickPosition() - 24);
     sequencer.setTempoInMPQ(composition.getTempo());
+  
   }
   
   /**
@@ -294,6 +344,11 @@ public class AudioView extends java.util.Observable implements ICompositionView 
     return file;
   }
   
+  /**
+   * updates the view
+   * @param o   the model
+   * @param arg the args sent by the model
+   */
   @Override public void update(java.util.Observable o, Object arg) {
     JMidiUtils.message("Updating Audio VIew", ap);
     try {
@@ -304,15 +359,6 @@ public class AudioView extends java.util.Observable implements ICompositionView 
       sequencer.setTickPosition(tick);
     } catch (InvalidMidiDataException e) {
       e.printStackTrace();
-    }
-  }
-  
-  @Override public boolean hasChanged() {
-    if (this.sequencer.getTickPosition() != this.tick) {
-      tick = this.sequencer.getTickPosition();
-      return true;
-    } else {
-      return false;
     }
   }
   
