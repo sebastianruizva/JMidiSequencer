@@ -1,9 +1,5 @@
 tempo 200000
-repeat 0 6
-repeat 1 5
-repeat 2 4
-ending 0 7
-ending 2 7
+ending 1 5
 note 0 2 1 64 72
 note 0 7 1 55 70
 note 2 4 1 62 72

@@ -78,7 +78,6 @@ public class GuiView extends JFrame implements ICompositionView {
     this.scoreLayout = initScoreLayout();
     initComponents();
     this.setVisible(true);
-    this.initController();
     JMidiUtils.message("GUI View Ready", ap);
   }
   

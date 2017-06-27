@@ -27,7 +27,6 @@ public class CompositeView extends AudioView {
     //connect to GUI
     JMidiUtils.message("Connecting to GUI", ap);
     this.gui = new GuiView(composition, ap);
-    this.gui.initController();
     this.addObserver(gui);
     JMidiUtils.message("Composite view ready!", ap);
   }
@@ -37,7 +36,6 @@ public class CompositeView extends AudioView {
    */
   public void initController() {
     new CompositeController(this, gui, composition, ap);
-    JMidiUtils.message("Composite view initialized", ap);
   }
   
   /**

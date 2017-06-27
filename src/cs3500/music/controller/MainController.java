@@ -88,8 +88,11 @@ public class MainController {
         fileName = next;
 
         try {
-
-          composition = MusicReader.parseFile(new FileReader(fileName), JMidiComposition.builder());
+  
+          Readable file = new FileReader("resources/musicTxt/" + fileName + ".txt");
+          JMidiUtils.message(String.format("Parsing " + fileName), ap);
+  
+          composition = MusicReader.parseFile(file, JMidiComposition.builder());
   
           JMidiUtils.message("console, gui, composite or MIDI?", ap);
 
@@ -97,7 +100,7 @@ public class MainController {
 
           fileName = null;
   
-          JMidiUtils.message("file not found", ap);
+          JMidiUtils.message(e.toString(), ap);
 
         }
   

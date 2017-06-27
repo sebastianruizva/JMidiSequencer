@@ -83,8 +83,13 @@ public class AudioView extends java.util.Observable implements ICompositionView 
         this.sequencer.setTempoInMPQ(this.composition.getTempo());
         this.playedRepeats.add(bar);
         if (this.composition.getRepeats().get(bar).type == Repeat.Type.ENDING) {
+          JMidiUtils.message("End bar is going to be jumped in the next repeat", this.ap);
           this.ignoredBars.add(bar - 1);
         }
+      }
+      if (ignoredBars.contains(bar)) {
+        this.sequencer.setTickPosition(this.sequencer.getTickPosition() + (24 * 4));
+        this.sequencer.setTempoInMPQ(this.composition.getTempo());
       }
       if (this.hasChanged()) {
         setChanged();
@@ -256,6 +261,9 @@ public class AudioView extends java.util.Observable implements ICompositionView 
    * Jumps to the beginning of the composition.
    */
   public void beginning() {
+    JMidiUtils.message("clearing history", ap);
+    this.playedRepeats = new ArrayList<>();
+    this.ignoredBars = new ArrayList<>();
     JMidiUtils.message("jumping to Start", ap);
     sequencer.setTickPosition(0);
     sequencer.setTempoInMPQ(composition.getTempo());
