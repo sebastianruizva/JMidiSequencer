@@ -6,6 +6,8 @@ A simple MIDI Sequencer based on JAVA
 
 **MODEL RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
 
+NOTE: put txt pieces in resources/musicTxt
+
 ----------------------------------------------------
 
 **Interface Hierarchy**

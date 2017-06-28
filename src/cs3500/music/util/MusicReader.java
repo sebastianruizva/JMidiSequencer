@@ -3,6 +3,7 @@ package cs3500.music.util;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import cs3500.music.model.CompositionBuilder;
 import cs3500.music.model.Repeat;
 
 /**

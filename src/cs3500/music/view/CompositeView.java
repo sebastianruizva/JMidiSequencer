@@ -40,12 +40,12 @@ public class CompositeView extends AudioView {
   protected ArrayList<JMidiEvent> playedEvents;
   
   /**
-   * A synth for direct feedback
+   * A synthesizer for direct feedback
    */
-  protected Synthesizer synth;
+  protected Synthesizer synthesizer;
   
   /**
-   * An array of midi channels for the synth
+   * An array of midi channels for the synthesizer
    */
   protected MidiChannel[] mc;
   
@@ -65,7 +65,7 @@ public class CompositeView extends AudioView {
     this.practiceEvents = new HashMap<>();
     this.playedEvents = new ArrayList<>();
     gui.practiceEvents = this.practiceEvents;
-    prepareSynth();
+    prepareSynthesizer();
     JMidiUtils.message("Composite view ready!", ap);
   
   }
@@ -90,22 +90,23 @@ public class CompositeView extends AudioView {
   }
   
   /**
-   * prepares a synth for instant playback.
+   * prepares a synthesizer for instant playback.
    */
-  public void prepareSynth() {
+  public void prepareSynthesizer() {
     try {
-      this.synth = MidiSystem.getSynthesizer();
-      this.synth.open();
-      this.mc = synth.getChannels();
-      Instrument[] instr = synth.getDefaultSoundbank().getInstruments();
-      synth.loadInstrument(instr[0]);
+      this.synthesizer = MidiSystem.getSynthesizer();
+      this.synthesizer.open();
+      this.mc = synthesizer.getChannels();
+      Instrument[] instr = synthesizer.getDefaultSoundbank().getInstruments();
+      synthesizer.loadInstrument(instr[0]);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
   }
   
   /**
-   * Determines if practice mode is enabled.
+   * plays the desired pitch.
+   * @param pitch the pitch you want to play.
    */
   public void playNote(int pitch) {
     mc[1].noteOn(pitch, 600);
@@ -115,6 +116,7 @@ public class CompositeView extends AudioView {
    * Determines if practice mode is enabled.
    */
   public boolean practiceEnabled() {
+    JMidiUtils.message("Practice Mode Enabled", ap);
     return tasks.containsKey(4);
   }
   
@@ -122,6 +124,7 @@ public class CompositeView extends AudioView {
    * Enables practice mode.
    */
   public void disablePracticeMode() {
+    JMidiUtils.message("Practice Mode Disabled", ap);
     if (tasks.containsKey(4)) {
       tasks.remove(4);
       this.practiceEvents.clear();
@@ -141,7 +144,7 @@ public class CompositeView extends AudioView {
   /**
    * Ensures that notes that have not been played halt and ask for user imput.
    */
-  public void practiceMode() {
+  protected void practiceMode() {
     //add if not been played yet
     for (JMidiEvent e : this.composition.getEventsOnTick((int) tick / 24)) {
       if (!playedEvents.contains(e)) {

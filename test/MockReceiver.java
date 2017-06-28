@@ -17,14 +17,18 @@ public class MockReceiver implements Receiver {
     this.log = log;
   }
 
-  @Override
-  public void send(MidiMessage message, long timeStamp) {
-
-    ShortMessage event = (ShortMessage) message;
-
-    log.append("msg[Tck:" + timeStamp + ", Cmd:" + event.getCommand() + " Chn:" + event
-            .getChannel() + " Ptc:"
-            + event.getData1() + " Vel:" + event.getData2() + "] \n");
+  @Override public void send(MidiMessage m, long timeStamp) {
+  
+    ShortMessage message = (ShortMessage) m;
+  
+    switch (message.getCommand()) {
+      case ShortMessage.NOTE_OFF:
+        log.append("note off " + message.getData1() + ", velocity: " + message.getData2() + "\n");
+        break;
+      case ShortMessage.NOTE_ON:
+        log.append("note " + message.getData1() + " on velocity: " + message.getData2() + "\n");
+        break;
+    }
 
   }
 

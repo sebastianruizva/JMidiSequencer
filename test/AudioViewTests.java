@@ -11,9 +11,11 @@ import javax.sound.midi.Sequence;
 import cs3500.music.model.JMidiComposition;
 import cs3500.music.model.JMidiTrack;
 import cs3500.music.model.JVirtualInstrument;
+import cs3500.music.model.Repeat;
 import cs3500.music.util.JMidiUtils;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.AudioView;
+import cs3500.music.view.CompositeView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -59,11 +61,6 @@ public class AudioViewTests {
   ArrayList<String> scale = new ArrayList<>(
           Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
   
-  /**
-   * Mock sequencer.
-   */
-  MockSequencer testSequencer;
-  
   
   /**
    * Initial conditions for testing.
@@ -81,8 +78,6 @@ public class AudioViewTests {
     jMidiTrack = new JMidiTrack(jVirtualInstrument);
     
     compositionBuilder = JMidiComposition.builder();
-  
-    testSequencer = new MockSequencer(log);
     
   }
 
@@ -97,8 +92,7 @@ public class AudioViewTests {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
   
-    MockSequencer sequencer = new MockSequencer(log2);
-    AudioView view = new AudioView(jMidiComposition, log, sequencer);
+    AudioView view = new AudioView(jMidiComposition, log);
     File file = view.export();
     Sequence sequence = MidiSystem.getSequence(file);
   
@@ -134,6 +128,10 @@ public class AudioViewTests {
     jMidiComposition = MusicReader.parseFile(new FileReader("singleChannel.txt"),
             compositionBuilder);
   
+    AudioView view = new AudioView(jMidiComposition, log);
+    view.setReceiver(new MockReceiver(log));
+    File file = view.export();
+  
     //midiView.initController(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:0 Ptc:4 Vel:72] \n"
             + "msg[Tck:600000, Cmd:128 Chn:0 Ptc:4 Vel:72] \n"
@@ -152,7 +150,8 @@ public class AudioViewTests {
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
             + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:0 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n", log.toString());
+                    + "msg[Tck:1600000, Cmd:128 Chn:0 Ptc:76 Vel:70] \n",
+            JMidiUtils.translateSequence(MidiSystem.getSequence(file)));
 
   }
 
@@ -163,6 +162,11 @@ public class AudioViewTests {
 
     jMidiComposition = MusicReader.parseFile(new FileReader("multipleChannel.txt"),
             compositionBuilder);
+  
+    AudioView view = new AudioView(jMidiComposition, log);
+    view.setReceiver(new MockReceiver(log));
+  
+    File file = view.export();
   
     //midiView.initController(jMidiComposition, ap);
     assertEquals("msg[Tck:0, Cmd:144 Chn:1 Ptc:4 Vel:72] \n"
@@ -180,7 +184,8 @@ public class AudioViewTests {
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n"
             + "msg[Tck:200000, Cmd:144 Chn:3 Ptc:76 Vel:70] \n"
-            + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n", log.toString());
+                    + "msg[Tck:1600000, Cmd:128 Chn:3 Ptc:76 Vel:70] \n",
+            JMidiUtils.translateSequence(MidiSystem.getSequence(file)));
 
   }
 
@@ -190,6 +195,9 @@ public class AudioViewTests {
 
     jMidiComposition = MusicReader.parseFile(new FileReader("invalid.txt"),
             compositionBuilder);
+  
+    AudioView view = new AudioView(jMidiComposition, log);
+    view.setReceiver(new MockReceiver(log));
   
     new AudioView(jMidiComposition, ap).initController();
   
@@ -206,9 +214,8 @@ public class AudioViewTests {
   @Test public void TestMidiView_refreshSequencer() throws Exception {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
-    
-    MockSequencer sequencer = new MockSequencer(log2);
-    AudioView view = new AudioView(jMidiComposition, log, sequencer);
+  
+    AudioView view = new AudioView(jMidiComposition, log);
     File file = view.export();
     Sequence sequence = MidiSystem.getSequence(file);
     
@@ -229,8 +236,6 @@ public class AudioViewTests {
     //view.refreshSequencer();
     file = view.export();
     sequence = MidiSystem.getSequence(file);
-    
-    System.out.println(log);
   
     assertEquals("Track #1\n" + "msg[Tck:0, Cmd:192 Chn:1 Ptc:0 Vel:0] \n"
             + "msg[Tck:24, Cmd:144 Chn:1 Ptc:1 Vel:30] \n"
@@ -325,6 +330,111 @@ public class AudioViewTests {
             "sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
                     + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
                     + "Audio View Ready\n" + "Exporting Sequence...\n" + "Done :)\n");
+  }
+  
+  @Test public void TestMidiView_playRepeats() throws Exception {
+    this.initCond();
+    jMidiComposition =
+            compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 1, 5, 3, 2).addNote(7, 8, 0, 3, 6)
+                    .addRepeat(new Repeat(1, 2)).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    view.setReceiver(new MockReceiver(log2));
+    view.play();
+    
+    for (int i = 0; i < 100; i++) {
+      view.forward();
+    }
+    
+    assertEquals(log2.toString(),
+            "note 1 on velocity: 30\n" + "note 1 on velocity: 0\n" + "note 1 on velocity: 30\n"
+                    + "note 1 on velocity: 0\n" + "note 1 on velocity: 30\n"
+                    + "note off 1, velocity: 30\n" + "note off 1, velocity: 30\n"
+                    + "note off 1, velocity: 30\n" + "note 3 on velocity: 6\n"
+                    + "note 3 on velocity: 0\n" + "note 3 on velocity: 6\n"
+                    + "note off 3, velocity: 6\n");
+    
+  }
+  
+  @Test public void TestMidiView_playEnding() throws Exception {
+    this.initCond();
+    jMidiComposition =
+            compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 1, 5, 3, 2).addNote(7, 8, 0, 3, 6)
+                    .addRepeat(new Repeat(Repeat.Type.ENDING, 1, 2)).build();
+    
+    AudioView view = new AudioView(jMidiComposition, log);
+    view.setReceiver(new MockReceiver(log2));
+    view.play();
+    
+    for (int i = 0; i < 100; i++) {
+      view.forward();
+    }
+    
+    assertEquals(log2.toString(),
+            "note 1 on velocity: 30\n" + "note 1 on velocity: 30\n" + "note 1 on velocity: 30\n"
+                    + "note 1 on velocity: 0\n" + "note 1 on velocity: 30\n"
+                    + "note 1 on velocity: 0\n" + "note 1 on velocity: 30\n"
+                    + "note 1 on velocity: 0\n" + "note 1 on velocity: 30\n"
+                    + "note off 1, velocity: 30\n" + "note off 1, velocity: 30\n"
+                    + "note off 1, velocity: 30\n" + "note 3 on velocity: 6\n"
+                    + "note 3 on velocity: 0\n" + "note 3 on velocity: 6\n"
+                    + "note off 3, velocity: 6\n");
+    
+  }
+  
+  @Test public void TestCompositeView_Initialize() throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    CompositeView view = new CompositeView(jMidiComposition, log);
+    
+    //midiView.initController(jMidiComposition, ap);
+    assertEquals("sequencer initialized \n" + "Preparing Audio View\n" + "Initializing Sequencer\n"
+            + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n" + "Audio View Ready\n"
+            + "Connecting to GUI\n" + "Preparing GUI View\n" + "GUI View Ready\n"
+            + "Keyboard Controller Started\n" + "Controller connected to view\n"
+            + "Synchronizing views\n" + "Composite view ready!\n", log.toString());
+  }
+  
+  @Test(expected = IllegalArgumentException.class) public void TestCompositeView_Null()
+          throws Exception {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 3, 5, 3, 2).build();
+    CompositeView view = new CompositeView(null, null);
+    
+  }
+  
+  @Test public void TestCompositeView_practiceModeEnable() throws Exception {
+    this.initCond();
+    jMidiComposition =
+            compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 1, 5, 3, 2).addNote(7, 8, 0, 3, 6)
+                    .addRepeat(new Repeat(1, 2)).build();
+    
+    CompositeView view = new CompositeView(jMidiComposition, log);
+    view.practiceEnabled();
+    
+    assertEquals(log.toString(),
+            "Preparing Audio View\n" + "Initializing Sequencer\n" + "Adding Track #0\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Connecting to GUI\n" + "Preparing GUI View\n"
+                    + "GUI View Ready\n" + "Composite view ready!\n" + "Practice Mode Enabled\n");
+    
+  }
+  
+  @Test public void TestCompositeView_practiceModeDisable() throws Exception {
+    this.initCond();
+    jMidiComposition =
+            compositionBuilder.addNote(1, 4, 1, 1, 30).addNote(1, 1, 5, 3, 2).addNote(7, 8, 0, 3, 6)
+                    .addRepeat(new Repeat(1, 2)).build();
+    
+    CompositeView view = new CompositeView(jMidiComposition, log);
+    view.disablePracticeMode();
+    
+    assertEquals(log.toString(),
+            "Preparing Audio View\n" + "Initializing Sequencer\n" + "Adding Track #0\n"
+                    + "Adding Track #1\n" + "Adding Track #5\n" + "Sequencer Ready\n"
+                    + "Audio View Ready\n" + "Connecting to GUI\n" + "Preparing GUI View\n"
+                    + "GUI View Ready\n" + "Composite view ready!\n" + "Practice Mode Disabled\n");
+    
   }
 
 }

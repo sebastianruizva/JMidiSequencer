@@ -547,7 +547,7 @@ public class JMidiModelTests {
             .addRepeat(new Repeat(1, 5)).build();
     
     assertEquals(jMidiComposition.getRepeats().toString(),
-            "{5=Repeat{startingBar=1, endingBar=5}}");
+            "{5=Repeat{startingBar=1, endingBar=5, type=DEFAULT}}");
     
   }
   
@@ -557,7 +557,8 @@ public class JMidiModelTests {
             .addRepeat(new Repeat(1, 5)).addRepeat(new Repeat(2, 6)).build();
     
     assertEquals(jMidiComposition.getRepeats().toString(),
-            "{5=Repeat{startingBar=1, endingBar=5}, 6=Repeat{startingBar=2, endingBar=6}}");
+            "{5=Repeat{startingBar=1, endingBar=5, type=DEFAULT}, 6=Repeat{startingBar=2, "
+                    + "endingBar=6, type=DEFAULT}}");
     
   }
   
@@ -579,6 +580,16 @@ public class JMidiModelTests {
     this.initCond();
     jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
             .addRepeat(new Repeat(-1, 5)).addRepeat(new Repeat(2, 5)).build();
+    
+  }
+  
+  @Test public void testRepeats_validEnding() {
+    this.initCond();
+    jMidiComposition = compositionBuilder.addNote(1, 2, 0, 0, 0).addNote(1, 2, 2, 0, 0)
+            .addRepeat(new Repeat(Repeat.Type.ENDING, 1, 5)).build();
+    
+    assertEquals(jMidiComposition.getRepeats().toString(),
+            "{5=Repeat{startingBar=1, endingBar=5, type=ENDING}}");
     
   }
 

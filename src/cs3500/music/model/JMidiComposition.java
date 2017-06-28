@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.JMidiUtils;
 
 /**
@@ -315,7 +314,7 @@ public class JMidiComposition extends java.util.Observable implements IjMidiComp
   }
   
   /**
-   * Returns a string grid with all the element in the region.
+   * @see IjMidiComposition .
    */
   @Override
   public String toString() {
@@ -436,7 +435,10 @@ public class JMidiComposition extends java.util.Observable implements IjMidiComp
       this.repeats = new HashMap<>();
   
     }
-    
+  
+    /**
+     * @see CompositionBuilder .
+     */
     @Override public Builder addRepeat(Repeat repeat) {
       
       if (repeats.keySet().contains(repeat.endingBar)) {
@@ -474,7 +476,10 @@ public class JMidiComposition extends java.util.Observable implements IjMidiComp
       return this;
       
     }
-    
+  
+    /**
+     * @see IjMidiComposition .
+     */
     @Override public Builder setTempo(int tempo) throws IllegalArgumentException {
       if (tempo < 1) {
         throw new IllegalArgumentException("tempo can only be a positive value");
@@ -484,7 +489,10 @@ public class JMidiComposition extends java.util.Observable implements IjMidiComp
       
       return this;
     }
-    
+  
+    /**
+     * @see IjMidiComposition .
+     */
     @Override public Builder addNote(int start, int end, int instrument, int pitch, int volume)
             throws IllegalArgumentException {
       

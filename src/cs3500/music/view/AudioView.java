@@ -11,10 +11,12 @@ import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
+import javax.sound.midi.Transmitter;
 import javax.swing.*;
 
 import cs3500.music.controller.AudioController;
@@ -83,39 +85,14 @@ public class AudioView extends java.util.Observable implements ICompositionView 
     JMidiUtils.message("Audio View Ready", ap);
   }
   
-  /**
-   * Constructs an {@AudioView} [Alternative constructor for testing].
-   * @param ap          an appendable for messages.
-   * @param composition the composition being observed
-   * @param sequencer   space for a custom sequencer
-   * @throws IllegalArgumentException if anything is null
-   */
-  public AudioView(JMidiComposition composition, Appendable ap, Sequencer sequencer) {
-    if (composition == null || sequencer == null || ap == null) {
-      throw new IllegalArgumentException("no null!");
-    }
-    JMidiUtils.message("Preparing Audio View", ap);
-  
+  public void setReceiver(Receiver receiver) {
     try {
-    
-      JMidiUtils.message("Initializing Sequencer", ap);
-    
-      this.ap = ap;
-      this.composition = composition;
-      this.sequence = sequencer.getSequence();
-      this.addAllTracks();
-      this.sequencer = MidiSystem.getSequencer();
-      this.sequencer.setTempoInMPQ(composition.getTempo());
-      this.sequencer.open();
-      this.sequencer.setSequence(sequence);
-      //observe for repeats and update observers
-      JMidiUtils.message("Sequencer Ready", ap);
-    
-    } catch (MidiUnavailableException | InvalidMidiDataException e) {
+      Transmitter transmitter = sequencer.getTransmitter();
+      transmitter.setReceiver(receiver);
+  
+    } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
-    
-    JMidiUtils.message("Audio View Ready", ap);
   }
   
   /**
@@ -129,7 +106,7 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Initializes time related tasks.
    */
-  public void initTasks() {
+  protected void initTasks() {
     //add tasks
     tasks.put(1, () -> registerChanges());
     tasks.put(2, () -> validRepeat());
@@ -147,7 +124,7 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Registers changes if any
    */
-  public void registerChanges() {
+  protected void registerChanges() {
     if (this.sequencer.getTickPosition() != this.tick) {
       this.tick = this.sequencer.getTickPosition();
       setChanged();
@@ -158,7 +135,7 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Determines if the current bar should be ignored.
    */
-  public void ignoredBar() {
+  protected void ignoredBar() {
     int bar = ((int) tick / 24) / 4;
     if (ignoredBars.contains(bar)) {
       JMidiUtils.message("Jumping bar", this.ap);
@@ -170,7 +147,7 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Determines if the current bar is part of a repeat.
    */
-  public void validRepeat() {
+  protected void validRepeat() {
     int bar = ((int) tick / 24) / 4;
     if (this.composition.getRepeats().keySet().contains(bar) && !this.playedRepeats.contains(bar)) {
       JMidiUtils.message("Valid repeat point found", this.ap);
@@ -187,14 +164,16 @@ public class AudioView extends java.util.Observable implements ICompositionView 
   /**
    * Constructs the sequencer.
    */
-  public void prepareSequencer() {
+  protected void prepareSequencer() {
     try {
       
       JMidiUtils.message("Initializing Sequencer", ap);
       
       this.sequence = new Sequence(Sequence.PPQ, 24);
       this.addAllTracks();
-      this.sequencer = MidiSystem.getSequencer();
+      if (sequencer == null) {
+        this.sequencer = MidiSystem.getSequencer();
+      }
       this.sequencer.setTempoInMPQ(composition.getTempo());
       this.sequencer.open();
       this.sequencer.setSequence(sequence);
