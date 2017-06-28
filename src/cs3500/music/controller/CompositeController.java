@@ -79,7 +79,9 @@ public class CompositeController extends CompositionController {
    * P   :Play.
    * B   :go to Start of composition.
    * E   :go to the end of the composition.
-   * X    :export file to root
+   * M   :enable practice mode
+   * X   :export file to root
+   * -to disable practice mode just press any other command.
    */
   protected void addCommands() {
     
@@ -92,6 +94,7 @@ public class CompositeController extends CompositionController {
     supportedCommands.put(88, () -> audio.export());
     supportedCommands.put(38, () -> composition.incTempo());
     supportedCommands.put(40, () -> composition.decTempo());
+    supportedCommands.put(77, () -> audio.enablePracticeMode());
     
   }
   
@@ -105,6 +108,7 @@ public class CompositeController extends CompositionController {
     if (cmd == null) {
       JMidiUtils.message(e.getKeyCode() + " command NOT registered, try another key!", ap);
     } else {
+      audio.disablePracticeMode();
       cmd.run();
     }
     
@@ -115,23 +119,31 @@ public class CompositeController extends CompositionController {
    * @param e the click
    */
   @Override public void mousePressed(MouseEvent e) {
-  
-    timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> {
-      counter++;
-      audio.forward();
-    });
-    timer.start();
-    
+    PianoKey key3 = gui.getKeyAtPosition(e.getPoint());
+    audio.playNote(key3.getPitch());
+    if (!audio.practiceEnabled()) {
+      audio.play();
+      timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> {
+        counter++;
+      });
+      timer.start();
+    } else {
+      PianoKey key = gui.getKeyAtPosition(e.getPoint());
+      audio.removePracticeEvent(key.getPitch());
+    }
   }
   
   /**
-   * Keeps track of click r.
+   * Keeps track of click releases.
    * @param e the click
    */
   @Override public void mouseReleased(MouseEvent e) {
-    timer.stop();
-    this.addNote(e.getPoint(), counter);
-    counter = 0;
+    if (!audio.practiceEnabled()) {
+      audio.pause();
+      timer.stop();
+      this.addNote(e.getPoint(), counter);
+      counter = 0;
+    }
   }
   
   
@@ -140,18 +152,16 @@ public class CompositeController extends CompositionController {
    * @param point the point where the new note should go.
    */
   public void addNote(Point point, int duration) {
-    
     try {
       PianoKey key = gui.getKeyAtPosition(point);
       composition.addNote(gui.getCursorPosition() - counter, key.getPitch(), duration);
       JMidiUtils.message("note added at tick " + audio.tick / 24 + " pitch " + key.getPitch(), ap);
-/*      for (int i = 0; i < counter; i++) {
+      /*for (int i = 0; i < counter; i++) {
         audio.forward();
       }*/
     } catch (IllegalArgumentException e) {
       JMidiUtils.message(e.toString(), ap);
     }
-    
   }
   
 }

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
@@ -59,9 +58,9 @@ public class AudioView extends java.util.Observable implements ICompositionView 
    */
   protected List<Integer> ignoredBars;
   /**
-   * A list of tasks to be repeated continuously
+   * A Map of tasks by id
    */
-  protected Map<Integer, Runnable> tasks;
+  protected HashMap<Integer, Runnable> tasks;
   
   /**
    * Constructs an {@AudioView}.
@@ -132,9 +131,9 @@ public class AudioView extends java.util.Observable implements ICompositionView 
    */
   public void initTasks() {
     //add tasks
-    tasks.put(1, () -> validRepeat());
-    tasks.put(2, () -> ignoredBar());
-    tasks.put(3, () -> registerChanges());
+    tasks.put(1, () -> registerChanges());
+    tasks.put(2, () -> validRepeat());
+    tasks.put(3, () -> ignoredBar());
     //create timer every 1000 / (sequencers resolution) of a ms.
     Timer timer = new javax.swing.Timer(1000 / 24, (e) -> {
       for (Integer i : tasks.keySet()) {
@@ -144,8 +143,6 @@ public class AudioView extends java.util.Observable implements ICompositionView 
     //run
     timer.start();
   }
-  
-  
   
   /**
    * Registers changes if any
