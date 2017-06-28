@@ -119,17 +119,20 @@ public class CompositeController extends CompositionController {
    * @param e the click
    */
   @Override public void mousePressed(MouseEvent e) {
-    PianoKey key3 = gui.getKeyAtPosition(e.getPoint());
-    audio.playNote(key3.getPitch());
-    if (!audio.practiceEnabled()) {
-      audio.play();
-      timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> {
-        counter++;
-      });
-      timer.start();
-    } else {
+    try {
       PianoKey key = gui.getKeyAtPosition(e.getPoint());
-      audio.removePracticeEvent(key.getPitch());
+      audio.playNote(key.getPitch());
+      if (!audio.practiceEnabled()) {
+        audio.play();
+        timer = new javax.swing.Timer(composition.getTempo() / 1000, t -> {
+          counter++;
+        });
+        timer.start();
+      } else {
+        audio.removePracticeEvent(key.getPitch());
+      }
+    } catch (IllegalArgumentException c) {
+      JMidiUtils.message(c.toString(), ap);
     }
   }
   

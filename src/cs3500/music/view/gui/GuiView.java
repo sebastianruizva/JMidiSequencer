@@ -3,6 +3,8 @@ package cs3500.music.view.gui;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 import javax.swing.*;
@@ -22,33 +24,26 @@ import cs3500.music.view.ICompositionView;
  * illuminated by the keyboard.
  */
 public class GuiView extends JFrame implements ICompositionView {
+  //a map of practice notes
+  public Map<Integer, JMidiEvent> practiceEvents;
   // The composition from which to draw the pitch range and notes.
   private JMidiComposition composition;
-
   // The layout of the pitches and score ledger.
   private JPanel scoreLayout;
-
   // The layout of the piano keyboard.
   private JPanel pianoLayout;
-
   // A model used by the scroll panes for simultaneous scrolling capabilities.
   private BoundedRangeModel scrollModel;
-
   // The current position of the cursor (the red bar).
   private int cursorPosition;
-
   // The left bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundLeft;
-
   // The right bound of the current part of the ledger being displayed by the scroll pane.
   private int windowBoundRight;
-
   // The scroll bar used to keep in time with the cursor once it hits the edge of the display.
   private JScrollBar horizontalCursorTracker;
-
   // A mapping of the keyboard and their positions for note selection.
   private PianoViewPanel keyMap;
-
   // The appendable to notify the user of changes.
   private Appendable ap;
 
@@ -76,6 +71,7 @@ public class GuiView extends JFrame implements ICompositionView {
     this.composition.addObserver(this);
     this.pianoLayout = initPianoLayout();
     this.scoreLayout = initScoreLayout();
+    this.practiceEvents = new HashMap<>();
     initComponents();
     this.setVisible(true);
     JMidiUtils.message("GUI View Ready", ap);
@@ -324,11 +320,25 @@ public class GuiView extends JFrame implements ICompositionView {
    */
   protected ArrayList<Integer> getPitchesAtCursorPosition() {
     ArrayList<Integer> pitches = new ArrayList<>();
-
+  
     for (JMidiEvent event : composition.getEventsOnTick(cursorPosition)) {
       pitches.add(event.getPitch());
     }
-
+  
+    return pitches;
+  }
+  
+  /**
+   * Determines a list of pitches present at the tick currently selected by the cursor.
+   * @return the list of pitches.
+   */
+  protected ArrayList<Integer> getPitchesAtPractice() {
+    ArrayList<Integer> pitches = new ArrayList<>();
+    
+    for (Integer i : practiceEvents.keySet()) {
+      pitches.add(practiceEvents.get(i).getPitch());
+    }
+    
     return pitches;
   }
 

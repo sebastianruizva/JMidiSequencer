@@ -143,7 +143,9 @@ public class PianoViewPanel extends JLayeredPane {
     for (PianoKey p : keys) {
       if (pred.test(p)) {
         Rectangle temp = p.getHitBox();
-        if (gui.getPitchesAtCursorPosition().contains(p.getPitch())) {
+        if (gui.getPitchesAtPractice().contains(p.getPitch())) {
+          g.setColor(Color.BLUE);
+        } else if (gui.getPitchesAtCursorPosition().contains(p.getPitch())) {
           g.setColor(Color.ORANGE);
         } else {
           g.setColor(p.getColor());

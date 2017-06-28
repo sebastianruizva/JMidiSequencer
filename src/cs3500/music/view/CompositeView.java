@@ -55,17 +55,38 @@ public class CompositeView extends AudioView {
    * @param ap          an appendable for messages.
    */
   public CompositeView(JMidiComposition composition, Appendable ap) {
+  
     //initiate audio view
     super(composition, ap);
     //connect to GUI
     JMidiUtils.message("Connecting to GUI", ap);
     this.gui = new GuiView(composition, ap);
     this.addObserver(gui);
-    JMidiUtils.message("Composite view ready!", ap);
     this.practiceEvents = new HashMap<>();
     this.playedEvents = new ArrayList<>();
+    gui.practiceEvents = this.practiceEvents;
     prepareSynth();
+    JMidiUtils.message("Composite view ready!", ap);
   
+  }
+  
+  /**
+   * Determines if the current bar is part of a repeat.
+   */
+  @Override public void validRepeat() {
+    int bar = ((int) tick / 24) / 4;
+    if (this.composition.getRepeats().keySet().contains(bar) && !this.playedRepeats.contains(bar)) {
+      playedEvents.clear();
+    }
+    super.validRepeat();
+  }
+  
+  /**
+   * Jumps to the beginning of the composition.
+   */
+  @Override public void beginning() {
+    super.beginning();
+    playedEvents.clear();
   }
   
   /**
@@ -103,6 +124,8 @@ public class CompositeView extends AudioView {
   public void disablePracticeMode() {
     if (tasks.containsKey(4)) {
       tasks.remove(4);
+      this.practiceEvents.clear();
+      this.playedEvents.clear();
     }
   }
   
@@ -123,6 +146,7 @@ public class CompositeView extends AudioView {
     for (JMidiEvent e : this.composition.getEventsOnTick((int) tick / 24)) {
       if (!playedEvents.contains(e)) {
         this.practiceEvents.put(e.getPitch(), e);
+        gui.refreshPanels();
       }
     }
     //ensure the song does not play unless all keys have been played
