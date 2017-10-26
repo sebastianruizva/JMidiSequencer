@@ -1,3 +1,7 @@
 .idea*
 /.idea/
 /composition.mid
+/out/
+/JMidiSequencer.iml
+JMidiSequencer.iml
+out/
