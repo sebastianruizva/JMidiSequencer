@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"jMidiSequencerBeta"},{"l":"jMidiSequencerBeta.controller"},{"l":"jMidiSequencerBeta.model"},{"l":"jMidiSequencerBeta.util"},{"l":"jMidiSequencerBeta.view"},{"l":"jMidiSequencerBeta.view.gui"}]
