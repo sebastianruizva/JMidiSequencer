@@ -5,10 +5,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import cs3500.music.model.JMidiComposition;
-import cs3500.music.model.JMidiTrack;
-import cs3500.music.model.JVirtualInstrument;
-import cs3500.music.view.gui.GuiView;
+import jMidiSequencerBeta.model.JMidiComposition;
+import jMidiSequencerBeta.model.JMidiTrack;
+import jMidiSequencerBeta.model.JVirtualInstrument;
+import jMidiSequencerBeta.view.gui.GuiView;
 
 import static org.junit.Assert.assertEquals;
 

@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import cs3500.music.model.JMidiComposition;
-import cs3500.music.model.JMidiEvent;
-import cs3500.music.model.JMidiTrack;
-import cs3500.music.model.JVirtualInstrument;
-import cs3500.music.model.Repeat;
-import cs3500.music.util.MusicReader;
+import jMidiSequencerBeta.model.JMidiComposition;
+import jMidiSequencerBeta.model.JMidiEvent;
+import jMidiSequencerBeta.model.JMidiTrack;
+import jMidiSequencerBeta.model.JVirtualInstrument;
+import jMidiSequencerBeta.model.Repeat;
+import jMidiSequencerBeta.util.MusicReader;
 
 import static org.junit.Assert.assertEquals;
 
@@ -109,18 +109,18 @@ public class JMidiModelTests {
   @Test
   public void TestToString() throws Exception {
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=0, pitch=0, velocity=64, channel=0,"
+            "JMidiEvent{tick=0, pitch=0, velocity=64, channel=0,"
                     + " duration=7}",
             e0.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=5, pitch=6, velocity=64, channel=0, duration=1}",
+            "JMidiEvent{tick=5, pitch=6, velocity=64, channel=0, duration=1}",
             e1.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=3, pitch=3, velocity=64, channel=0,"
+            "JMidiEvent{tick=3, pitch=3, velocity=64, channel=0,"
                     + " duration=3}",
             e3.toString());
     assertEquals(
-            "cs3500.music.model.JMidiEvent{tick=2, pitch=2, velocity=64, channel=0,"
+            "JMidiEvent{tick=2, pitch=2, velocity=64, channel=0,"
                     + " duration=1}",
             e2.toString());
   }

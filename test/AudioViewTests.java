@@ -8,14 +8,14 @@ import java.util.Arrays;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 
-import cs3500.music.model.JMidiComposition;
-import cs3500.music.model.JMidiTrack;
-import cs3500.music.model.JVirtualInstrument;
-import cs3500.music.model.Repeat;
-import cs3500.music.util.JMidiUtils;
-import cs3500.music.util.MusicReader;
-import cs3500.music.view.AudioView;
-import cs3500.music.view.CompositeView;
+import jMidiSequencerBeta.model.JMidiComposition;
+import jMidiSequencerBeta.model.JMidiTrack;
+import jMidiSequencerBeta.model.JVirtualInstrument;
+import jMidiSequencerBeta.model.Repeat;
+import jMidiSequencerBeta.util.JMidiUtils;
+import jMidiSequencerBeta.util.MusicReader;
+import jMidiSequencerBeta.view.AudioView;
+import jMidiSequencerBeta.view.CompositeView;
 
 import static org.junit.Assert.assertEquals;
 

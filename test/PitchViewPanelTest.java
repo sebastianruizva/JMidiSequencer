@@ -1,7 +1,7 @@
 
 import org.junit.Test;
 
-import cs3500.music.view.gui.PitchViewPanel;
+import jMidiSequencerBeta.view.gui.PitchViewPanel;
 
 /**
  * Tests for PitchViewPanel.

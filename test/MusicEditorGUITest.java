@@ -1,8 +1,8 @@
 
 import org.junit.Test;
 
-import cs3500.music.model.JMidiComposition;
-import cs3500.music.view.gui.GuiView;
+import jMidiSequencerBeta.model.JMidiComposition;
+import jMidiSequencerBeta.view.gui.GuiView;
 
 import static junit.framework.TestCase.assertEquals;
 

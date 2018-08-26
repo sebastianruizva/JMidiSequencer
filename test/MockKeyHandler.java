@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import cs3500.music.controller.VisualController;
-import cs3500.music.view.gui.GuiView;
-import cs3500.music.view.gui.PianoKey;
+import jMidiSequencerBeta.controller.VisualController;
+import jMidiSequencerBeta.view.gui.GuiView;
+import jMidiSequencerBeta.view.gui.PianoKey;
 
 /**
  * Tester clas for the KeyHandler. Prints messages to the appendable based on what keys are

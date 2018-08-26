@@ -12,53 +12,53 @@ NOTE: put txt pieces in resources/musicTxt
 
 **Interface Hierarchy**
 
-cs3500.music.model.IjMidiComposition
+IjMidiComposition
 
-cs3500.music.model.IjMidiEvent
+IjMidiEvent
 
-cs3500.music.model.IjMidiTrack
+IjMidiTrack
 
-cs3500.music.model.IjVirtualInstrument
+IjVirtualInstrument
 
 
 **Class Hierarchy**
 
-cs3500.music.model.JMidiComposition (implements cs3500.music.model.IjMidiComposition)
+JMidiComposition (implements IjMidiComposition)
 
-cs3500.music.model.JMidiEvent (implements cs3500.music.model.IjMidiEvent)
+JMidiEvent (implements IjMidiEvent)
 
-cs3500.music.model.JMidiTrack (implements cs3500.music.model.IjMidiTrack)
+JMidiTrack (implements IjMidiTrack)
 
 cs3500.music.model.JTimeSignature
 
-cs3500.music.model.JVirtualInstrument (implements cs3500.music.model.IjVirtualInstrument)
+JVirtualInstrument (implements IjVirtualInstrument)
 
 ----------------------------------------------------
 
 **_DESCRIPTIONS:_**
 
-**cs3500.music.model.JMidiComposition**
+**JMidiComposition**
 
 The core container of the composition. 
 Represents a collection of MIDI Tracks that can be played in sync.
 Is mainly responsible of synchronizing all the tracks together and set time changes.
 
-**cs3500.music.model.JMidiTrack**
+**JMidiTrack**
 
 Where most of the work go and the assignment visualization example is.
 This class collects all the JMidiEvents (Notes) and manages them for them to be
-scrollable and ready for the cs3500.music.model.JMidiComposition.
+scrollable and ready for the JMidiComposition.
 
-**cs3500.music.model.JMidiEvent**
+**JMidiEvent**
 
 A simple class that represents a MIDI message (note), makes sure 
-the message is ready to be analyzed by the cs3500.music.model.IjMidiTrack.
+the message is ready to be analyzed by the IjMidiTrack.
 
-**cs3500.music.model.JVirtualInstrument**
+**JVirtualInstrument**
 
 A simple class that represents a MIDI Instrument. It basically sets how the events 
 are going to be represented from the track to the user in a mor musical way 
-(defines scale degrees, intervals, etc...). This is used by cs3500.music.model.JMidiTrack
+(defines scale degrees, intervals, etc...). This is used by JMidiTrack
 
 **CONTROLLER RELATED CLASSES, INTERFACES AND DESCRIPTIONS:**
 
@@ -66,44 +66,44 @@ are going to be represented from the track to the user in a mor musical way
 
 **Interface Hierarchy**
 
-cs3500.music.controller.ICompositionController
+ICompositionController
 
 **Class Hierarchy**
 
-cs3500.music.controller.MainController (implements cs3500.music.controller.MainController)
+MainController (implements MainController)
 
-cs3500.music.controller.CompositionController
+CompositionController
 
-cs3500.music.controller.VisualController
+VisualController
 
-cs3500.music.controller.AudioController
+AudioController
 
-cs3500.music.controller.CompositeController
+CompositeController
 
 
 ----------------------------------------------------
 
 **_DESCRIPTIONS:_**
 
-**cs3500.music.controller.MainController**
+**MainController**
 
 Takes care of the initial command line interactions.
 
-**cs3500.music.controller.CompositionController**
+**CompositionController**
 
 Takes care of the initial command line interactions.
 
-**cs3500.music.controller.VisualController**
+**VisualController**
 
 Takes care of the user interactions with the visual view only.
 
 Keys: <- move cursor to the left, ->  move cursor to the Right
 
-**cs3500.music.controller.AudioController**
+**AudioController**
 
 Takes care of user interactions in the midi only view.
 
-**cs3500.music.controller.CompositeController**
+**CompositeController**
 
 Takes care of user interactions in the Composite view.
 

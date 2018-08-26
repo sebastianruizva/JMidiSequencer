@@ -1,7 +1,7 @@
 
 import org.junit.Test;
 
-import cs3500.music.view.gui.NotesAndGridViewPanel;
+import jMidiSequencerBeta.view.gui.NotesAndGridViewPanel;
 
 /**
  * Tests for NotesAndGridViewPanel.

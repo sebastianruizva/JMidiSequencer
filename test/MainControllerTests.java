@@ -3,7 +3,7 @@ import org.junit.Test;
 
 import java.io.StringReader;
 
-import cs3500.music.controller.MainController;
+import jMidiSequencerBeta.controller.MainController;
 
 import static org.junit.Assert.assertEquals;
 
