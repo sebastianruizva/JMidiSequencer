@@ -1,6 +1,6 @@
 # JMidiSequencer Beta
 
-A simple MIDI Sequencer based on JAVA 9 using the MVC architecture.
+Multi-track MIDI Sequencer based on JAVA 9 using the MVC architecture. Developed alongside Joseph Annis, jMidiSequencer was a great playground to learn about audio processing with Java. It supports several features such as a terminal and GUI views, the ability to import, play, edit and export multi-track midi files, real-time visualization and more.
 
 **JAVA DOC for reference in folder: /doc**
 
